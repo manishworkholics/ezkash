@@ -128,7 +128,7 @@ const CheckDetails = () => {
                                                         <div className="d-block d-lg-flex gap-5 mt-3">
                                                             <div className="mb-3 w-100">
                                                                 <h6 className="text-445B64 fs-14 mb-1" style={{color:'#445B64'}}>Comments</h6>
-                                                                <div className="card rounded-3">
+                                                                <div className=" rounded-3">
                                                                     <div className="card-body p-2">
                                                                         <p className="text-0D161A fw-light fs-13 mb-0">{checkDetails?.comment || "No comments available."}</p>
                                                                     </div>
@@ -167,7 +167,7 @@ const CheckDetails = () => {
                                                     <div className='col-lg-6'>
                                                         <div className="card border-0 rounded-3">
                                                             <div className="card-body">
-                                                                <label className="form-label text-445B64">License Image</label>
+                                                                <label className="form-label text-445B64">ID Image</label>
                                                                 <div className="row">
                                                                     <div className="col-lg-6 mb-3 mb-lg-0">
                                                                         <label className="form-label text-445B64">Front Image</label>
