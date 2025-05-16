@@ -795,12 +795,12 @@ const MobileAddCheck = () => {
                                         <div className="col-12 mb-3 input-wrapper">
                                             <input type="text" className="form-control" placeholder='' value={formData.customerLastName} onChange={(e) => setFormData({ ...formData, customerLastName: e.target.value })} />
                                             <label className="floating-label">
-                                                Last Name <span className="required">*</span>
+                                                Last Name
                                             </label>
                                         </div>
                                         <div className="col-12 mb-3 input-wrapper">
                                             {/* <label className="form-label text-445B64">ID Number </label> */}
-                                            <input type="text" className="form-control" placeholder='' value={licenseData.licenseNo || formData.licenseNo} onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })} />
+                                            <input type="text" className="form-control" value={licenseData.licenseNo} onChange={(e) => setLicenseData({ ...licenseData, licenseNo: e.target.value })} />
                                             <label className="floating-label">
                                                 ID Number
                                             </label>
