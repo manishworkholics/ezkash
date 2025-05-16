@@ -49,7 +49,7 @@ const Header = () => {
                 <nav className="navbar navbar-expand-lg bg-body-white shadow-sm px-3 w-100">
                     <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
                     <div className="d-flex align-items-center">
-                        <Link className="navbar-brand d-flex align-items-center" to=''>
+                        <Link className="navbar-brand d-flex align-items-center" to='/dashboard'>
                             <img src={logo} alt="" className="" />
                         </Link>
                     </div>
