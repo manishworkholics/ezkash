@@ -135,15 +135,6 @@ exports.dashboardDetail = async (req, res) => {
         );
         const monthlyStatus = monthlyChecks.reduce((sum, c) => sum + parseFloat(c.amount || 0), 0);
 
-        // // Weekly bar chart (Mon to Sun)
-        // const weeklyData = Array(7).fill(0); // [M, T, W, T, F, S, S]
-        // checks.forEach((c) => {
-        //     const day = moment(c.createdAt).isoWeekday(); // 1 (Mon) to 7 (Sun)
-        //     if (moment(c.createdAt).isAfter(moment().subtract(7, "days"))) {
-        //         weeklyData[day - 1] += 1;
-        //     }
-        // });
-
         // Pie chart for check status
         const checkStatus = [
             { label: "Good Checks", value: goodCheck },

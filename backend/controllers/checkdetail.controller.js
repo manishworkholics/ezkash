@@ -3,9 +3,9 @@ const Check = require('../model/check.model');
 
 exports.addCheckDetail = async (req, res) => {
     try {
-        const { imageUrl, imageUrl2,imageUrl3,imageUrl4, customerFirstName,customerMiddleName,customerLastName, licenseNo, date, company, checkType, amount, status, extractedText, comment, venderId } = req.body;
+        const { imageUrl, imageUrl2, imageUrl3, imageUrl4, customerFirstName, customerMiddleName, customerLastName, licenseNo, date, company, checkType, amount, status, extractedText, comment, venderId } = req.body;
 
-        const newCheck = new Check({ imageUrl, imageUrl2,imageUrl3,imageUrl4,customerFirstName,customerMiddleName,customerLastName, licenseNo, date, company, checkType, amount, status, extractedText, comment, venderId });
+        const newCheck = new Check({ imageUrl, imageUrl2, imageUrl3, imageUrl4, customerFirstName, customerMiddleName, customerLastName, licenseNo, date, company, checkType, amount, status, extractedText, comment, venderId });
 
         await newCheck.save();
 
@@ -52,7 +52,7 @@ exports.getCheckByVenderId = async (req, res) => {
 
 exports.getCheckByCompany = async (req, res) => {
     try {
-        const { company} = req.params;
+        const { company } = req.params;
         const checks = await Check.find({ company });
 
         if (!checks.length) {

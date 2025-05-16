@@ -18,134 +18,10 @@ const s3 = new S3Client({
   },
 });
 
-exports.uploadImage = async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ success: false, message: 'No image uploaded' });
-    }
-
-    const fileName = `${Date.now()}-${req.file.originalname}`;
-    const fileContent = Buffer.from(req.file.buffer, 'binary'); // Get file content from buffer
-
-    // Check if the bucket name is correctly set
-    const bucketName = process.env.AWS_S3_BUCKET;
-    if (!bucketName) {
-      return res.status(500).json({ success: false, message: 'Bucket name is missing in environment variables' });
-    }
-
-    // Set up S3 upload parameters
-    const params = {
-      Bucket: bucketName, // Make sure the bucket name is correctly passed
-      Key: `images/${fileName}`, // File path and name within the bucket
-      Body: fileContent, // The content of the file
-      ContentType: req.file.mimetype, // Set the MIME type for the file
-
-    };
-
-    // Upload the image to S3 using PutObjectCommand
-    const command = new PutObjectCommand(params);
-    const s3Response = await s3.send(command);
-
-    // Image URL
-    const imageUrl = `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/images/${fileName}`;
-
-    res.status(200).json({
-      success: true,
-      message: 'Image uploaded successfully',
-      data: {
-        filename: fileName,
-        imageUrl
-      }
-    });
-
-  } catch (error) {
-    console.error('Error uploading image to S3:', error);
-    res.status(500).json({ success: false, message: 'Failed to upload image' });
-  }
-};
 
 
-exports.scanLicense = async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ error: 'No image uploaded' });
-    }
 
-    // Generate a unique filename for the uploaded image
-    const filename = `${Date.now()}-${req.file.originalname}`;
 
-    // Upload image to S3
-    const uploadParams = {
-      Bucket: process.env.AWS_S3_BUCKET, // Make sure your bucket name is in the environment variables
-      Key: filename,
-      Body: req.file.buffer,
-      ContentType: req.file.mimetype,
-    };
-
-    const s3UploadResult = await s3.send(new PutObjectCommand(uploadParams));
-
-    // Construct image URL from S3
-    const imageUrl = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${filename}`;
-
-    // OCR using Google Vision API
-    const [result] = await client.textDetection({
-      image: { content: req.file.buffer },
-    });
-
-    const extractedText = result.textAnnotations?.[0]?.description || '';
-    console.log('Extracted Text:', extractedText);
-
-    // Regex patterns for data fields
-    const nameMatch = extractedText.match(/(?:1\s+)?SAMPLE\s+([A-Z]+\s+[A-Z]+)/i);
-
-    const licensePatterns = [
-      /DL\s*No\.?:?\s*([\dA-Z\-]+)/i,
-      /License\s*No\.?:?\s*([\dA-Z\-]+)/i,
-      /DL\s*#\s*([\dA-Z\-]+)/i,
-      /Driver(?:'s)?\s*License\s*Number[:\s]*([\dA-Z\-]+)/i,
-      /DMV\s*ID\s*Number[:\s]*([\dA-Z\-]+)/i,
-      /DLN[:\s]*([\dA-Z\-]+)/i
-    ];
-
-    let licenseNo = '';
-    for (let pattern of licensePatterns) {
-      const match = extractedText.match(pattern);
-      if (match) {
-        licenseNo = match[1].replace(/\s+/g, '').trim();
-        break;
-      }
-    }
-
-    const classMatch = extractedText.match(/CLASS[:\s]+([A-Z]+)/i);
-    const dobMatch = extractedText.match(/DOB[:\s]+(\d{2}\/\d{2}\/\d{4})/i);
-    const sexMatch = extractedText.match(/SEX[:\s]+([MF])/i);
-    const eyesMatch = extractedText.match(/EYES[:\s]+([A-Z]+)/i);
-    const heightMatch = extractedText.match(/(?:HT|HGT)[:\s]+([\d\-\'"]+)/i);
-    const issuedMatch = extractedText.match(/(?:ISSUED|ISS)[:\s]+(\d{2}\/\d{2}\/\d{4})/i);
-    const expiresMatch = extractedText.match(/(?:EXPIRES|EXP)[:\s]+(\d{2}\/\d{2}\/\d{4})/i);
-    const addressMatch = extractedText.match(/(?:\d+\s+[A-Z0-9\s]+(?:APT\.?\s*\d*)?,?\s+[A-Z\s]+,\s+[A-Z]{2}\s+\d{5})/i);
-
-    const parsedLicense = {
-      imageUrl,
-      name: nameMatch?.[1]?.trim() || '',
-      licenseNo: licenseNo || '',
-      class: classMatch?.[1] || '',
-      dob: dobMatch?.[1] || '',
-      sex: sexMatch?.[1] || '',
-      eyes: eyesMatch?.[1] || '',
-      height: heightMatch?.[1] || '',
-      address: addressMatch?.[0] || '',
-      issuedDate: issuedMatch?.[1] || '',
-      expiryDate: expiresMatch?.[1] || ''
-    };
-
-    res.json(parsedLicense);
-
-  } catch (error) {
-    console.error('Error scanning license:', error);
-    res.status(500).json({ error: error.message });
-  }
-};
 
 
 
@@ -249,3 +125,134 @@ exports.scanCheck = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+exports.scanLicense = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image uploaded' });
+    }
+
+    // Generate a unique filename for the uploaded image
+    const filename = `${Date.now()}-${req.file.originalname}`;
+
+    // Upload image to S3
+    const uploadParams = {
+      Bucket: process.env.AWS_S3_BUCKET, // Make sure your bucket name is in the environment variables
+      Key: filename,
+      Body: req.file.buffer,
+      ContentType: req.file.mimetype,
+    };
+
+    const s3UploadResult = await s3.send(new PutObjectCommand(uploadParams));
+
+    // Construct image URL from S3
+    const imageUrl = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${filename}`;
+
+    // OCR using Google Vision API
+    const [result] = await client.textDetection({
+      image: { content: req.file.buffer },
+    });
+
+    const extractedText = result.textAnnotations?.[0]?.description || '';
+    console.log('Extracted Text:', extractedText);
+
+    // Regex patterns for data fields
+    const nameMatch = extractedText.match(/(?:1\s+)?SAMPLE\s+([A-Z]+\s+[A-Z]+)/i);
+
+    const licensePatterns = [
+      /DL\s*No\.?:?\s*([\dA-Z\-]+)/i,
+      /License\s*No\.?:?\s*([\dA-Z\-]+)/i,
+      /DL\s*#\s*([\dA-Z\-]+)/i,
+      /Driver(?:'s)?\s*License\s*Number[:\s]*([\dA-Z\-]+)/i,
+      /DMV\s*ID\s*Number[:\s]*([\dA-Z\-]+)/i,
+      /DLN[:\s]*([\dA-Z\-]+)/i
+    ];
+
+    let licenseNo = '';
+    for (let pattern of licensePatterns) {
+      const match = extractedText.match(pattern);
+      if (match) {
+        licenseNo = match[1].replace(/\s+/g, '').trim();
+        break;
+      }
+    }
+
+    const classMatch = extractedText.match(/CLASS[:\s]+([A-Z]+)/i);
+    const dobMatch = extractedText.match(/DOB[:\s]+(\d{2}\/\d{2}\/\d{4})/i);
+    const sexMatch = extractedText.match(/SEX[:\s]+([MF])/i);
+    const eyesMatch = extractedText.match(/EYES[:\s]+([A-Z]+)/i);
+    const heightMatch = extractedText.match(/(?:HT|HGT)[:\s]+([\d\-\'"]+)/i);
+    const issuedMatch = extractedText.match(/(?:ISSUED|ISS)[:\s]+(\d{2}\/\d{2}\/\d{4})/i);
+    const expiresMatch = extractedText.match(/(?:EXPIRES|EXP)[:\s]+(\d{2}\/\d{2}\/\d{4})/i);
+    const addressMatch = extractedText.match(/(?:\d+\s+[A-Z0-9\s]+(?:APT\.?\s*\d*)?,?\s+[A-Z\s]+,\s+[A-Z]{2}\s+\d{5})/i);
+
+    const parsedLicense = {
+      imageUrl,
+      name: nameMatch?.[1]?.trim() || '',
+      licenseNo: licenseNo || '',
+      class: classMatch?.[1] || '',
+      dob: dobMatch?.[1] || '',
+      sex: sexMatch?.[1] || '',
+      eyes: eyesMatch?.[1] || '',
+      height: heightMatch?.[1] || '',
+      address: addressMatch?.[0] || '',
+      issuedDate: issuedMatch?.[1] || '',
+      expiryDate: expiresMatch?.[1] || ''
+    };
+
+    res.json(parsedLicense);
+
+  } catch (error) {
+    console.error('Error scanning license:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.uploadImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'No image uploaded' });
+    }
+
+    const fileName = `${Date.now()}-${req.file.originalname}`;
+    const fileContent = Buffer.from(req.file.buffer, 'binary'); // Get file content from buffer
+
+    // Check if the bucket name is correctly set
+    const bucketName = process.env.AWS_S3_BUCKET;
+    if (!bucketName) {
+      return res.status(500).json({ success: false, message: 'Bucket name is missing in environment variables' });
+    }
+
+    // Set up S3 upload parameters
+    const params = {
+      Bucket: bucketName, // Make sure the bucket name is correctly passed
+      Key: `images/${fileName}`, // File path and name within the bucket
+      Body: fileContent, // The content of the file
+      ContentType: req.file.mimetype, // Set the MIME type for the file
+
+    };
+
+    // Upload the image to S3 using PutObjectCommand
+    const command = new PutObjectCommand(params);
+    const s3Response = await s3.send(command);
+
+    // Image URL
+    const imageUrl = `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/images/${fileName}`;
+
+    res.status(200).json({
+      success: true,
+      message: 'Image uploaded successfully',
+      data: {
+        filename: fileName,
+        imageUrl
+      }
+    });
+
+  } catch (error) {
+    console.error('Error uploading image to S3:', error);
+    res.status(500).json({ success: false, message: 'Failed to upload image' });
+  }
+};
+
+

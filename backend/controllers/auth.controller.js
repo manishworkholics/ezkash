@@ -4,20 +4,6 @@ const jwt = require('jsonwebtoken');
 const sendMail = require('../utils/sendMail');
 require('dotenv').config();
 
-// exports.registerVendor = async (req, res) => {
-//     const { firstname, lastname, mobile, bussiness, email, password } = req.body;
-//     const userExist = await User.findOne({ email });
-//     if (userExist) return res.status(400).json({ message: 'Email already exists' });
-
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-//     const newUser = new User({ firstname, lastname, mobile, bussiness, email, password: hashedPassword, otp });
-//     await newUser.save();
-//     await sendMail(email, otp);
-
-//     res.json({ message: 'OTP sent to email. Please verify.' });
-// };
 
 exports.registerVendor = async (req, res) => {
     const { firstname, lastname, mobile, bussiness, email, password } = req.body;
