@@ -19,7 +19,7 @@ const Chat = () => {
     const [ticketid, setTicketsId] = useState('');
     const [data, setData] = useState([]);
     const vendorId = localStorage.getItem("userId");
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState();
     const [image, setImage] = useState('');
     const [previewImage, setPreviewImage] = useState('');
 
@@ -46,8 +46,7 @@ const Chat = () => {
 
 
     const sendChat = async () => {
-        if (!message.trim()) return;
-
+        // if (!message.trim()) return;
         const payload = {
             ticketId: ticketid,
             senderId: vendorId,
@@ -144,31 +143,38 @@ const Chat = () => {
                                         </div>
                                         <div className="col-12 chat-section">
                                             <div className="card border-0 rounded-3 mb-2">
-                                                <div className="card-body p-2">
+                                                <div className="card-body">
                                                     <div className="chat-container">
-                                                        <div className="px-0 px-lg-5 pb-3">
+                                                        <div className="px-3 msg-section px-lg-5 pb-3">
 
                                                             {data?.length > 0 ? (
                                                                 data.map((chat, chatIndex) => (
                                                                     <div key={chat._id || chatIndex} className="chat-bubble-group d-flex flex-column mb-3 align-self-start">
-                                                                        <div className={`chat-message ${chat?.senderId?.role === 'vendor' ? 'chat-message-right' : 'chat-message-left'}`}>
-                                                                            {chat?.message}
+                                                                        {chat?.message ?
+                                                                            <div className={`chat-message ${chat?.senderId?.role === 'vendor' ? 'chat-message-right' : 'chat-message-left'}`}>
+                                                                                {chat?.message}
+                                                                            </div> : ''
+                                                                        }
+                                                                        <div className={`${chat?.senderId?.role === 'vendor' ? 'text-end' : 'text-start'}`}>
+                                                                            {chat?.image && (
+                                                                                <>
+                                                                                    <div className="">
+                                                                                        <img
+                                                                                            src={chat?.image}
+                                                                                            alt="chat"
+                                                                                            className='rounded-4'
+                                                                                            style={{ maxWidth: '200px', cursor: 'pointer' }}
+                                                                                            data-bs-toggle="modal"
+                                                                                            data-bs-target="#imagePreviewModal"
+                                                                                            onClick={() => setPreviewImage(chat?.image)}
+                                                                                        />
+                                                                                    </div>
+                                                                                </>
+                                                                            )}
                                                                         </div>
                                                                         <div className={`chat-timestamp ${chat?.senderId?.role === 'vendor' ? 'me-2 text-end' : 'ms-2 text-start'}`}>
                                                                             {moment(chat?.createdAt).format("MMM DD, YYYY hh:mm A")}
                                                                         </div>
-                                                                        {chat?.image && (
-                                                                            <div className="mt-2">
-                                                                                <img
-                                                                                    src={chat?.image}
-                                                                                    alt="chat"
-                                                                                    style={{ maxHeight: '200px', cursor: 'pointer' }}
-                                                                                    data-bs-toggle="modal"
-                                                                                    data-bs-target="#imagePreviewModal"
-                                                                                    onClick={() => setPreviewImage(chat?.image)}
-                                                                                />
-                                                                            </div>
-                                                                        )}
                                                                     </div>
                                                                 ))
                                                             ) : (
@@ -177,7 +183,7 @@ const Chat = () => {
 
                                                         </div>
 
-                                                        <div className="chat-footer mt-auto pt-3 px-3 border-top" style={{ marginLeft: "-24px", marginRight: "-24px" }}>
+                                                        <div className="chat-footer mt-auto pt-3 px-3 border-top">
                                                             <div className="d-flex flex-column gap-2">
                                                                 <div className="mb-3">
                                                                     <textarea
@@ -215,8 +221,11 @@ const Chat = () => {
                                                                     </div>
 
                                                                     <div>
-                                                                        <button className="btn sign-btn py-2 px-5 fs-14" onClick={sendChat}>
-                                                                            Send reply
+                                                                        <button className="btn sign-btn py-2 px-4 fs-14" onClick={sendChat}>
+                                                                            <div className="d-none d-md-block">Send reply</div> 
+                                                                            <div className="d-block d-md-none">
+                                                                                <i class="fa-solid fa-paper-plane text-white"></i>
+                                                                            </div>
                                                                         </button>
                                                                     </div>
                                                                 </div>
