@@ -167,7 +167,7 @@ const MyTicket = () => {
                                                                             <td><span className={getStatusClass(ticket.status)}>{ticket.status}</span></td>
                                                                             <td>{ticket.category}</td>
                                                                             <td>{ticket.description}</td>
-                                                                            <td><Link to={`/chat/${ticket._id}`}>Click</Link></td>
+                                                                            <td><Link to={`/chat/${ticket._id}`}><i class="fa-solid fa-comment-dots text-4FD1C5"></i></Link></td>
 
                                                                         </tr>
 
