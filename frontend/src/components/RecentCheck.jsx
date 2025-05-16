@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {  Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -31,8 +31,8 @@ const RecentCheck = () => {
     const handleDeleteCheck = async (id) => {
         if (!window.confirm("Are you sure you want to delete this check?")) return;
         try {
-            const response = await axios.delete(`${URL}/check/delete-check/${id}`,{
-                headers:{
+            const response = await axios.delete(`${URL}/check/delete-check/${id}`, {
+                headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
@@ -71,7 +71,7 @@ const RecentCheck = () => {
     }, []);
     return (
         <>
-         <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
             <div className="row">
                 <div className="col-12">
                     <div className='d-flex justify-content-between mb-3'>
@@ -79,7 +79,7 @@ const RecentCheck = () => {
                             <h6 className="fw-semibold mb-0">Recent Checks</h6>
                         </div>
                         <div className="">
-                            <div className="d-flex position-relative" style={{ width: "100%" }}>
+                            <div className="d-flex position-relative" style={{ width: "220px" }}>
                                 <input
                                     className="form-control form-control-sm rounded-3 me-lg-2 shadow-none bg-F0F5F6"
                                     value={searchTerm}
