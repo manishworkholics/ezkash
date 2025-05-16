@@ -17,6 +17,15 @@ const MyTicket = () => {
     const [image, setImage] = useState('');
     const [previewImage, setPreviewImage] = useState('');
 
+    const [filter, setFilter] = useState([]);
+
+    const handleFilterChange = (e) => {
+        const { value, checked } = e.target;
+        setFilter(prev =>
+            checked ? [...prev, value] : prev.filter(item => item !== value)
+        );
+    };
+
     const handleBack = () => {
         navigate(-1);
     }
@@ -43,9 +52,9 @@ const MyTicket = () => {
     const getChat = async (id) => {
         try {
             setTicketsId(id)
-            const response = await axios.get(`${URL}/complain/tickets/chat/${id}`,{
+            const response = await axios.get(`${URL}/complain/tickets/chat/${id}`, {
                 headers: {
-                     Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 }
             });
 
@@ -71,7 +80,7 @@ const MyTicket = () => {
             const response = await axios.post(`${URL}/complain/tickets/chat/`, payload, {
                 headers: {
                     'Content-Type': 'application/json',
-                     Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 }
             });
 
@@ -98,7 +107,7 @@ const MyTicket = () => {
             const response = await axios.post(`${URL}/upload-image`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                     Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 },
             });
             const result = response.data;
@@ -110,6 +119,20 @@ const MyTicket = () => {
         }
     }
 
+const getStatusClass = (status) => {
+  switch (status) {
+    case 'open':
+      return 'text-info'; // blue-ish
+    case 'in_progress':
+      return 'text-warning'; // orange/yellow
+    case 'resolved':
+      return 'text-success'; // green
+    case 'closed':
+      return 'text-danger'; // red
+    default:
+      return 'text-primary';
+  }
+};
 
 
 
@@ -165,18 +188,23 @@ const MyTicket = () => {
                                                                 <div className="d-flex">
                                                                     <div className="form-check me-3 me-lg-4">
                                                                         <input className="form-check-input table-checkbox"
-                                                                            type="checkbox" value="" id="flexCheckDefault" />
-                                                                        <label className="form-check-label ms-1 ms-lg-2" style={{ paddingTop: '2px' }} htmlFor="all">All</label>
+                                                                            type="checkbox" value="open" id="flexCheckDefault" checked={filter.includes('open')} onChange={(e) => handleFilterChange(e)} />
+                                                                        <label className="form-check-label ms-1 ms-lg-2" style={{ paddingTop: '2px' }} htmlFor="open">Open</label>
                                                                     </div>
                                                                     <div className="form-check me-3 me-lg-4">
                                                                         <input className="form-check-input table-checkbox"
-                                                                            type="checkbox" value="" id="flexCheckDefault" />
+                                                                            type="checkbox" value="in_progress" id="flexCheckDefault" checked={filter.includes('in_progress')} onChange={(e) => handleFilterChange(e)} />
                                                                         <label className="form-check-label ms-1 ms-lg-2" style={{ paddingTop: '2px' }} htmlFor="inprogress">In Progress</label>
                                                                     </div>
                                                                     <div className="form-check me-3 me-lg-4">
                                                                         <input className="form-check-input table-checkbox"
-                                                                            type="checkbox" value="" id="flexCheckDefault" />
-                                                                        <label className="form-check-label ms-1 ms-lg-2" style={{ paddingTop: '2px' }} htmlFor="completed">Completed</label>
+                                                                            type="checkbox" value="resolved" id="flexCheckDefault" checked={filter.includes('resolved')} onChange={(e) => handleFilterChange(e)}  />
+                                                                        <label className="form-check-label ms-1 ms-lg-2" style={{ paddingTop: '2px' }} htmlFor="resolved">Resolved</label>
+                                                                    </div>
+                                                                    <div className="form-check me-3 me-lg-4">
+                                                                        <input className="form-check-input table-checkbox"
+                                                                            type="checkbox" value="closed" id="flexCheckDefault" checked={filter.includes('closed')} onChange={(e) => handleFilterChange(e)} />
+                                                                        <label className="form-check-label ms-1 ms-lg-2" style={{ paddingTop: '2px' }} htmlFor="closed">Close</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -202,7 +230,7 @@ const MyTicket = () => {
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {tickets?.map((ticket, index) => (
+                                                                {tickets?.filter(ticket => filter.length === 0 || filter.includes(ticket.status)).map((ticket, index) => (
                                                                     <React.Fragment key={index}>
                                                                         <tr
                                                                             data-bs-toggle="collapse"
@@ -211,7 +239,7 @@ const MyTicket = () => {
                                                                         >
                                                                             <td>{index + 1}</td>
                                                                             <td>{ticket.subject}</td>
-                                                                            <td><span className="text-primary">{ticket.status}</span></td>
+                                                                            <td><span className={getStatusClass(ticket.status)}>{ticket.status}</span></td>
                                                                             <td>{ticket.category}</td>
                                                                             <td>{ticket.description}</td>
                                                                             <td>

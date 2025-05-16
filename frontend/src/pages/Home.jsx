@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { Link } from 'react-router-dom';
 import RecentCheck from '../components/RecentCheck';
-const URL = process.env.REACT_APP_URL;
+const url = process.env.REACT_APP_URL;
 const token = localStorage.getItem('token')
 
 const Home = () => {
@@ -16,10 +16,12 @@ const Home = () => {
   const checkFrontRef = useRef(null);
   const checkBackRef = useRef(null);
   const venderId = localStorage.getItem("userId");
-  const [loading, setLoading] = useState(false);
-  const [loading1, setLoading1] = useState(false);
-  const [loading2, setLoading2] = useState(false);
-  const [loading3, setLoading3] = useState(false);
+
+
+  const [previewCheckfront, setPreviewCheckfront] = useState(null);
+  const [previewCheckback, setPreviewCheckback] = useState(null);
+  const [previewLicencefront, setPreviewLicencefront] = useState(null);
+  const [previewLicenceback, setPreviewLicenceback] = useState(null);
 
   const [formData, setFormData] = useState({ customerFirstName: '', customerMiddleName: '', customerLastName: '', licenseNo: '', date: '', company: '', checkType: 'Personal', amount: '', imageUrl: '', extractedText: '', });
 
@@ -29,13 +31,13 @@ const Home = () => {
 
   const [licenseDataback, setLicenseDataback] = useState({ imageUrl: '' });
 
-  const handleCancelLicenseFront = () => { setLicenseData({ ...licenseData, imageUrl: '', licenseNo: '' }); if (licenseFrontRef.current) { licenseFrontRef.current.value = ''; } };
+  const handleCancelCheckFront = () => { setPreviewCheckfront(null); setFormData({ ...formData, imageUrl: '', customerFirstName: '', customerMiddleName: '', customerLastName: '', amount: '', company: '' }); if (checkFrontRef.current) { checkFrontRef.current.value = ''; } };
 
-  const handleCancelLicenseBack = () => { setLicenseDataback({ ...licenseDataback, imageUrl: '' }); if (licenseBackRef.current) { licenseBackRef.current.value = ''; } };
+  const handleCancelCheckBack = () => { setPreviewCheckback(null); setFormDataback({ ...formDataback, imageUrl: '' }); if (checkBackRef.current) { checkBackRef.current.value = ''; } };
 
-  const handleCancelCheckFront = () => { setFormData({ ...formData, imageUrl: '', customerFirstName: '', customerMiddleName: '', customerLastName: '', amount: '', company: '' }); if (checkFrontRef.current) { checkFrontRef.current.value = ''; } };
+  const handleCancelLicenseFront = () => { setPreviewLicencefront(null); setLicenseData({ ...licenseData, imageUrl: '', licenseNo: '' }); if (licenseFrontRef.current) { licenseFrontRef.current.value = ''; } };
 
-  const handleCancelCheckBack = () => { setFormDataback({ ...formDataback, imageUrl: '' }); if (checkBackRef.current) { checkBackRef.current.value = ''; } };
+  const handleCancelLicenseBack = () => { setPreviewLicenceback(null); setLicenseDataback({ ...licenseDataback, imageUrl: '' }); if (licenseBackRef.current) { licenseBackRef.current.value = ''; } };
 
   const [errors, setErrors] = useState({});
 
@@ -70,11 +72,14 @@ const Home = () => {
       alert("Please upload a check image.");
       return;
     }
+    // Instant preview
+    const previewUrl = URL.createObjectURL(file);
+    setPreviewCheckfront(previewUrl);
     const formData = new FormData();
     formData.append('image', file);
     try {
-      setLoading(true)
-      const response = await axios.post(`${URL}/scan-check`, formData)
+
+      const response = await axios.post(`${url}/scan-check`, formData)
       toast.success('Check front image upload successfully!');
       const result = response.data;
       if (result && result.customerName) {
@@ -99,8 +104,6 @@ const Home = () => {
         toast.error("Error in image uploading", error);
       }, 1000);
       console.error('Error during image upload:', error);
-    } finally {
-      setLoading(false)
     }
   };
 
@@ -111,11 +114,14 @@ const Home = () => {
       alert("Please upload a check image.");
       return;
     }
+    // Instant preview
+    const previewUrl = URL.createObjectURL(file);
+    setPreviewCheckback(previewUrl);
     const formData = new FormData();
     formData.append('image', file);
     try {
-      setLoading1(true)
-      const response = await axios.post(`${URL}/upload-image`, formData)
+
+      const response = await axios.post(`${url}/upload-image`, formData)
       toast.success('Check Back image upload successfully!');
 
       const result = response.data;
@@ -130,8 +136,6 @@ const Home = () => {
         toast.error("Error in image uploading", error);
       }, 1000);
       console.error('Error during image upload:', error);
-    } finally {
-      setLoading1(false)
     }
   };
 
@@ -142,11 +146,14 @@ const Home = () => {
       alert("Please upload a ID image.");
       return;
     }
+    // Instant preview
+    const previewUrl = URL.createObjectURL(file);
+    setPreviewLicencefront(previewUrl);
     const formData = new FormData();
     formData.append('image', file);
     try {
-      setLoading2(true)
-      const response = await axios.post(`${URL}/scan-license`, formData)
+
+      const response = await axios.post(`${url}/scan-license`, formData)
       toast.success('ID Front image upload successfully!');
 
       const result = response.data;
@@ -168,8 +175,6 @@ const Home = () => {
     } catch (error) {
       toast.error("Error in image uploading", error);
       console.error('Error during image upload:', error);
-    } finally {
-      setLoading2(false)
     }
   };
 
@@ -180,11 +185,14 @@ const Home = () => {
       alert("Please upload a ID image.");
       return;
     }
+    // Instant preview
+    const previewUrl = URL.createObjectURL(file);
+    setPreviewLicenceback(previewUrl);
     const formData = new FormData();
     formData.append('image', file);
     try {
-      setLoading3(true)
-      const response = await axios.post(`${URL}/upload-image`, formData)
+
+      const response = await axios.post(`${url}/upload-image`, formData)
       toast.success('ID Back image upload successfully!');
 
       const result = response.data;
@@ -197,8 +205,6 @@ const Home = () => {
     } catch (error) {
       toast.error("Error in image uploading", error);
       console.error('Error during image upload:', error);
-    } finally {
-      setLoading3(false)
     }
   };
 
@@ -220,7 +226,7 @@ const Home = () => {
     }
 
     try {
-      const response = await axios.post(`${URL}/check/add-check`, {
+      const response = await axios.post(`${url}/check/add-check`, {
         imageUrl: formData.imageUrl || '',
         imageUrl2: formDataback.imageUrl || '',
         imageUrl3: licenseData.imageUrl || '',
@@ -272,6 +278,12 @@ const Home = () => {
           imageUrl: '',
           licenseNo: ''
         });
+
+        setPreviewCheckfront(null)
+        setPreviewCheckback(null)
+
+        setPreviewLicencefront(null)
+        setPreviewLicenceback(null)
 
         setFormDataback({ imageUrl: '' });
         setLicenseDataback({ imageUrl: '' });
@@ -334,60 +346,41 @@ const Home = () => {
                           </div>
 
                           <div className="row">
-                            {loading ? (
-                              <div className="col-6 text-center py-5 px-5">
-                                <div className="spinner-border text-primary" role="status">
-                                  <span className="visually-hidden">Loading...</span>
+
+
+                            {previewCheckfront && (
+                              <div className='col-lg-6'>
+                                <label className="form-label text-445B64 mb-1 mt-3">Front Image</label>
+                                <div className='position-relative mt-3'>
+                                  <button
+                                    type="button"
+                                    className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 rounded-circle p-1"
+                                    onClick={handleCancelCheckFront}
+                                    style={{ zIndex: 1 }}
+                                  >
+                                    &times;
+                                  </button>
+                                  <img src={previewCheckfront || formData.imageUrl} alt="Profile" loading="lazy" className='w-100 border rounded-4 overflow-hidden' />
                                 </div>
                               </div>
-
-                            ) : (
-                              <>
-                                {formData?.imageUrl && (
-                                  <div className='col-lg-6'>
-                                    <label className="form-label text-445B64 mb-1 mt-3">Front Image</label>
-                                    <div className='position-relative mt-3'>
-                                      <button
-                                        type="button"
-                                        className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 rounded-circle p-1"
-                                        onClick={handleCancelCheckFront}
-                                        style={{ zIndex: 1 }}
-                                      >
-                                        &times;
-                                      </button>
-                                      <img src={formData.imageUrl} alt="Profile" loading="lazy" className='w-100 border rounded-4 overflow-hidden' />
-                                    </div>
-                                  </div>
-                                )}
-                              </>
                             )}
 
-                            {loading1 ? (
-                              <div className="col-6 text-center py-5 px-5">
-                                <div className="spinner-border text-primary" role="status">
-                                  <span className="visually-hidden">Loading...</span>
+
+                            {previewCheckback && (
+                              <div className='col-lg-6'>
+                                <label className="form-label text-445B64 mb-1 mt-3">Back Image</label>
+                                <div className='position-relative mt-3'>
+                                  <button
+                                    type="button"
+                                    className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 rounded-circle p-1"
+                                    onClick={handleCancelCheckBack}
+                                    style={{ zIndex: 1 }}
+                                  >
+                                    &times;
+                                  </button>
+                                  <img src={previewCheckback || formDataback.imageUrl} alt="Profile" loading="lazy" className='w-100 border rounded-4 overflow-hidden' />
                                 </div>
                               </div>
-
-                            ) : (
-                              <>
-                                {formDataback?.imageUrl && (
-                                  <div className='col-lg-6'>
-                                    <label className="form-label text-445B64 mb-1 mt-3">Back Image</label>
-                                    <div className='position-relative mt-3'>
-                                      <button
-                                        type="button"
-                                        className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 rounded-circle p-1"
-                                        onClick={handleCancelCheckBack}
-                                        style={{ zIndex: 1 }}
-                                      >
-                                        &times;
-                                      </button>
-                                      <img src={formDataback.imageUrl} alt="Profile" loading="lazy" className='w-100 border rounded-4 overflow-hidden' />
-                                    </div>
-                                  </div>
-                                )}
-                              </>
                             )}
                           </div>
                         </div>
@@ -413,72 +406,50 @@ const Home = () => {
                           </div>
                           <div className="row">
 
-                            {loading2 ? (
-                              <div className="col-6 text-center py-5 px-5">
-                                <div className="spinner-border text-primary" role="status">
-                                  <span className="visually-hidden">Loading...</span>
+
+                            {previewLicencefront && (
+                              <div className='col-lg-6 '>
+                                <label className="form-label text-445B64 mb-1 mt-3">Front Image</label>
+                                <div className='position-relative mt-3'>
+                                  <button
+                                    type="button"
+                                    className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 rounded-circle p-1"
+                                    onClick={handleCancelLicenseFront}
+                                    style={{ zIndex: 1 }}
+                                  >
+                                    &times;
+                                  </button>
+                                  <img
+                                    src={previewLicencefront || licenseData.imageUrl}
+                                    alt="Front License"
+                                    loading="lazy"
+                                    className='w-100 border rounded-4 overflow-hidden'
+                                  />
                                 </div>
                               </div>
-
-                            ) : (
-                              <>
-                                {licenseData?.imageUrl && (
-                                  <div className='col-lg-6 '>
-                                    <label className="form-label text-445B64 mb-1 mt-3">Front Image</label>
-                                    <div className='position-relative mt-3'>
-                                      <button
-                                        type="button"
-                                        className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 rounded-circle p-1"
-                                        onClick={handleCancelLicenseFront}
-                                        style={{ zIndex: 1 }}
-                                      >
-                                        &times;
-                                      </button>
-                                      <img
-                                        src={licenseData.imageUrl}
-                                        alt="Front License"
-                                        loading="lazy"
-                                        className='w-100 border rounded-4 overflow-hidden'
-                                      />
-                                    </div>
-                                  </div>
-                                )}
-                              </>
                             )}
 
-                            {loading3 ? (
-                              <div className="col-6 text-center py-5 px-5">
-                                <div className="spinner-border text-primary" role="status">
-                                  <span className="visually-hidden">Loading...</span>
+                            {previewLicenceback && (
+                              <div className='col-lg-6'>
+                                <label className="form-label text-445B64 mb-1 mt-3">Back Image</label>
+                                <div className='position-relative mt-3'>
+                                  <button
+                                    type="button"
+                                    className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 rounded-circle p-1"
+                                    onClick={handleCancelLicenseBack}
+                                    style={{ zIndex: 1 }}
+                                  >
+                                    &times;
+                                  </button>
+                                  <img
+                                    src={previewLicenceback || licenseDataback.imageUrl}
+                                    alt="Back License"
+                                    loading="lazy"
+                                    className='w-100 border rounded-4 overflow-hidden'
+                                  />
                                 </div>
                               </div>
-
-                            ) : (
-                              <>
-                                {licenseDataback?.imageUrl && (
-                                  <div className='col-lg-6'>
-                                    <label className="form-label text-445B64 mb-1 mt-3">Back Image</label>
-                                    <div className='position-relative mt-3'>
-                                      <button
-                                        type="button"
-                                        className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 rounded-circle p-1"
-                                        onClick={handleCancelLicenseBack}
-                                        style={{ zIndex: 1 }}
-                                      >
-                                        &times;
-                                      </button>
-                                      <img
-                                        src={licenseDataback.imageUrl}
-                                        alt="Back License"
-                                        loading="lazy"
-                                        className='w-100 border rounded-4 overflow-hidden'
-                                      />
-                                    </div>
-                                  </div>
-                                )}
-                              </>
                             )}
-
                             <div className="col-lg-6"></div>
                           </div>
                         </div>
