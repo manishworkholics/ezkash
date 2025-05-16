@@ -1,25 +1,63 @@
 // ExportModal.js
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
-function ExportModal({ show, onClose }) {
-    const navigate = useNavigate();
+
+
+
+function ExportModal({ show, onClose, data }) {
+    const [exportType, setExportType] = useState("")
     const [filterType, setFilterType] = useState("Custom");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
     const handleApply = () => {
-        new URLSearchParams({
-            filter: filterType,
-            ...(filterType === "Custom" && {
-                startDate,
-                endDate,
-            }),
-        }).toString();
+        let filteredData = [...data];
+
+        if (filterType === "Custom" && startDate && endDate) {
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            filteredData = filteredData.filter((item) => {
+                const itemDate = new Date(item.date);
+                return itemDate >= start && itemDate <= end;
+            });
+        }
+
+        const exportData = filteredData.map((val, index) => ({
+            SNo: index + 1,
+            Customer: val?.customerFirstName || "",
+            Amount: val?.amount || "",
+            LicenseNo: val?.licenseNo || "",
+            Company: val?.company || "",
+            CheckType: val?.checkType || "",
+            Comment: val?.comment || "",
+            Date: val?.date || "",
+            Status: val?.status || ""
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(exportData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Report");
+
+        const fileExtension = exportType === "csv" ? ".csv" : ".xlsx";
+        const fileType =
+            exportType === "csv"
+                ? "text/csv;charset=utf-8"
+                : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+
+        const excelBuffer = XLSX.write(workbook, {
+            bookType: exportType,
+            type: "array",
+        });
+
+        const blob = new Blob([excelBuffer], { type: fileType });
+        saveAs(blob, `Report_${filterType}_${new Date().toISOString()}${fileExtension}`);
 
         onClose();
-        navigate(`/export-report`);
     };
+
 
     return (
         <div className={`modal fade ${show ? "show d-block" : ""}`} tabIndex="-1" style={{ background: "#445B6466" }}>
@@ -74,14 +112,32 @@ function ExportModal({ show, onClose }) {
                             )}
                         </div>
                     </div>
-                    <div className="modal-footer">
-                        <button className="border-0 bg-white me-4" onClick={onClose}>
+                    <div className="modal-footer d-flex justify-content-between">
+                        <button className="btn btn-outline-secondary" onClick={onClose}>
                             Cancel
                         </button>
-                        <button className="border-0 bg-white text-primary" onClick={handleApply}>
-                            Apply
-                        </button>
+                        <div>
+                            <button
+                                className="btn btn-outline-primary me-2"
+                                onClick={() => {
+                                    setExportType("csv");
+                                    handleApply();
+                                }}
+                            >
+                                Export as CSV
+                            </button>
+                            <button
+                                className="btn btn-primary"
+                                onClick={() => {
+                                    setExportType("xlsx");
+                                    handleApply();
+                                }}
+                            >
+                                Export as Excel
+                            </button>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
