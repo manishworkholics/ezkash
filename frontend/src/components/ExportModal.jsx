@@ -1,5 +1,5 @@
 // ExportModal.js
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ExportModal({ show, onClose }) {
@@ -9,7 +9,7 @@ function ExportModal({ show, onClose }) {
     const [endDate, setEndDate] = useState("");
 
     const handleApply = () => {
-        const query = new URLSearchParams({
+        new URLSearchParams({
             filter: filterType,
             ...(filterType === "Custom" && {
                 startDate,
@@ -17,7 +17,7 @@ function ExportModal({ show, onClose }) {
             }),
         }).toString();
 
-        onClose(); 
+        onClose();
         navigate(`/export-report`);
     };
 

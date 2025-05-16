@@ -248,7 +248,7 @@ const MobileAddCheck = () => {
             return;
         }
 
-        if (formData.imageUrl == '') {
+        if (formData.imageUrl === '') {
             toast.error('Please upload Check image');
             return;
         }
@@ -285,30 +285,33 @@ const MobileAddCheck = () => {
                 }
             });
 
-            toast.success('Check added successfully!');
+            if (response.status === 201) {
+                toast.success('Check added successfully!');
 
-            // Reset all form states after success
-            setFormData({
-                imageUrl: '',
-                customerFirstName: '',
-                customerLastName: '',
-                customerMiddleName: '',
-                company: '',
-                checkType: 'Personal',
-                amount: '',
-                status: '',
-                extractedText: '',
-                comment: ''
-            });
+                // Reset all form states after success
+                setFormData({
+                    imageUrl: '',
+                    customerFirstName: '',
+                    customerLastName: '',
+                    customerMiddleName: '',
+                    company: '',
+                    checkType: 'Personal',
+                    amount: '',
+                    status: '',
+                    extractedText: '',
+                    comment: ''
+                });
 
-            setLicenseData({
-                imageUrl: '',
-                licenseNo: ''
-            });
+                setLicenseData({
+                    imageUrl: '',
+                    licenseNo: ''
+                });
 
-            setFormDataback({ imageUrl: '' });
-            setLicenseDataback({ imageUrl: '' });
-            navigate(-1)
+                setFormDataback({ imageUrl: '' });
+                setLicenseDataback({ imageUrl: '' });
+                navigate(-1)
+            }
+
         } catch (error) {
             console.error('Error submitting form:', error);
             toast.error('An error occurred while submitting the form');

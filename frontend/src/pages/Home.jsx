@@ -214,7 +214,7 @@ const Home = () => {
       return;
     }
 
-    if (formData.imageUrl == '') {
+    if (formData.imageUrl === '') {
       toast.error('Please upload Check image');
       return;
     }
@@ -251,29 +251,32 @@ const Home = () => {
         }
       });
 
-      toast.success('Check added successfully!');
+      if (response.status === 201) {
+        toast.success('Check added successfully!');
 
-      // Reset all form states after success
-      setFormData({
-        imageUrl: '',
-        customerFirstName: '',
-        customerLastName: '',
-        customerMiddleName: '',
-        company: '',
-        checkType: 'Personal',
-        amount: '',
-        status: '',
-        extractedText: '',
-        comment: ''
-      });
+        // Reset all form states after success
+        setFormData({
+          imageUrl: '',
+          customerFirstName: '',
+          customerLastName: '',
+          customerMiddleName: '',
+          company: '',
+          checkType: 'Personal',
+          amount: '',
+          status: '',
+          extractedText: '',
+          comment: ''
+        });
 
-      setLicenseData({
-        imageUrl: '',
-        licenseNo: ''
-      });
+        setLicenseData({
+          imageUrl: '',
+          licenseNo: ''
+        });
 
-      setFormDataback({ imageUrl: '' });
-      setLicenseDataback({ imageUrl: '' });
+        setFormDataback({ imageUrl: '' });
+        setLicenseDataback({ imageUrl: '' });
+      }
+
 
     } catch (error) {
       console.error('Error submitting form:', error);
