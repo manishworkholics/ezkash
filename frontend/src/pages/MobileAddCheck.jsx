@@ -520,8 +520,8 @@ const MobileAddCheck = () => {
                                             </div>
                                         )}
 
-                                        <div className="">
-                                            <img src={uploadPng} alt="" className="" />
+                                        <div className="text-center">
+                                            <img src={uploadPng} alt="" className="w-50" />
                                         </div>
                                     </div>
                                 </div>
