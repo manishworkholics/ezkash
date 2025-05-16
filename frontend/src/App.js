@@ -46,7 +46,7 @@ function App() {
           <Route path="/forget-password-verification" element={<ForgetPasswordVerification/>}/>
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/upload-check" element={<MobileAddCheck/>}/>
-          <Route path="/chat" element={<Chat/>}/>
+          <Route path="/chat/:id" element={<Chat/>}/>
         </Routes>
       </BrowserRouter>
     </>

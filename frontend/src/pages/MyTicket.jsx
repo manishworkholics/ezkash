@@ -2,20 +2,14 @@ import React, { useEffect, useState } from 'react'
 import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
 import axios from 'axios'
-import moment from 'moment'
-import { useNavigate } from 'react-router-dom';
+
+import { Link, useNavigate } from 'react-router-dom';
 const token = localStorage.getItem('token')
 const URL = process.env.REACT_APP_URL;
 
 const MyTicket = () => {
     const navigate = useNavigate();
     const [tickets, setTickets] = useState([]);
-    const [ticketid, setTicketsId] = useState('');
-    const [data, setData] = useState([]);
-    const vendorId = localStorage.getItem("userId");
-    const [message, setMessage] = useState('');
-    const [image, setImage] = useState('');
-    const [previewImage, setPreviewImage] = useState('');
 
     const [filter, setFilter] = useState([]);
 
@@ -29,6 +23,7 @@ const MyTicket = () => {
     const handleBack = () => {
         navigate(-1);
     }
+
     const fetchTickets = async () => {
         try {
 
@@ -49,90 +44,21 @@ const MyTicket = () => {
         fetchTickets();
     }, [])
 
-    const getChat = async (id) => {
-        try {
-            setTicketsId(id)
-            const response = await axios.get(`${URL}/complain/tickets/chat/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
 
-            if (response.status >= 200 && response.status < 300) {
-                setData(response?.data || []);
-            }
-        } catch (error) {
-            console.log("Error fetching chat:", error);
-        }
-    }
-
-    const sendChat = async () => {
-        if (!message.trim()) return;
-
-        const payload = {
-            ticketId: ticketid,
-            senderId: vendorId,
-            message,
-            image: image
-        };
-
-        try {
-            const response = await axios.post(`${URL}/complain/tickets/chat/`, payload, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-            if (response.status >= 200 && response.status < 300) {
-                setMessage('');
-                setImage('');
-                getChat(response?.data?.chat?.ticketId); // refresh chat
-            }
-        } catch (error) {
-            console.error('Send chat error:', error);
+    const getStatusClass = (status) => {
+        switch (status) {
+            case 'open':
+                return 'text-info'; // blue-ish
+            case 'in_progress':
+                return 'text-warning'; // orange/yellow
+            case 'resolved':
+                return 'text-success'; // green
+            case 'closed':
+                return 'text-danger'; // red
+            default:
+                return 'text-primary';
         }
     };
-
-    const handleUpload = async (e) => {
-        e.preventDefault();
-        const file = e.target.files[0];
-        if (!file) {
-            alert("Please upload a image.");
-            return;
-        }
-        const formData = new FormData();
-        formData.append('image', file);
-        try {
-            const response = await axios.post(`${URL}/upload-image`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${token}`
-                },
-            });
-            const result = response.data;
-            if (result) {
-                setImage(result?.data?.imageUrl);
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-const getStatusClass = (status) => {
-  switch (status) {
-    case 'open':
-      return 'text-info'; // blue-ish
-    case 'in_progress':
-      return 'text-warning'; // orange/yellow
-    case 'resolved':
-      return 'text-success'; // green
-    case 'closed':
-      return 'text-danger'; // red
-    default:
-      return 'text-primary';
-  }
-};
 
 
 
@@ -198,7 +124,7 @@ const getStatusClass = (status) => {
                                                                     </div>
                                                                     <div className="form-check me-3 me-lg-4">
                                                                         <input className="form-check-input table-checkbox"
-                                                                            type="checkbox" value="resolved" id="flexCheckDefault" checked={filter.includes('resolved')} onChange={(e) => handleFilterChange(e)}  />
+                                                                            type="checkbox" value="resolved" id="flexCheckDefault" checked={filter.includes('resolved')} onChange={(e) => handleFilterChange(e)} />
                                                                         <label className="form-check-label ms-1 ms-lg-2" style={{ paddingTop: '2px' }} htmlFor="resolved">Resolved</label>
                                                                     </div>
                                                                     <div className="form-check me-3 me-lg-4">
@@ -233,8 +159,7 @@ const getStatusClass = (status) => {
                                                                 {tickets?.filter(ticket => filter.length === 0 || filter.includes(ticket.status)).map((ticket, index) => (
                                                                     <React.Fragment key={index}>
                                                                         <tr
-                                                                            data-bs-toggle="collapse"
-                                                                            data-bs-target={`#ticket${index}`}
+
                                                                             className="cursor-pointer"
                                                                         >
                                                                             <td>{index + 1}</td>
@@ -242,84 +167,11 @@ const getStatusClass = (status) => {
                                                                             <td><span className={getStatusClass(ticket.status)}>{ticket.status}</span></td>
                                                                             <td>{ticket.category}</td>
                                                                             <td>{ticket.description}</td>
-                                                                            <td>
-                                                                                <i
-                                                                                    className="fa-solid fa-chevron-down text-01A99A"
-                                                                                    onClick={() => getChat(ticket._id)}
-                                                                                ></i>
-                                                                            </td>
+                                                                            <td><Link to={`/chat/${ticket._id}`}>Click</Link></td>
+
                                                                         </tr>
 
-                                                                        <tr className="collapse" id={`ticket${index}`}>
-                                                                            <td className="border-bottom bg-FAFAFA" colSpan="6">
-                                                                                {data?.length > 0 ? (
-                                                                                    data.map((chat, chatIndex) => (
-                                                                                        <div key={chat._id || chatIndex} className="border-bottom mb-2">
-                                                                                            <div className="text-muted fs-13 mb-1">
-                                                                                                {moment(chat?.createdAt).format("MMM DD, YYYY hh:mm A")}
-                                                                                            </div>
-                                                                                            <h6 className="fs-14">
-                                                                                                <strong>{chat?.senderId?.role === 'vendor' ? 'Vendor' : 'Admin'}:</strong> {chat?.message}
-                                                                                            </h6>
-                                                                                            <div className="">
-                                                                                                {chat?.image ? <img
-                                                                                                    src={chat?.image}
-                                                                                                    style={{ maxHeight: '200px', cursor: 'pointer' }}
-                                                                                                    alt="chat"
-                                                                                                    data-bs-toggle="modal"
-                                                                                                    data-bs-target="#imagePreviewModal"
-                                                                                                    onClick={() => setPreviewImage(chat?.image)}
-                                                                                                /> : <></>}
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    ))
-                                                                                ) : (
-                                                                                    <p className="text-muted">No chat messages found.</p>
-                                                                                )}
 
-                                                                                {/* Reply Box */}
-                                                                                <div className="mt-3">
-                                                                                    <textarea
-                                                                                        className="form-control bg-FAFAFA mb-3 fs-14"
-                                                                                        placeholder="Write your reply"
-                                                                                        rows="3"
-                                                                                        value={message}
-                                                                                        onChange={(e) => setMessage(e.target.value)}
-                                                                                    />
-
-                                                                                    <div className="mb-3">
-                                                                                        <label htmlFor="formFile" className="btn bg-F6FFFE text-445B64 fs-14 d-inline-flex align-items-center" style={{ border: '1px solid #D7D7D7', cursor: 'pointer' }}>
-                                                                                            <i className="fa-solid fa-arrow-up-from-bracket text-4FD1C5 fs-6 me-2"></i>
-                                                                                            Upload Attachment
-                                                                                        </label>
-                                                                                        <input
-                                                                                            type="file"
-                                                                                            id="formFile"
-                                                                                            className="d-none"
-                                                                                            onChange={handleUpload}
-                                                                                        />
-                                                                                    </div>
-
-                                                                                    {image && (
-                                                                                        <div className='row mb-3'>
-                                                                                            <div className="col-md-6 col-lg-4">
-                                                                                                <img src={image} alt="Attachment Preview" className='w-100 border rounded-4' />
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    )}
-
-                                                                                    <div className="d-flex justify-content-between">
-                                                                                        <button
-                                                                                            className="btn sign-btn py-2 px-5 fs-14"
-                                                                                            onClick={sendChat}
-                                                                                        >
-                                                                                            Send reply
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                            </td>
-                                                                        </tr>
                                                                     </React.Fragment>
                                                                 ))}
                                                             </tbody>
@@ -337,18 +189,7 @@ const getStatusClass = (status) => {
                 </div>
             </div >
 
-            {/* Image Preview Modal */}
-            <div className="modal fade" id="imagePreviewModal" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered" style={{ width: 'fit-content' }}>
-                    <div className="modal-content bg-transparent border-0 shadow rounded-4">
-                        <div className="modal-body text-center p-0">
-                            {previewImage && (
-                                <img src={previewImage} alt="Preview" className="img-fluid rounded-4" />
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </>
     )
 }
