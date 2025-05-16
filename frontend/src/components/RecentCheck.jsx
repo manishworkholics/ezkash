@@ -79,7 +79,7 @@ const RecentCheck = () => {
                             <h6 className="fw-semibold mb-0">Recent Checks</h6>
                         </div>
                         <div className="">
-                            <div className="d-flex position-relative" style={{ width: "220px" }}>
+                            <div className="d-flex position-relative" style={{ width: "210px" }}>
                                 <input
                                     className="form-control form-control-sm rounded-3 me-lg-2 shadow-none bg-F0F5F6"
                                     value={searchTerm}

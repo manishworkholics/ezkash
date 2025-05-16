@@ -467,12 +467,19 @@ input::placeholder:after {
 
 .chat-section {
   .chat-container {
-    padding: 15px;
+    padding: 15px 0;
+    position: relative;
+    padding-bottom: 172px;
+  }
+
+  .msg-section {
+    max-height: 59vh;
+    overflow-y: scroll;
   }
 
   .chat-message {
     max-width: 75%;
-    padding: 10px 15px;
+    padding: 6px 15px;
     margin-bottom: 5px;
   }
 
@@ -505,6 +512,14 @@ input::placeholder:after {
     object-fit: cover;
     border-radius: 5px;
     margin-right: 5px;
+  }
+
+  .chat-footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: white;
+    width: 100%;
   }
 
 }
