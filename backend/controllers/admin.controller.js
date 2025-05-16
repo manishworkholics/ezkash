@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const moment = require("moment");
 const sendMail = require('../utils/sendMail');
-
+require('dotenv').config();
 
 exports.adminRegister = async (req, res) => {
     try {
@@ -36,7 +36,7 @@ exports.adminLogin = async (req, res) => {
     const isMatch = bcrypt.compare(password, admin.password);
     if (!isMatch) return res.status(400).json({ message: 'Incorrect password' });
 
-    const token = jwt.sign({ id: admin._id, role: admin.role }, 'secret_key', { expiresIn: '1d' });
+    const token = jwt.sign({ id: admin._id, role: admin.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
     res.json({ token, role: admin.role, adminId: admin._id, message: 'Login successful' });
 };
 
