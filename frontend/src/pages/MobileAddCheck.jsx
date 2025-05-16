@@ -1,11 +1,9 @@
-
 import { useState, useRef } from 'react';
 import axios from 'axios';
 import { toast } from "react-toastify";
+import uploadPng from '../assets/images/upload-png.png'
 import "react-toastify/dist/ReactToastify.css";
-
 import { Link } from 'react-router-dom';
-
 import { useNavigate } from 'react-router-dom';
 const URL = process.env.REACT_APP_URL;
 const token = localStorage.getItem('token')
@@ -132,7 +130,7 @@ const MobileAddCheck = () => {
     const handleSubmitback = async (e) => {
         e.preventDefault();
         const file = e.target.files[0];
-         if (file) {
+        if (file) {
             setFileName(file.name);
             setFileSize(formatBytes(file.size));
 
@@ -209,7 +207,7 @@ const MobileAddCheck = () => {
     const handleSubmitLicenseback = async (e) => {
         e.preventDefault();
         const file = e.target.files[0];
-       if (file) {
+        if (file) {
             setFileName(file.name);
             setFileSize(formatBytes(file.size));
 
@@ -521,10 +519,14 @@ const MobileAddCheck = () => {
                                                 </div>
                                             </div>
                                         )}
+
+                                        <div className="">
+                                            <img src={uploadPng} alt="" className="" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="card position-absolute mt-4 bg-transparent start-0 bottom-0 w-100 border-0">
+                            <div className="card position-absolute mt-4 bg-transparent start-0 bottom-0 w-100 border-0 mb-5">
                                 <div className="card-body" style={{ padding: '12px' }}>
                                     <button className='theme-btn w-100' onClick={nextStep}>Next</button>
                                 </div>
@@ -735,7 +737,7 @@ const MobileAddCheck = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="card position-absolute bg-transparent start-0 bottom-0 w-100 border-0">
+                            <div className="card position-absolute bg-transparent start-0 bottom-0 w-100 border-0 mb-5">
                                 <div className="card-body bg-transparent" style={{ padding: '12px' }}>
                                     <button className='w-100 border-0 bg-transparent text-secondary mb-3 fw-semibold' onClick={skipStep}>Skip</button>
                                     <button className='theme-btn w-100' onClick={nextStep}>Next</button>
@@ -850,7 +852,9 @@ const MobileAddCheck = () => {
                                                     setFormData({ ...formData, company: value });
                                                 }}
                                             />
-
+                                            <label className="floating-label">
+                                                Company
+                                            </label>
                                         </div>
                                         <div className="col-12 mb-3">
                                             {/* <label className="form-label text-445B64">Comment</label> */}
@@ -859,8 +863,8 @@ const MobileAddCheck = () => {
                                     </div>
                                 </div >
                             </div >
-                            <div className="card bg-transparent  w-100 border-0">
-                                <div className="card-body bg-transparent" style={{ padding: '12px 0' }}>
+                            <div className="card position-absolute bg-transparent start-0 bottom-0 w-100 border-0 mb-5">
+                                <div className="card-body bg-transparent" style={{ padding: '12px' }}>
                                     <button type="submit" className='theme-btn w-100' onClick={handleSave}>Submit</button>
                                 </div>
                             </div>
