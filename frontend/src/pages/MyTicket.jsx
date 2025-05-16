@@ -111,7 +111,7 @@ const MyTicket = () => {
                                                     <div className="row">
                                                         <div className="col-12 col-lg-6">
                                                             <div className="d-flex justify-content-between mb-lg-0">
-                                                                <div className="d-flex">
+                                                                <div className="d-flex flex-wrap">
                                                                     <div className="form-check me-3 me-lg-4">
                                                                         <input className="form-check-input table-checkbox"
                                                                             type="checkbox" value="open" id="flexCheckDefault" checked={filter.includes('open')} onChange={(e) => handleFilterChange(e)} />
@@ -152,7 +152,7 @@ const MyTicket = () => {
                                                                     <th className='border-bottom'>Status</th>
                                                                     <th className='border-bottom'>Category</th>
                                                                     <th className='border-bottom'>Descrition</th>
-                                                                    <th className='border-bottom'></th>
+                                                                    <th className='border-bottom'>Action</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -167,7 +167,7 @@ const MyTicket = () => {
                                                                             <td><span className={getStatusClass(ticket.status)}>{ticket.status}</span></td>
                                                                             <td>{ticket.category}</td>
                                                                             <td>{ticket.description}</td>
-                                                                            <td><Link to={`/chat/${ticket._id}`}><i class="fa-solid fa-comment-dots text-4FD1C5"></i></Link></td>
+                                                                            <td className='text-center'><Link to={`/chat/${ticket._id}`}><i class="fa-solid fa-comment-dots text-4FD1C5"></i></Link></td>
 
                                                                         </tr>
 
