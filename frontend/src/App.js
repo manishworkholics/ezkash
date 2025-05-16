@@ -20,6 +20,7 @@ import ProtectedRoute from "./pages/Common_Method/protectedroute";
 import ForgetPasswordVerification from "./pages/ForgetPasswordVerification";
 import Profile from "./pages/Profile";
 import MobileAddCheck from "./pages/MobileAddCheck";
+import Chat from "./pages/Chat";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="/forget-password-verification" element={<ForgetPasswordVerification/>}/>
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/upload-check" element={<MobileAddCheck/>}/>
+          <Route path="/chat" element={<Chat/>}/>
         </Routes>
       </BrowserRouter>
     </>
