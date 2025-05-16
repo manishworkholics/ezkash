@@ -90,7 +90,9 @@ const Header = () => {
                     <div className="navbar-brand">
                         {/* <img src={logo} alt="" className="me-2" /> */}
                     </div>
-                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <button type="button" className="border-0 ms-auto bg-transparent" data-bs-dismiss="offcanvas" aria-label="Close">
+                        <i class="fa-solid fa-x text-white fs-2 mb-0 fw-normal"></i>
+                    </button>
                 </div>
                 <div className="offcanvas-body">
                     <div className="d-flex flex-column px-1 w-100">
