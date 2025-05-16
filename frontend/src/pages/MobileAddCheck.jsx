@@ -520,9 +520,11 @@ const MobileAddCheck = () => {
                                             </div>
                                         )}
 
-                                        <div className="text-center">
-                                            <img src={uploadPng} alt="" className="w-50" />
-                                        </div>
+                                        {formData?.imageUrl ? (<></>) : (
+                                            <div className="text-center">
+                                                <img src={uploadPng} alt="" className="w-50" />
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -732,6 +734,11 @@ const MobileAddCheck = () => {
                                                         </button>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        )}
+                                        {licenseData?.imageUrl ? (<></>) : (
+                                            <div className="text-center">
+                                                <img src={uploadPng} alt="" className="w-50" />
                                             </div>
                                         )}
                                     </div>
