@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import axios from 'axios';
 import { toast } from "react-toastify";
 import uploadPng from '../assets/images/upload-png.png'
+import fillForm from '../assets/images/fillForm.png'
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -513,16 +514,16 @@ const MobileAddCheck = () => {
                                             </div>
                                         )}
 
-                                        {formData?.imageUrl ? (<></>) : (
-                                            <div className="text-center">
-                                                <img src={uploadPng} alt="" className="w-50" />
-                                            </div>
-                                        )}
+                                        {/* {formData?.imageUrl ? (<></>) : ( */}
+                                        <div className="text-center">
+                                            <img src={uploadPng} alt="" className="w-50" />
+                                        </div>
+                                        {/* )} */}
                                     </div>
                                 </div>
                             </div>
-                            <div className="card position-absolute mt-4 bg-transparent start-0 bottom-0 w-100 border-0 mb-5">
-                                <div className="card-body" style={{ padding: '12px' }}>
+                            <div className="card bg-transparent w-100 border-0">
+                                <div className="card-body" style={{ padding: '12px 0' }}>
                                     <button className='theme-btn w-100' onClick={nextStep}>Next</button>
                                 </div>
                             </div>
@@ -534,13 +535,16 @@ const MobileAddCheck = () => {
                     <div>
                         <div className="container-fluid mobile-bg d-block d-lg-none position-relative" style={{ minHeight: '100vh' }}>
                             <div className="card border-0 bg-transparent">
-                                <div className="card-header bg-transparent p-3" style={{ margin: '0 -12px' }}>
-                                    <button className="border-0 bg-transparent" onClick={prevStep}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
-                                            <path d="M0.292893 7.29289C-0.0976311 7.68342 -0.0976311 8.31658 0.292893 8.70711L6.65685 15.0711C7.04738 15.4616 7.68054 15.4616 8.07107 15.0711C8.46159 14.6805 8.46159 14.0474 8.07107 13.6569L2.41421 8L8.07107 2.34315C8.46159 1.95262 8.46159 1.31946 8.07107 0.928932C7.68054 0.538408 7.04738 0.538408 6.65685 0.928932L0.292893 7.29289ZM1 8V9H17V8V7H1V8Z" fill="black" />
-                                        </svg>
-                                    </button>
-                                    <span className="fs-6 ms-2 text-000000 fw-semibold">Upload ID Image</span>
+                                <div className="card-header d-flex justify-content-between bg-transparent p-3" style={{ margin: '0 -12px' }}>
+                                    <div className="">
+                                        <button className="border-0 bg-transparent" onClick={prevStep}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                                                <path d="M0.292893 7.29289C-0.0976311 7.68342 -0.0976311 8.31658 0.292893 8.70711L6.65685 15.0711C7.04738 15.4616 7.68054 15.4616 8.07107 15.0711C8.46159 14.6805 8.46159 14.0474 8.07107 13.6569L2.41421 8L8.07107 2.34315C8.46159 1.95262 8.46159 1.31946 8.07107 0.928932C7.68054 0.538408 7.04738 0.538408 6.65685 0.928932L0.292893 7.29289ZM1 8V9H17V8V7H1V8Z" fill="black" />
+                                            </svg>
+                                        </button>
+                                        <span className="fs-6 ms-2 text-000000 fw-semibold">Upload ID Image</span>
+                                    </div>
+                                    <button className='border-0 bg-transparent text-secondary fw-semibold' onClick={skipStep}>Skip</button>
                                 </div>
                                 <div className="card-body bg-transparent px-0">
                                     <div className="mb-4">
@@ -708,17 +712,16 @@ const MobileAddCheck = () => {
                                                 </div>
                                             </div>
                                         )}
-                                        {licenseData?.imageUrl ? (<></>) : (
-                                            <div className="text-center">
-                                                <img src={uploadPng} alt="" className="w-50" />
-                                            </div>
-                                        )}
+                                        {/* {licenseData?.imageUrl ? (<></>) : ( */}
+                                        <div className="text-center">
+                                            <img src={uploadPng} alt="" className="w-50" />
+                                        </div>
+                                        {/* )} */}
                                     </div>
                                 </div>
                             </div>
-                            <div className="card position-absolute bg-transparent start-0 bottom-0 w-100 border-0 mb-5">
-                                <div className="card-body bg-transparent" style={{ padding: '12px' }}>
-                                    <button className='w-100 border-0 bg-transparent text-secondary mb-3 fw-semibold' onClick={skipStep}>Skip</button>
+                            <div className="card bg-transparent w-100 border-0">
+                                <div className="card-body bg-transparent" style={{ padding: '12px 0' }}>
                                     <button className='theme-btn w-100' onClick={nextStep}>Next</button>
                                 </div>
                             </div>
@@ -779,7 +782,7 @@ const MobileAddCheck = () => {
                                         </div>
                                         <div className="col-12 mb-3 input-wrapper">
                                             {/* <label className="form-label text-445B64">ID Number </label> */}
-                                            <input type="text" className="form-control" value={licenseData.licenseNo} onChange={(e) => setLicenseData({ ...licenseData, licenseNo: e.target.value })} />
+                                            <input type="text" className="form-control" placeholder='' value={licenseData.licenseNo} onChange={(e) => setLicenseData({ ...licenseData, licenseNo: e.target.value })} />
                                             <label className="floating-label">
                                                 ID Number
                                             </label>
@@ -839,11 +842,14 @@ const MobileAddCheck = () => {
                                             {/* <label className="form-label text-445B64">Comment</label> */}
                                             <textarea className="form-control" placeholder='Comment' value={formData.comment || ''} onChange={(e) => setFormData({ ...formData, comment: e.target.value })} />
                                         </div>
+                                        <div className="text-center">
+                                            <img src={fillForm} alt="" className="w-75" />
+                                        </div>
                                     </div>
                                 </div >
                             </div >
-                            <div className="card position-absolute bg-transparent start-0 bottom-0 w-100 border-0 mb-5">
-                                <div className="card-body bg-transparent" style={{ padding: '12px' }}>
+                            <div className="card bg-transparent w-100 border-0">
+                                <div className="card-body bg-transparent" style={{ padding: '12px 0' }}>
                                     <button type="submit" className='theme-btn w-100' onClick={handleSave}>Submit</button>
                                 </div>
                             </div>

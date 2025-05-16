@@ -105,16 +105,16 @@ const SignIn = () => {
 
   return (
     <>
-      <div className="container-fluid sign-page">
+      <div className="container-fluid sign-page bg-EEEEEE">
         <div className="row sign-main-container">
           <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
           <div className="col-lg-6 sign-left-bg h-100 justify-content-center d-none d-lg-flex align-items-center">
             <img src={logoLeft} alt="logo" />
           </div>
 
-          <div className="col-lg-6 sign-right-bg h-100 bg-EEEEEE position-relative">
+          <div className="col-lg-6 sign-right-bg h-100 position-relative">
             <div className="row h-100 w-100">
-              <div className="col-lg-8 col-xl-7 col-xxl-6 mx-auto d-flex justify-content-center align-items-center">
+              <div className="col-lg-8 col-xl-7 col-xxl-6 mx-auto d-block d-md-flex justify-content-center align-items-center">
                 <div className="w-100">
                   {showForgotPassword ? (
                     <>
@@ -170,7 +170,7 @@ const SignIn = () => {
                         placeholder="Your password"
                       />
                       {formErrors.password && <small className="text-danger">{formErrors.password}</small>}
-                      <h6 className="text-end text-445B64 mb-3">
+                      <h6 className="text-end text-445B64 mb-4">
                         <span
                           className="text-00C7BE text-decoration-none"
                           onClick={() => setShowForgotPassword(true)}
