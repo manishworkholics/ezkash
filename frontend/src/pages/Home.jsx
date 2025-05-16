@@ -311,6 +311,7 @@ const Home = () => {
                       <div className="row g-3 new-check-form">
                         <div className="col-md-6">
                           <label className="form-label text-445B64">Check Image</label>
+
                           <div className="d-flex gap-2 gap-lg-3">
                             <div className="form-control inputFile p-3 p-lg-4 text-center position-relative d-flex justify-content-center align-items-center">
                               <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={checkFrontRef} onChange={handleSubmit} style={{ opacity: 0, cursor: 'pointer' }} />
@@ -351,12 +352,13 @@ const Home = () => {
                                       >
                                         &times;
                                       </button>
-                                      <img src={formData.imageUrl} alt="Profile" className='w-100 border rounded-4 overflow-hidden' />
+                                      <img src={formData.imageUrl} alt="Profile" loading="lazy" className='w-100 border rounded-4 overflow-hidden' />
                                     </div>
                                   </div>
                                 )}
                               </>
                             )}
+
                             {loading1 ? (
                               <div className="col-6 text-center py-5 px-5">
                                 <div className="spinner-border text-primary" role="status">
@@ -378,7 +380,7 @@ const Home = () => {
                                       >
                                         &times;
                                       </button>
-                                      <img src={formDataback.imageUrl} alt="Profile" className='w-100 border rounded-4 overflow-hidden' />
+                                      <img src={formDataback.imageUrl} alt="Profile" loading="lazy" className='w-100 border rounded-4 overflow-hidden' />
                                     </div>
                                   </div>
                                 )}
@@ -407,6 +409,7 @@ const Home = () => {
                             </div>
                           </div>
                           <div className="row">
+
                             {loading2 ? (
                               <div className="col-6 text-center py-5 px-5">
                                 <div className="spinner-border text-primary" role="status">
@@ -431,6 +434,7 @@ const Home = () => {
                                       <img
                                         src={licenseData.imageUrl}
                                         alt="Front License"
+                                        loading="lazy"
                                         className='w-100 border rounded-4 overflow-hidden'
                                       />
                                     </div>
@@ -438,6 +442,7 @@ const Home = () => {
                                 )}
                               </>
                             )}
+
                             {loading3 ? (
                               <div className="col-6 text-center py-5 px-5">
                                 <div className="spinner-border text-primary" role="status">
@@ -462,6 +467,7 @@ const Home = () => {
                                       <img
                                         src={licenseDataback.imageUrl}
                                         alt="Back License"
+                                        loading="lazy"
                                         className='w-100 border rounded-4 overflow-hidden'
                                       />
                                     </div>

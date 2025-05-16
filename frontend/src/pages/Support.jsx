@@ -9,9 +9,7 @@ const token = localStorage.getItem('token')
 const Support = () => {
     const navigate = useNavigate();
     const venderId = localStorage.getItem("userId");
-    const [formData, setFormData] = useState({
-        customerName: '', licenseNo: '', date: '', company: '', checkType: '', amount: '', imageUrl: '', extractedText: '',
-    });
+    const [formData, setFormData] = useState({ imageUrl: '' });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,27 +21,17 @@ const Support = () => {
         const formData = new FormData();
         formData.append('image', file);
         try {
-            const response = await axios.post(`${URL}/scan-check`, formData, {
+            const response = await axios.post(`${URL}/upload-image`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                     Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 },
             });
 
-
             const result = response.data;
-            if (result && result.customerName) {
+            if (result) {
                 const parsedData = {
-                    customerName: result.customerName || '',
-                    date: result.date || '',
-                    company: result.company || '',
-                    checkType: result.checkType || '',
-                    amount: result.amountNumeric || '',
-                    amountWords: result.amountWords || '',
-                    payee: result.payee || '',
-                    memo: result.memo || '',
-                    imageUrl: result.imageUrl || '',
-                    extractedText: result.extractedText || ''
+                    imageUrl: result.data.imageUrl || '',
                 };
                 setFormData(parsedData);
             }
@@ -61,39 +49,40 @@ const Support = () => {
         setData((prevData) => ({ ...prevData, [name]: value }))
     }
 
-   const addTicket = async () => {
-    try {
-        const response = await axios.post(
-            `${URL}/complain/tickets`,
-            {
-                subject: data?.subject || '',
-                category: data?.category || '',
-                description: data?.description || '',
-                checkImg: formData?.imageUrl || '',
-                vendorId: venderId || ''
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
+    const addTicket = async () => {
+        try {
+            const response = await axios.post(
+                `${URL}/complain/tickets`,
+                {
+                    subject: data?.subject || '',
+                    category: data?.category || '',
+                    description: data?.description || '',
+                    checkImg: formData?.imageUrl || '',
+                    vendorId: venderId || ''
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 }
+            );
+
+            if (response.status === 201) {
+                alert('Ticket raised successfully!');
+                setData({
+                    subject: '',
+                    category: '',
+                    description: '',
+                    checkImg: '',
+                    vendorId: '',
+                });
+                setFormData({ imageUrl: '' });
             }
-        );
- 
-        if (response.status === 201) {
-            alert('Ticket raised successfully!');
-            setData({
-                subject: '',
-                category: '',
-                description: '',
-                checkImg: '',
-                vendorId: '',
-            });
+        } catch (error) {
+            console.error(error);
+            alert('Failed to raise ticket. Please try again.');
         }
-    } catch (error) {
-        console.error(error);
-        alert('Failed to raise ticket. Please try again.');
-    }
-};
+    };
 
 
     return (
@@ -128,7 +117,7 @@ const Support = () => {
                                                         </div>
                                                         <div className="col-6 col-lg-6">
                                                             <div className="d-flex justify-content-end">
-                                                                <button className="btn btn-sm rounded-2 bg-FFF0F0 text-E84D4D" onClick={()=>navigate('/my-ticket')}>
+                                                                <button className="btn btn-sm rounded-2 bg-FFF0F0 text-E84D4D" onClick={() => navigate('/my-ticket')}>
                                                                     My Ticket
                                                                 </button>
                                                             </div>
@@ -153,13 +142,7 @@ const Support = () => {
                                                                     <input type="text" name='category' value={data.category} onChange={handleChange} className="form-control" />
                                                                 </div>
                                                                 <div className="col-12 d-flex gap-3">
-                                                                    <div className="form-control inputFile p-4 text-center position-relative d-flex justify-content-center align-items-center">
-                                                                        <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" onChange={handleSubmit} style={{ opacity: 0, cursor: 'pointer' }} />
-                                                                        <div className="">
-                                                                            <i className="fa-solid fa-arrow-up-from-bracket fs-4 text-01A99A"></i>
-                                                                            <div className="text-445B64">Upload Check Image </div>
-                                                                        </div>
-                                                                    </div>
+
                                                                     <div className="form-control inputFile p-4 text-center position-relative d-flex justify-content-center align-items-center">
                                                                         <input
                                                                             className="position-absolute top-0 start-0 w-100 h-100"
@@ -172,7 +155,7 @@ const Support = () => {
                                                                         />
                                                                         <div className="">
                                                                             <i className="fa-solid fa-camera fs-4 text-01A99A"></i>
-                                                                            <div className="text-445B64">Capture Check Image</div>
+                                                                            <div className="text-445B64">Uplaod/Capture Image</div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -185,10 +168,11 @@ const Support = () => {
                                                         </div>
 
                                                         <div className="row">
+
                                                             {formData?.imageUrl &&
                                                                 <div className='col-lg-6'>
                                                                     <label className="form-label text-445B64 mb-1 mt-3">Front Image</label>
-                                                                    <img src={formData.imageUrl} alt="Profile" className='w-100 border rounded-4 overflow-hidden' />
+                                                                    <img src={formData.imageUrl} alt="Profile" loading="lazy" className='w-100 border rounded-4 overflow-hidden' />
                                                                 </div>
                                                             }
 
