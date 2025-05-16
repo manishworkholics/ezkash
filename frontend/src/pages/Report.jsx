@@ -15,13 +15,13 @@ const Report = () => {
     const fetchReport = async () => {
         try {
             const vendorId = localStorage.getItem('userId');
-            const response = await axios.get(`${URL}/complain/tickets/vendor/${vendorId}`, {
+            const response = await axios.get(`${URL}/check/get-checkByVenderId/${vendorId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
             if (response) {
-                setReport(response?.data);
+                setReport(response.data.data);
             }
         } catch (error) {
             console.error("Error fetching checks:", error);
@@ -63,14 +63,11 @@ const Report = () => {
                                                         </div>
                                                         <div className="col-6 col-lg-6">
                                                             <div className="d-flex justify-content-end">
-                                                                {/* <Link to="/export-report" className="btn btn-sm rounded-2 bg-E4FFFD text-01A99A">
-                                                                    Export Report
-                                                                </Link> */}
                                                                 <div className="position-relative">
                                                                     <button onClick={() => setShowModal(true)} className="btn btn-sm rounded-2 bg-E4FFFD text-01A99A">
                                                                         Export Report
                                                                     </button>
-                                                                    <ExportModal show={showModal} onClose={() => setShowModal(false)} />
+                                                                    <ExportModal data={report} show={showModal} onClose={() => setShowModal(false)} />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -89,15 +86,15 @@ const Report = () => {
                                                                                 <input className="form-check-input table-checkbox"
                                                                                     type="checkbox" value="" id="flexCheckDefault" />
                                                                             </th>
-                                                                            <th scope="col" className="text-445B64">SNo.</th>
-                                                                            <th scope="col" className="text-445B64">Customer Name</th>
-                                                                            <th scope="col" className="text-445B64">ID Number</th>
-                                                                            <th scope="col" className="text-445B64 text-center">Check Type</th>
-                                                                            <th scope="col" className="text-445B64">Amount</th>
-                                                                            <th scope="col" className="text-445B64">Comment</th>
-                                                                            <th scope="col" className="text-445B64">Date & Time
-                                                                            </th>
-                                                                            <th scope="col" className="text-445B64 text-center">Status</th>
+                                                                            <th>#</th>
+                                                                            <th>Customer Name</th>
+                                                                            <th>Amount</th>
+                                                                            <th>ID Number</th>
+                                                                            <th>Company</th>
+                                                                            <th>Type</th>
+                                                                            <th>Comment</th>
+                                                                            <th>Date & Time</th>
+                                                                            <th>Status</th>
                                                                             <th scope="col" className="text-445B64 text-center">Actions</th>
                                                                         </tr>
                                                                     </thead>
@@ -113,21 +110,24 @@ const Report = () => {
                                                                                     />
                                                                                 </td>
                                                                                 <td>{index + 1}</td>
-                                                                                <td>{val?.subject}</td>
-                                                                                <td>64644444</td>
-                                                                                <td>Self Check</td>
-                                                                                <td>$487441</td>
-                                                                                <td>Lorem Ipsum..</td>
-                                                                                <td>July 14, 2015</td>
-                                                                                <td className="text-01A99A">Active</td>
+                                                                                <td>{val?.customerFirstName}</td>
+                                                                                <td>{val?.amount}</td>
+                                                                                <td>{val?.licenseNo}</td>
+                                                                                <td>{val?.company}</td>
+                                                                                <td>{val?.checkType}</td>
+                                                                                <td>{val?.comment?.length > 10 ? val?.comment.substring(0, 10) + '...' : val?.comment}</td>
+                                                                                <td>
+                                                                                    {val?.date}
+                                                                                </td>
+
+                                                                                <td>{val?.status}</td>
+
                                                                                 <td>
                                                                                     <div className="d-flex justify-content-center">
                                                                                         <Link to={`/check-details/${val?._id}`} className="btn">
                                                                                             <i className="fa-solid fa-eye text-445B64"></i>
                                                                                         </Link>
-                                                                                        <button className="btn">
-                                                                                            <i className="fa-solid fa-trash-can text-danger"></i>
-                                                                                        </button>
+
                                                                                     </div>
                                                                                 </td>
                                                                             </tr>

@@ -43,13 +43,13 @@ const MobileAddCheck = () => {
 
     const [licenseDataback, setLicenseDataback] = useState({ imageUrl: '' });
 
-    const handleCancelCheckFront = () => {setPreviewCheckfront(null); setFormData({ ...formData, imageUrl: '', customerFirstName: '', customerMiddleName: '', customerLastName: '', amount: '', company: '' }); if (checkFrontRef.current) { checkFrontRef.current.value = ''; } };
+    const handleCancelCheckFront = () => { setPreviewCheckfront(null); setFormData({ ...formData, imageUrl: '', customerFirstName: '', customerMiddleName: '', customerLastName: '', amount: '', company: '' }); if (checkFrontRef.current) { checkFrontRef.current.value = ''; } };
 
-    const handleCancelCheckBack = () => {setPreviewCheckback(null); setFormDataback({ ...formDataback, imageUrl: '' }); if (checkBackRef.current) { checkBackRef.current.value = ''; } };
+    const handleCancelCheckBack = () => { setPreviewCheckback(null); setFormDataback({ ...formDataback, imageUrl: '' }); if (checkBackRef.current) { checkBackRef.current.value = ''; } };
 
-    const handleCancelLicenseFront = () => {setPreviewLicencefront(null); setLicenseData({ ...licenseData, imageUrl: '', licenseNo: '' }); if (licenseFrontRef.current) { licenseFrontRef.current.value = ''; } };
+    const handleCancelLicenseFront = () => { setPreviewLicencefront(null); setLicenseData({ ...licenseData, imageUrl: '', licenseNo: '' }); if (licenseFrontRef.current) { licenseFrontRef.current.value = ''; } };
 
-    const handleCancelLicenseBack = () => {setPreviewLicenceback(null); setLicenseDataback({ ...licenseDataback, imageUrl: '' }); if (licenseBackRef.current) { licenseBackRef.current.value = ''; } };
+    const handleCancelLicenseBack = () => { setPreviewLicenceback(null); setLicenseDataback({ ...licenseDataback, imageUrl: '' }); if (licenseBackRef.current) { licenseBackRef.current.value = ''; } };
 
     const formatBytes = (bytes, decimals = 2) => {
         if (bytes === 0) return '0 Bytes';
@@ -127,6 +127,7 @@ const MobileAddCheck = () => {
         } catch (error) {
             setTimeout(() => {
                 toast.error("Error in image uploading", error);
+                alert("Error in image uploading");
             }, 1000);
             console.error('Error during image upload:', error);
         }
@@ -165,6 +166,7 @@ const MobileAddCheck = () => {
         } catch (error) {
             setTimeout(() => {
                 toast.error("Error in image uploading", error);
+                alert("Error in image uploading");
             }, 1000);
             console.error('Error during image upload:', error);
         }
@@ -210,6 +212,7 @@ const MobileAddCheck = () => {
             }
         } catch (error) {
             toast.error("Error in image uploading", error);
+            alert("Error in image uploading");
             console.error('Error during image upload:', error);
         }
     };
@@ -245,6 +248,7 @@ const MobileAddCheck = () => {
             }
         } catch (error) {
             toast.error("Error in image uploading", error);
+            alert("Error in image uploading");
             console.error('Error during image upload:', error);
         }
     };
@@ -324,6 +328,7 @@ const MobileAddCheck = () => {
 
         } catch (error) {
             console.error('Error submitting form:', error);
+            alert("An error occurred while submitting the form");
             toast.error('An error occurred while submitting the form');
         }
     };
