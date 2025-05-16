@@ -33,7 +33,7 @@ const Home = () => {
 
   const handleCancelLicenseBack = () => { setLicenseDataback({ ...licenseDataback, imageUrl: '' }); if (licenseBackRef.current) { licenseBackRef.current.value = ''; } };
 
-  const handleCancelCheckFront = () => { setFormData({ ...formData, imageUrl: '', customerFirstName: '', customerMiddleName: '', customerLastName: '', amount: '',company: '' }); if (checkFrontRef.current) { checkFrontRef.current.value = ''; } };
+  const handleCancelCheckFront = () => { setFormData({ ...formData, imageUrl: '', customerFirstName: '', customerMiddleName: '', customerLastName: '', amount: '', company: '' }); if (checkFrontRef.current) { checkFrontRef.current.value = ''; } };
 
   const handleCancelCheckBack = () => { setFormDataback({ ...formDataback, imageUrl: '' }); if (checkBackRef.current) { checkBackRef.current.value = ''; } };
 

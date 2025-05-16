@@ -2,6 +2,7 @@ const User = require('../model/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const sendMail = require('../utils/sendMail');
+require('dotenv').config();
 
 // exports.registerVendor = async (req, res) => {
 //     const { firstname, lastname, mobile, bussiness, email, password } = req.body;
@@ -130,7 +131,7 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Incorrect password' });
 
-    const token = jwt.sign({ id: user._id, role: user.role }, 'secret_key', { expiresIn: '1d' });
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
     res.json({ token, role: user.role, userId: user._id, message: 'Login successful' });
 };
 
