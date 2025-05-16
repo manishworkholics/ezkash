@@ -38,7 +38,7 @@ const Sidebar = () => {
                             <span className="">Report</span>
                         </NavLink>
                     </li>
-                    <li>
+                    {/* <li>
                         <NavLink to="/chat" className="nav-link">
                             <div className="sidebar-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="20" viewBox="0 0 17 20" fill="none">
@@ -47,7 +47,7 @@ const Sidebar = () => {
                             </div>
                             <span className="">Chat</span>
                         </NavLink>
-                    </li>
+                    </li> */}
 
                     {/* <li>
                         <NavLink to="/user" className="nav-link">
