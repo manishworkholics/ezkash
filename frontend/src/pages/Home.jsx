@@ -590,13 +590,12 @@ const Home = () => {
           </div>
 
         </div>
-        <div className="mb-4">
+        <div className="mb-5">
           <RecentCheck />
         </div>
       </div>
 
       {/* Mobile-View End */}
-
 
 
 
