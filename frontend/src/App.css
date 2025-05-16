@@ -466,7 +466,7 @@ input::placeholder:after {
     border: 1px dashed #DFDFDF;
     background: #FFFFFF;
     border-radius: 12px;
-    padding: 44px !important;
+    /* padding: 44px !important; */
   }
 
   .form-label {
