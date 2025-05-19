@@ -41,6 +41,31 @@ const Support = () => {
 
     };
 
+    const [errors, setErrors] = useState({});
+
+    const requiredFields = ['subject', 'category', 'description'];
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        requiredFields.forEach(field => {
+            const value = data[field];
+            if (!value || value.trim() === '') {
+                if (field === 'subject') {
+                    newErrors.subject = 'Please enter subject';
+                } else if (field === 'category') {
+                    newErrors.category = 'Please enter category';
+                } else if (field === 'description') {
+                    newErrors.description = 'Please enter description';
+                }
+            }
+        });
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+
 
     const [data, setData] = useState({ subject: '', category: '', description: '', checkImg: '', vendorId: '' })
 
@@ -50,13 +75,15 @@ const Support = () => {
     }
 
     const addTicket = async () => {
+        if (!validateForm()) return;
+
         try {
             const response = await axios.post(
                 `${URL}/complain/tickets`,
                 {
-                    subject: data?.subject || '',
-                    category: data?.category || '',
-                    description: data?.description || '',
+                    subject: data.subject,
+                    category: data.category,
+                    description: data.description,
                     checkImg: formData?.imageUrl || '',
                     vendorId: venderId || ''
                 },
@@ -69,20 +96,16 @@ const Support = () => {
 
             if (response.status === 201) {
                 alert('Ticket raised successfully!');
-                setData({
-                    subject: '',
-                    category: '',
-                    description: '',
-                    checkImg: '',
-                    vendorId: '',
-                });
+                setData({ subject: '', category: '', description: '', checkImg: '', vendorId: '' });
                 setFormData({ imageUrl: '' });
+                setErrors({});
             }
         } catch (error) {
             console.error(error);
             alert('Failed to raise ticket. Please try again.');
         }
     };
+
 
 
     return (
@@ -117,7 +140,7 @@ const Support = () => {
                                                         </div>
                                                         <div className="col-6 col-lg-6">
                                                             <div className="d-flex justify-content-end">
-                                                                <button className="btn btn-sm rounded-2 bg-FFF0F0 text-E84D4D" onClick={() => navigate('/my-ticket')}>
+                                                                <button style={{ background: '#008CFF' }} className='btn border-0 rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0 mb-2' onClick={() => navigate('/my-ticket')}>
                                                                     My Ticket
                                                                 </button>
                                                             </div>
@@ -136,10 +159,15 @@ const Support = () => {
                                                                 <div className="col-md-6 mb-3">
                                                                     <label className="form-label text-445B64">Subject</label>
                                                                     <input type="text" name='subject' value={data.subject} onChange={handleChange} className="form-control" />
+                                                                    {errors.subject && <small className="text-danger">{errors.subject}</small>}
+
+
                                                                 </div>
                                                                 <div className="col-md-6 mb-3">
                                                                     <label className="form-label text-445B64">Category</label>
                                                                     <input type="text" name='category' value={data.category} onChange={handleChange} className="form-control" />
+                                                                    {errors.category && <small className="text-danger">{errors.category}</small>}
+
                                                                 </div>
                                                                 <div className="col-12 d-flex gap-3">
 
@@ -172,6 +200,8 @@ const Support = () => {
                                                                 <div className="col-12 mb-3 pb-3">
                                                                     <label className="form-label text-445B64">Description</label>
                                                                     <textarea className="form-control h-100" name='description' value={data.description} onChange={handleChange} defaultValue="Description" />
+                                                                    {errors.description && <small className="text-danger">{errors.description}</small>}
+
                                                                 </div>
                                                             </div>
                                                         </div>
