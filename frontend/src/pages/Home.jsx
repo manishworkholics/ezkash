@@ -666,11 +666,6 @@ const Home = () => {
       </div>
 
 
-
-
-
-
-
       {/* Mobile-View Start */}
       <div className="container-fluid mobile-bg d-block d-lg-none" style={{ minHeight: '100vh' }}>
         {/* <Header /> */}

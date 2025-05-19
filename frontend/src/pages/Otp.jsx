@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import logoLeft from '../assets/images/logoLeft.png';
+// import logoLeft from '../assets/images/logoLeft.png';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import signLogo from '../assets/images/signLogo.png'
+import { Link } from 'react-router-dom';
 const URL = process.env.REACT_APP_URL;
 
 const Otp = () => {
@@ -100,64 +101,70 @@ const Otp = () => {
 
 
     return (
-        <div className="container-fluid sign-page">
-            <div className="row sign-main-container">
-                <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-                <div className="col-lg-6 sign-left-bg h-100 justify-content-center d-none d-lg-flex align-items-center">
-                    <img src={logoLeft} alt="" className="" />
-                </div>
-                <div className="col-lg-6 sign-right-bg h-100 bg-EEEEEE position-relative">
-                    <div className="row h-100 w-100">
-                        <div className="col-lg-8 col-xl-7 col-xxl-6 mx-auto d-flex justify-content-center align-items-center">
-                            <div className="w-100">
-                                <div className="text-center mb-5">
-                                    <img src={signLogo} alt="" className="sign-logo" />
-                                </div>
-                                <h3 className="fw-semibold">Welcome!</h3>
-                                <h6 className="mb-4 text-445B64">Please enter code to verify</h6>
-                                <div className="text-center mb-3 text-danger">
-                                    Code expires in {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
-                                </div>
-                                <form onSubmit={handleVerify}>
-                                    <div className="d-flex justify-content-around">
-                                        {otp.map((data, index) => (
-                                            <input
-                                                key={index}
-                                                type="text"
-                                                className="form-control mb-3 rounded-3 otp-input text-center"
-                                                maxLength="1"
-                                                value={otp[index]}
-                                                onChange={e => handleChange(e.target, index)}
-                                                onFocus={e => e.target.select()}
-                                            />
-                                        ))}
+        <>
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+            <div className="container-fluid sign-page">
+                <div className="row sign-main-container">
+                    {/* <div className="col-lg-6 sign-left-bg h-100 justify-content-center d-none d-lg-flex align-items-center">
+                        <img src={logoLeft} alt="" className="" />
+                    </div> */}
+                    <div className="col-lg-6 mx-auto sign-right-bg h-100 bg-EEEEEE position-relative pt-4 pb-5">
+                        <div className="row h-100 w-100">
+                            <div className="col-lg-8 col-xl-7 col-xxl-6 mx-auto d-flex justify-content-center align-items-center">
+                                <div className="w-100">
+                                    <div className="text-center mb-5">
+                                        <img src={signLogo} alt="" className="sign-logo" />
                                     </div>
-                                    <button type="submit" className="btn w-100 sign-btn mb-3">  {loading ? (
+                                    <h3 className="fw-semibold">Welcome!</h3>
+                                    <h6 className="mb-4 text-445B64">Please enter code to verify</h6>
+                                    <div className="text-center mb-3 text-danger">
+                                        Code expires in {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
+                                    </div>
+                                    <form onSubmit={handleVerify}>
+                                        <div className="d-flex justify-content-around">
+                                            {otp.map((data, index) => (
+                                                <input
+                                                    key={index}
+                                                    type="text"
+                                                    className="form-control mb-3 rounded-3 otp-input text-center"
+                                                    maxLength="1"
+                                                    value={otp[index]}
+                                                    onChange={e => handleChange(e.target, index)}
+                                                    onFocus={e => e.target.select()}
+                                                />
+                                            ))}
+                                        </div>
+                                        <button type="submit" className="btn w-100 sign-btn mb-3">  {loading ? (
+                                            <>
+                                                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                                Verify Code
+                                            </>
+                                        ) : (
+                                            "Verify"
+                                        )}</button>
+                                    </form>
+                                    <button type="submit" className="btn w-100 sign-btn mb-3" onClick={handleResendOtp}> {loadingResent ? (
                                         <>
                                             <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                            Verify Code
+                                            Resent Code
                                         </>
                                     ) : (
-                                        "Verify"
+                                        "Resent Code"
                                     )}</button>
-                                </form>
-                                <button type="submit" className="btn w-100 sign-btn mb-3" onClick={handleResendOtp}> {loadingResent ? (
-                                    <>
-                                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                        Resent Code
-                                    </>
-                                ) : (
-                                    "Resent Code"
-                                )}</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="position-absolute bottom-0 start-0 w-100">
-                        <h6 className="text-445B64 text-center">Terms & Conditions • Privacy Policy</h6>
+                        <div className="position-absolute bottom-0 start-0 w-100">
+                            <h6 className="text-445B64 text-center">
+                                <Link to="/terms&conditions" className='text-445B64 text-decoration-none'>Terms & Conditions</Link>
+                                <span className="mx-2">•</span>
+                                <Link to="/privacy-policy" className='text-445B64 text-decoration-none'>Privacy Policy</Link>
+                            </h6>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

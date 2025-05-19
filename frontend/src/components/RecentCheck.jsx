@@ -118,7 +118,7 @@ const RecentCheck = () => {
                                                 <tr key={item._id}>
                                                     <td>{index + 1}</td>
                                                     <td>{item.customerFirstName}</td>
-                                                    <td>{item.amount}</td>
+                                                    <td>$ {item.amount}</td>
                                                     <td>{item.licenseNo}</td>
                                                     <td>{item.company}</td>
                                                     <td>{item.checkType}</td>

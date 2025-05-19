@@ -782,7 +782,7 @@ const MobileAddCheck = () => {
                                         <div className="col-12 mb-3 input-wrapper">
                                             <input type="text" className="form-control" placeholder='' value={formData.customerLastName} onChange={(e) => setFormData({ ...formData, customerLastName: e.target.value })} />
                                             <label className="floating-label">
-                                                Last Name
+                                                Last Name <span className="required">*</span>
                                             </label>
                                         </div>
                                         <div className="col-12 mb-3 input-wrapper">
@@ -790,6 +790,22 @@ const MobileAddCheck = () => {
                                             <input type="text" className="form-control" placeholder='' value={licenseData.licenseNo} onChange={(e) => setLicenseData({ ...licenseData, licenseNo: e.target.value })} />
                                             <label className="floating-label">
                                                 ID Number
+                                            </label>
+                                        </div>
+                                        <div className="col-12 mb-3 input-wrapper">
+                                            {/* <label className="form-label text-445B64">Company</label> */}
+                                            <input
+                                                type="text"
+                                                placeholder=''
+                                                className={`form-control ${errors.company ? 'border border-danger' : formData.company ? 'border border-success' : ''}`}
+                                                value={formData.company || ''}
+                                                onChange={(e) => {
+                                                    const value = e.target.value;
+                                                    setFormData({ ...formData, company: value });
+                                                }}
+                                            />
+                                            <label className="floating-label">
+                                                Company
                                             </label>
                                         </div>
                                         <div className="col-12 mb-3 position-relative">
@@ -826,22 +842,6 @@ const MobileAddCheck = () => {
                                                     "Please fill the amount"
                                                 </div>
                                             )}
-                                        </div>
-                                        <div className="col-12 mb-3 input-wrapper">
-                                            {/* <label className="form-label text-445B64">Company</label> */}
-                                            <input
-                                                type="text"
-                                                placeholder=''
-                                                className={`form-control ${errors.company ? 'border border-danger' : formData.company ? 'border border-success' : ''}`}
-                                                value={formData.company || ''}
-                                                onChange={(e) => {
-                                                    const value = e.target.value;
-                                                    setFormData({ ...formData, company: value });
-                                                }}
-                                            />
-                                            <label className="floating-label">
-                                                Company
-                                            </label>
                                         </div>
                                         <div className="col-12 mb-3">
                                             {/* <label className="form-label text-445B64">Comment</label> */}

@@ -21,6 +21,8 @@ import ForgetPasswordVerification from "./pages/ForgetPasswordVerification";
 import Profile from "./pages/Profile";
 import MobileAddCheck from "./pages/MobileAddCheck";
 import Chat from "./pages/Chat";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/upload-check" element={<MobileAddCheck/>}/>
           <Route path="/chat/:id" element={<Chat/>}/>
+          <Route path="/terms&conditions" element={<TermsAndConditions/>}/>
+          <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
         </Routes>
       </BrowserRouter>
     </>
