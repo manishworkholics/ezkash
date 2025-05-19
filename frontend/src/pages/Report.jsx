@@ -124,7 +124,7 @@ const Report = () => {
 
                                                                                 <td>
                                                                                     <div className="d-flex justify-content-center">
-                                                                                        <Link to={`/check-details/${val?._id}`} className="btn">
+                                                                                        <Link to={`/check-details/${val?._id}`} className="btn border-0">
                                                                                             <i className="fa-solid fa-eye text-445B64"></i>
                                                                                         </Link>
 

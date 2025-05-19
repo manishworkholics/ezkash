@@ -103,7 +103,7 @@ const Checks = () => {
                                                     </div>
                                                 </div>
                                                 <div className="col-6 d-flex justify-content-end align-items-center d-md-none">
-                                                    <button className='btn border-0 rounded-2 bg-00C7BE text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0 mb-2' onClick={handleAddCheck}>
+                                                    <button style={{background:'#008CFF'}} className='btn border-0 rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0 mb-2' onClick={handleAddCheck}>
                                                         <i className="fa fa-plus me-2"></i>Add Check
                                                     </button>
                                                 </div>
@@ -124,7 +124,7 @@ const Checks = () => {
                                                             </div>
                                                         </div>
                                                         <div className="col-md-3 mt-3 mt-md-0 d-none d-md-flex justify-content-end align-items-center">
-                                                            <button className='btn bg-00C7BE py-1 px-2 fs-14 text-white border-0 p-0 fw-medium' onClick={handleAddCheckDesk}>
+                                                            <button style={{background:'#008CFF'}} className='btn py-1 px-2 fs-14 text-white border-0 p-0 fw-medium' onClick={handleAddCheckDesk}>
                                                                 <i className="fa fa-plus me-2"></i>Add Check
                                                             </button>
                                                         </div>
@@ -171,7 +171,7 @@ const Checks = () => {
                                                                     </td>
 
                                                                     <td>{item.status}</td>
-                                                                    <td>
+                                                                    <td className='text-center'>
                                                                         <div className=" justify-content-center">
                                                                             <Link to={`/check-details/${item?._id}`} className="btn">
                                                                                 <i className="fa-solid fa-eye text-445B64"></i>
