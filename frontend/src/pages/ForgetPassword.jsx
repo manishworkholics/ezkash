@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import logoLeft from '../assets/images/logoLeft.png';
+// import logoLeft from '../assets/images/logoLeft.png';
 import { useNavigate,Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
@@ -64,7 +64,7 @@ const ForgetPassword = () => {
                     toast.success('Password Reset successfully');
                 }, 1000);
                 setTimeout(() => {
-                    navigate('/');
+                    navigate('/sign-in');
                 }, 2000);
             } else {
                 setTimeout(() => {
@@ -88,7 +88,7 @@ const ForgetPassword = () => {
 
     return (
         <>
-            <div className="container-fluid sign-page">
+            <div className="container-fluid sign-page bg-EEEEEE">
                 <div className="row sign-main-container">
                     <ToastContainer position="top-right"
                         autoClose={3000}
@@ -100,12 +100,12 @@ const ForgetPassword = () => {
                         draggable
                         pauseOnHover
                     />
-                    <div className="col-lg-6 sign-left-bg h-100 d-flex justify-content-center align-items-center">
+                    {/* <div className="col-lg-6 sign-left-bg h-100 d-flex justify-content-center align-items-center">
                         <img src={logoLeft} alt="" />
-                    </div>
-                    <div className="col-lg-6 h-100 bg-EEEEEE position-relative">
-                        <div className="row h-100">
-                            <div className="col-lg-8 col-xl-7 col-xxl-6 mx-auto d-flex justify-content-center align-items-center">
+                    </div> */}
+                    <div className="col-lg-6 mx-auto sign-right-bg h-100 position-relative pt-4 pb-5">
+                        <div className="row h-100 w-100">
+                            <div className="col-lg-8 col-xl-7 col-xxl-6 mx-auto d-block d-md-flex justify-content-center align-items-center">
                                 <div className="w-100">
                                     <h3 className="fw-semibold">Forgot Password?</h3>
                                     <h6 className="mb-4 text-445B64">No worries, we’ll help you reset your password.</h6>
@@ -123,7 +123,7 @@ const ForgetPassword = () => {
                                     />
                                     {formErrors.email && <small className="text-danger">{formErrors.email}</small>}
                                     <input
-                                        className="form-control mb-2 rounded-3"
+                                        className="form-control mb-3 rounded-3"
                                         type="password"
                                         name="newPassword"
                                         id="newPassword"
@@ -148,7 +148,7 @@ const ForgetPassword = () => {
                                         )}
                                     </button>
                                     <h6 className="text-center text-445B64">
-                                        <Link to='/' className='text-00C7BE text-decoration-none'>
+                                        <Link to='/sign-in' className='text-00C7BE text-decoration-none'>
                                             <i className="fa-solid fa-chevron-left me-2"></i>
                                             Back to Sign-in
                                         </Link>

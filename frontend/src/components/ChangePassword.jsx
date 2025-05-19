@@ -72,12 +72,12 @@ const ChangePassword = () => {
                 {/* Old Password */}
                 <div className="mb-4">
                     <label className="form-label d-flex justify-content-between">
-                        Old Password <span className="text-success">✔</span>
+                        Old Password
                     </label>
                     <div className="input-group">
                         <input
                             type={showOld ? 'text' : 'password'}
-                            className="form-control border border-success"
+                            className="form-control"
                             value={oldPassword}
                             onChange={(e) => setOldPassword(e.target.value)}
                         />

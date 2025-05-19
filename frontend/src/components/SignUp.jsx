@@ -19,12 +19,26 @@ const SignUp = () => {
     password: '',
     confirmPassword: '',
   })
+  const [passwordValidations, setPasswordValidations] = useState({
+    minLength: false,
+    hasUpperCase: false,
+    hasLowerCase: false,
+    hasNumber: false,
+    hasSpecialChar: false,
+  });
   const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
 
   const validateForm = () => {
     const { firstname, lastname, email, mobile, password, confirmPassword } = formData;
+    const passwordRules = {
+      minLength: password.length >= 12,
+      hasUpperCase: /[A-Z]/.test(password),
+      hasLowerCase: /[a-z]/.test(password),
+      hasNumber: /[0-9]/.test(password),
+      hasSpecialChar: /[^A-Za-z0-9]/.test(password),
+    };
     let errors = {};
 
     if (firstname.trim() === '') {
@@ -53,12 +67,14 @@ const SignUp = () => {
     if (mobile.length !== 10) {
       errors.mobile = 'Mobile number must be exactly 10 digits';
     }
-
+    if (!passwordRules.hasUpperCase || !passwordRules.hasLowerCase || !passwordRules.hasNumber || !passwordRules.hasSpecialChar) {
+      errors.password = "Password does not meet security criteria.";
+    }
     if (password.trim() === '') {
       errors.password = 'Password is required';
     }
-    if (password.length < 6) {
-      errors.password = "Password must 6 digits long";
+    if (password.length < 8) {
+      errors.password = "Password must 8 digits long";
     }
     if (confirmPassword.trim() === '') {
       errors.confirmPassword = "Confirm Password must be required";
@@ -72,6 +88,17 @@ const SignUp = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value })
+
+    if (name === 'password') {
+      const pwd = value;
+      setPasswordValidations({
+        minLength: pwd.length >= 8,
+        hasUpperCase: /[A-Z]/.test(pwd),
+        hasLowerCase: /[a-z]/.test(pwd),
+        hasNumber: /[0-9]/.test(pwd),
+        hasSpecialChar: /[^A-Za-z0-9]/.test(pwd),
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -131,37 +158,50 @@ const SignUp = () => {
                   <h3 className="fw-semibold">Register now</h3>
                   <h6 className="mb-4 text-445B64">Please enter your details to sign up</h6>
                   {/* Business */}
-                  <input className="form-control mb-3 rounded-3" type="text" id='bussiness' name='bussiness' value={formData.bussiness} onChange={handleChange} placeholder="Business name (optional)" aria-label="example" required />
-
+                  <div className="mb-3">
+                    <input className="form-control rounded-3" type="text" id='bussiness' name='bussiness' value={formData.bussiness} onChange={handleChange} placeholder="Business name (optional)" aria-label="example" required />
+                  </div>
                   {/* first name */}
-                  <input className="form-control mb-3 rounded-3" type="text" id='firstname' name='firstname' value={formData.firstname} onChange={handleChange} placeholder="First name" aria-label="example" required />
-                  {formErrors.firstname && <small className="text-danger">{formErrors.firstname}</small>}
+                  <div className="mb-3">
+                    <input className="form-control rounded-3" type="text" id='firstname' name='firstname' value={formData.firstname} onChange={handleChange} placeholder="First name" aria-label="example" required />
+                    {formErrors.firstname && <small className="text-danger">{formErrors.firstname}</small>}
+                  </div>
                   {/* Middle name */}
-                  <input className="form-control mb-3 rounded-3" type="text" id='middlename' name='middlename' value={formData.middlename} onChange={handleChange} placeholder="Middle name (optional)" aria-label="example" required />
-
+                  <div className="mb-3">
+                    <input className="form-control rounded-3" type="text" id='middlename' name='middlename' value={formData.middlename} onChange={handleChange} placeholder="Middle name (optional)" aria-label="example" required />
+                  </div>
                   {/* last name */}
-                  <input className="form-control mb-3 rounded-3" type="text" id='lastname' name='lastname' value={formData.lastname} onChange={handleChange} placeholder="Last name" aria-label="example" required />
-                  {formErrors.lastname && <small className="text-danger">{formErrors.lastname}</small>}
+                  <div className="mb-3">
+                    <input className="form-control rounded-3" type="text" id='lastname' name='lastname' value={formData.lastname} onChange={handleChange} placeholder="Last name" aria-label="example" required />
+                    {formErrors.lastname && <small className="text-danger">{formErrors.lastname}</small>}
+                  </div>
                   {/* Email */}
-                  <input className="form-control mb-3 rounded-3" type="email" id='email' name='email' value={formData.email} onChange={handleChange} placeholder="Your email address" aria-label="example" required />
-                  {formErrors.email && <small className="text-danger">{formErrors.email}</small>}
+                  <div className="mb-3">
+                    <input className="form-control rounded-3" type="email" id='email' name='email' value={formData.email} onChange={handleChange} placeholder="Your email address" aria-label="example" required />
+                    {formErrors.email && <small className="text-danger">{formErrors.email}</small>}
+                  </div>
                   {/* mobile */}
-                  <input className="form-control mb-3 rounded-3" type="number" id='mobile' name='mobile' value={formData.mobile} onChange={handleChange} placeholder="Your Phone number" aria-label="example" required />
-                  {formErrors.mobile && <small className="text-danger">{formErrors.mobile}</small>}
+                  <div className="mb-3">
+                    <input className="form-control rounded-3" type="number" id='mobile' name='mobile' value={formData.mobile} onChange={handleChange} placeholder="Your Phone number" aria-label="example" required />
+                    {formErrors.mobile && <small className="text-danger">{formErrors.mobile}</small>}
+                  </div>
                   {/* Password */}
-                  <input className="form-control mb-3 rounded-3" type="password" id='password' name='password' value={formData.password} onChange={handleChange} placeholder="Password" aria-label="example" required />
-                  {formErrors.password && <small className="text-danger">{formErrors.password}</small>}
-                  <ul className="text-muted small ps-4 mb-4">
-                    <li className="text-muted">Minimum characters 8</li>
-                    <li className="text-muted">One uppercase character</li>
-                    <li className="text-muted">One lowercase character</li>
-                    <li className="text-muted">One special character</li>
-                    <li className="text-muted">One number</li>
-                  </ul>
+                  <div className="mb-3">
+                    <input className="form-control rounded-3" type="password" id='password' name='password' value={formData.password} onChange={handleChange} placeholder="Password" aria-label="example" required />
+                    {formErrors.password && <small className="text-danger">{formErrors.password}</small>}
+                    <ul className="small ps-4 mb-4">
+                      <li className={passwordValidations.minLength ? "text-success" : "text-danger"}>Minimum characters 8</li>
+                      <li className={passwordValidations.hasUpperCase ? "text-success" : "text-danger"}>One uppercase character</li>
+                      <li className={passwordValidations.hasLowerCase ? "text-success" : "text-danger"}>One lowercase character</li>
+                      <li className={passwordValidations.hasSpecialChar ? "text-success" : "text-danger"}>One special character</li>
+                      <li className={passwordValidations.hasNumber ? "text-success" : "text-danger"}>One number</li>
+                    </ul>
+                  </div>
                   {/* Confirm Password */}
-                  <input className="form-control mb-3 rounded-3" type="password" id='confirmPassword' name='confirmPassword' value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" aria-label="example" required />
-                  {formErrors.confirmPassword && <small className="text-danger">{formErrors.confirmPassword}</small>}
-
+                  <div className="mb-3">
+                    <input className="form-control rounded-3" type="password" id='confirmPassword' name='confirmPassword' value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" aria-label="example" required />
+                    {formErrors.confirmPassword && <small className="text-danger">{formErrors.confirmPassword}</small>}
+                  </div>
                   <button type="button" className="btn w-100 sign-btn mb-3" onClick={handleSubmit}>  {loading ? (
                     <>
                       <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
