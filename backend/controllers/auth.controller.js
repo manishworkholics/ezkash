@@ -253,3 +253,38 @@ exports.resetPassword = async (req, res) => {
 
     res.json({ message: 'Password reset successfully' });
 };
+
+exports.changePassword = async (req, res) => {
+    try {
+        const { id } = req.user; // Assumes JWT middleware attaches user info to req.user
+        const { oldPassword, newPassword } = req.body;
+
+        if (!oldPassword || !newPassword) {
+            return res.status(400).json({ message: 'Old and new password are required' });
+        }
+
+        if (oldPassword === newPassword) {
+            return res.status(400).json({ message: 'New password must be different from old password' });
+        }
+
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Old password is incorrect' });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
+
+        res.status(200).json({ message: 'Password changed successfully' });
+
+    } catch (error) {
+        console.error('Error in changePassword:', error);
+        res.status(500).json({ message: 'Failed to change password', error: error.message });
+    }
+};

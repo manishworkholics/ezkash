@@ -111,7 +111,7 @@ const Report = () => {
                                                                                 </td>
                                                                                 <td>{index + 1}</td>
                                                                                 <td>{val?.customerFirstName}</td>
-                                                                                <td>{val?.amount}</td>
+                                                                                <td>$ {val?.amount}</td>
                                                                                 <td>{val?.licenseNo}</td>
                                                                                 <td>{val?.company}</td>
                                                                                 <td>{val?.checkType}</td>

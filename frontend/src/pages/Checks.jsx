@@ -124,7 +124,7 @@ const Checks = () => {
                                                             </div>
                                                         </div>
                                                         <div className="col-md-3 mt-3 mt-md-0 d-none d-md-flex justify-content-end align-items-center">
-                                                            <button className='btn btn-light py-1 px-2 fs-14 text-445B64 p-0' onClick={handleAddCheckDesk}>
+                                                            <button className='btn mob-addCheck-btn py-1 px-2 fs-14 text-white border-0 p-0 fw-medium' onClick={handleAddCheckDesk}>
                                                                 <i className="fa fa-plus me-2"></i>Add Check
                                                             </button>
                                                         </div>
@@ -161,7 +161,7 @@ const Checks = () => {
                                                                 <tr key={item._id}>
                                                                     <td>{index + 1}</td>
                                                                     <td>{item.customerFirstName}</td>
-                                                                    <td>{item.amount}</td>
+                                                                    <td>$ {item.amount}</td>
                                                                     <td>{item.licenseNo}</td>
                                                                     <td>{item.company}</td>
                                                                     <td>{item.checkType}</td>

@@ -39,7 +39,7 @@ const Header = () => {
             toast.success("Logged out successfully!")
         }, 1000);
         setTimeout(() => {
-            navigate("/");
+            navigate("/sign-in");
         }, 2000);
     };
 

@@ -93,18 +93,20 @@ const CheckDetails = () => {
                                                                     <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>ID Number</h6>
                                                                     <h6 className="text-0D161A fw-semibold fs-14">{checkDetails?.licenseNo}</h6>
                                                                 </div>
-                                                                {/* <div className="mb-3">
-                                                                    <h6 className="text-445B64 fs-14 mb-1">Company</h6>
-                                                                    <h6 className="text-0D161A fw-semibold fs-14">{checkDetails?.company}</h6>
-                                                                </div> */}
+                                                               
+                                                                <div className="mb-3">
+                                                                    <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>Company</h6>
+                                                                    <h6 className="text-0D161A fw-semibold fs-14">{checkDetails?.company || 'Not available'}</h6>
+                                                                </div>
                                                                 <div className="mb-3">
                                                                     <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>Check Type</h6>
                                                                     <h6 className="text-0D161A fw-semibold fs-14">{checkDetails?.checkType}</h6>
                                                                 </div>
                                                                 <div className="mb-3">
                                                                     <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>Amount</h6>
-                                                                    <h6 className="text-0D161A fw-semibold fs-14">${checkDetails?.amount}</h6>
+                                                                    <h6 className="text-0D161A fw-semibold fs-14">$ {checkDetails?.amount}</h6>
                                                                 </div>
+
                                                                 <div className="mb-3">
                                                                     <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>Date & Time</h6>
                                                                     <h6 className="text-0D161A fw-semibold mb-0 fs-14">
@@ -113,7 +115,7 @@ const CheckDetails = () => {
 
                                                                 </div>
                                                             </div>
-                                                            <div className="d-block d-lg-flex gap-3 align-checkDetails?s-start">
+                                                            {/* <div className="d-block d-lg-flex gap-3 align-checkDetails?s-start">
                                                                 <div className="mb-3">
                                                                     <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>Status</h6>
                                                                     <div>
@@ -122,7 +124,7 @@ const CheckDetails = () => {
                                                                         </button>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div> */}
                                                         </div>
 
                                                         <div className="d-block d-lg-flex gap-5 mt-3">
