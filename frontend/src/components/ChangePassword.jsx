@@ -1,12 +1,50 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom';
+const url = process.env.REACT_APP_URL;
+const token = localStorage.getItem('token')
 
 const ChangePassword = () => {
+    const navigate = useNavigate()
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showOld, setShowOld] = useState(false);
     const [showNew, setShowNew] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
+
+
+
+    const handlesave = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(`${url}/auth/change-password`, {
+                oldPassword: oldPassword,
+                newPassword: newPassword
+            }, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (response.status === 200) {
+                alert('Password changed successfully!');
+                setOldPassword('');
+                setNewPassword('');
+                localStorage.removeItem("token");
+                localStorage.removeItem("role");
+                navigate('/sign-in');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            if (error.response && error.response.data && error.response.data.message) {
+                toast.error(error.response.data.message);
+            } else {
+                toast.error('An error occurred while submitting the form');
+            }
+        }
+    }
+
 
     const passwordValidation = {
         minLength: newPassword.length >= 8,
@@ -99,15 +137,14 @@ const ChangePassword = () => {
                 <button
                     type="submit"
                     className="btn sign-btn theme-btn w-100 mb-3"
+                    onClick={handlesave}
                     disabled={!isPasswordValid || newPassword !== confirmPassword}
                 >
                     Change Password
                 </button>
 
-                {/* Forgot Password Link */}
-                <div className="">
-                    <a href="#" className="small text-01A99A text-decoration-none">Forgot Password?</a>
-                </div>
+
+
             </form>
         </div>
     );
