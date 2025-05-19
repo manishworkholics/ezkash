@@ -473,8 +473,14 @@ input::placeholder:after {
   }
 
   .msg-section {
-    max-height: 59vh;
+    height: 59vh;
     overflow-y: scroll;
+  }
+
+  @media only screen and (max-width:767px) {
+    .msg-section {
+      height: 55vh;
+    }
   }
 
   .chat-message {

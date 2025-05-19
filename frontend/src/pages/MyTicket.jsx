@@ -152,7 +152,7 @@ const MyTicket = () => {
                                                                     <th className='border-bottom'>Status</th>
                                                                     <th className='border-bottom'>Category</th>
                                                                     <th className='border-bottom'>Descrition</th>
-                                                                    <th className='border-bottom'>Action</th>
+                                                                    <th className='border-bottom text-center'>Action</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>

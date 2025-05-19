@@ -86,11 +86,11 @@ const CheckDetails = () => {
                                                         <div className="d-block d-lg-flex justify-content-between">
                                                             <div className="d-block d-lg-flex gap-5 flex-wrap">
                                                                 <div className="mb-3">
-                                                                    <h6 className="text-445B64 fs-14 mb-1" style={{color:'#445B64'}}>Customer Name</h6>
+                                                                    <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>Customer Name</h6>
                                                                     <h6 className="text-0D161A fw-semibold fs-14">{checkDetails?.customerFirstName}</h6>
                                                                 </div>
                                                                 <div className="mb-3">
-                                                                    <h6 className="text-445B64 fs-14 mb-1" style={{color:'#445B64'}}>ID Number</h6>
+                                                                    <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>ID Number</h6>
                                                                     <h6 className="text-0D161A fw-semibold fs-14">{checkDetails?.licenseNo}</h6>
                                                                 </div>
                                                                 {/* <div className="mb-3">
@@ -98,15 +98,15 @@ const CheckDetails = () => {
                                                                     <h6 className="text-0D161A fw-semibold fs-14">{checkDetails?.company}</h6>
                                                                 </div> */}
                                                                 <div className="mb-3">
-                                                                    <h6 className="text-445B64 fs-14 mb-1" style={{color:'#445B64'}}>Check Type</h6>
+                                                                    <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>Check Type</h6>
                                                                     <h6 className="text-0D161A fw-semibold fs-14">{checkDetails?.checkType}</h6>
                                                                 </div>
                                                                 <div className="mb-3">
-                                                                    <h6 className="text-445B64 fs-14 mb-1" style={{color:'#445B64'}}>Amount</h6>
+                                                                    <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>Amount</h6>
                                                                     <h6 className="text-0D161A fw-semibold fs-14">${checkDetails?.amount}</h6>
                                                                 </div>
                                                                 <div className="mb-3">
-                                                                    <h6 className="text-445B64 fs-14 mb-1" style={{color:'#445B64'}}>Date & Time</h6>
+                                                                    <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>Date & Time</h6>
                                                                     <h6 className="text-0D161A fw-semibold mb-0 fs-14">
                                                                         {checkDetails?.date}
                                                                     </h6>
@@ -115,7 +115,7 @@ const CheckDetails = () => {
                                                             </div>
                                                             <div className="d-block d-lg-flex gap-3 align-checkDetails?s-start">
                                                                 <div className="mb-3">
-                                                                    <h6 className="text-445B64 fs-14 mb-1" style={{color:'#445B64'}}>Status</h6>
+                                                                    <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>Status</h6>
                                                                     <div>
                                                                         <button className={`btn btn-sm rounded-2 lh-1 text-white ${checkDetails?.isActive ? "bg-4FD1C5" : "bg-E84D4D"}`}>
                                                                             {checkDetails?.isActive ? "Active" : "Deactive"}
@@ -127,12 +127,8 @@ const CheckDetails = () => {
 
                                                         <div className="d-block d-lg-flex gap-5 mt-3">
                                                             <div className="mb-3 w-100">
-                                                                <h6 className="text-445B64 fs-14 mb-1" style={{color:'#445B64'}}>Comments</h6>
-                                                                <div className=" rounded-3">
-                                                                    <div className="card-body p-2">
-                                                                        <p className="text-0D161A fw-light fs-13 mb-0">{checkDetails?.comment || "No comments available."}</p>
-                                                                    </div>
-                                                                </div>
+                                                                <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>Comments</h6>
+                                                                <h6 className="text-0D161A fw-semibold fs-14 mb-0">{checkDetails?.comment || "No comments available."}</h6>
                                                             </div>
                                                         </div>
 

@@ -221,7 +221,7 @@ const Home = () => {
     }
 
     if (formData.imageUrl === '') {
-      toast.error('Please upload Check image');
+      toast.error('Please upload id image');
       return;
     }
 
@@ -346,8 +346,6 @@ const Home = () => {
                           </div>
 
                           <div className="row">
-
-
                             {previewCheckfront && (
                               <div className='col-lg-6'>
                                 <label className="form-label text-445B64 mb-1 mt-3">Front Image</label>
@@ -458,8 +456,8 @@ const Home = () => {
                           <div className="row">
                             <div className="col-md-9">
                               <div className="row">
-                                <label className="form-label text-445B64">Customer Name <span className='text-danger'>*</span></label>
                                 <div className="col-md-4 mb-3">
+                                  <label className="form-label text-445B64">First Name <span className='text-danger'>*</span></label>
                                   <input
                                     type="text"
                                     placeholder='First name'
@@ -480,9 +478,11 @@ const Home = () => {
                                   )}
                                 </div>
                                 <div className="col-md-4 mb-3">
+                                  <label className="form-label text-445B64">Middle Name</label>
                                   <input type="text" className="form-control" placeholder='Middle Name' value={formData.customerMiddleName} onChange={(e) => setFormData({ ...formData, customerMiddleName: e.target.value })} />
                                 </div>
                                 <div className="col-md-4 mb-3">
+                                  <label className="form-label text-445B64">Last Name <span className='text-danger'>*</span></label>
                                   <input type="text" className="form-control" placeholder='Last Name' value={formData.customerLastName} onChange={(e) => setFormData({ ...formData, customerLastName: e.target.value })} />
                                 </div>
                               </div>
@@ -490,6 +490,10 @@ const Home = () => {
                             <div className="col-md-3 mb-3">
                               <label className="form-label text-445B64">ID Number </label>
                               <input type="text" className="form-control" value={licenseData.licenseNo} onChange={(e) => setLicenseData({ ...licenseData, licenseNo: e.target.value })} />
+                            </div>
+                            <div className="col-md-3 mb-3 ">
+                              <label className="form-label text-445B64">Company</label>
+                              <input className="form-control" value={formData.company || ''} onChange={(e) => setFormData({ ...formData, company: e.target.value })} />
                             </div>
                             <div className="col-md-3 mb-3">
                               <label className="form-label text-445B64"> Check Type </label>
@@ -518,10 +522,6 @@ const Home = () => {
                                   "Please fill the amount"
                                 </div>
                               )}
-                            </div>
-                            <div className="col-md-3 mb-3 ">
-                              <label className="form-label text-445B64">Company</label>
-                              <input className="form-control" value={formData.company || ''} onChange={(e) => setFormData({ ...formData, company: e.target.value })} />
                             </div>
                             <div className="col-md-3 mb-3 ">
                               <label className="form-label text-445B64">Comment</label>

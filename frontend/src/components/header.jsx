@@ -56,11 +56,11 @@ const Header = () => {
                     {/* Navbar right-side */}
 
                     <ul className="navbar-nav ms-auto mb-lg-0 d-flex flex-row">
-                        <li className="nav-item me-lg-0 d-none d-lg-block">
+                        {/* <li className="nav-item me-lg-0 d-none d-lg-block">
                             <Link className="nav-link header-icon me-2" to=''>
                                 <i className="fa-solid fa-bell fs-5"></i>
                             </Link>
-                        </li>
+                        </li> */}
                         <li className="nav-item dropdown me-2 me-lg-4 d-none d-lg-block">
                             <Link className="nav-link header-icon dropdown-toggle " to='' data-bs-toggle="dropdown">
                                 <i className="fa-solid fa-circle-user fs-5"></i>
