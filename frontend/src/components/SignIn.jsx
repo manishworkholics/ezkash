@@ -112,7 +112,7 @@ const SignIn = () => {
             <img src={logoLeft} alt="logo" />
           </div> */}
 
-          <div className="col-lg-6 mx-auto sign-right-bg h-100 position-relative">
+          <div className="col-lg-6 mx-auto sign-right-bg h-100 position-relative pt-4 pb-5">
             <div className="row h-100 w-100">
               <div className="col-lg-8 col-xl-7 col-xxl-6 mx-auto d-block d-md-flex justify-content-center align-items-center">
                 <div className="w-100">
@@ -199,7 +199,11 @@ const SignIn = () => {
               </div>
             </div>
             <div className="position-absolute bottom-0 start-0 w-100">
-              <h6 className="text-445B64 text-center">Terms & Conditions • Privacy Policy</h6>
+              <h6 className="text-445B64 text-center">
+                <Link to="/terms&conditions" className='text-445B64 text-decoration-none'>Terms & Conditions</Link>
+                <span className="mx-2">•</span>
+                <Link to="/privacy-policy" className='text-445B64 text-decoration-none'>Privacy Policy</Link>
+              </h6>
             </div>
           </div>
         </div>

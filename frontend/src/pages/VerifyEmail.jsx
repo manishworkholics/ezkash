@@ -4,23 +4,23 @@ import emailVerifyImg from '../assets/images/emailVerifyImg.png'
 import { Link } from 'react-router-dom'
 // import axios from 'axios';
 
- const email = localStorage.getItem('email');
+const email = localStorage.getItem('email');
 
- const VerifyEmail = () => {
-//     const [userData, setUserData] = useState(null);
-//      useEffect(() => {
-//         const fetchUser = async () => {
-//             try {
-//                 const userId = localStorage.getItem("userId")
-//                 const res = await axios.get(`${URL}/auth/get-venderById/${userId}`);
-//                 setUserData(res.data.data);
-//             } catch (error) {
-//                 console.error('Error fetching user data:', error);
-//             }
-//         };
+const VerifyEmail = () => {
+    //     const [userData, setUserData] = useState(null);
+    //      useEffect(() => {
+    //         const fetchUser = async () => {
+    //             try {
+    //                 const userId = localStorage.getItem("userId")
+    //                 const res = await axios.get(`${URL}/auth/get-venderById/${userId}`);
+    //                 setUserData(res.data.data);
+    //             } catch (error) {
+    //                 console.error('Error fetching user data:', error);
+    //             }
+    //         };
 
-//         fetchUser();
-//     }, []);
+    //         fetchUser();
+    //     }, []);
     return (
         <>
             <div className="container-fluid sign-page">
@@ -28,7 +28,7 @@ import { Link } from 'react-router-dom'
                     {/* <div className="col-lg-6 sign-left-bg h-100 justify-content-center d-none d-lg-flex align-items-center">
                         <img src={logoLeft} alt="" className="" />
                     </div> */}
-                    <div className="col-lg-6 mx-auto sign-right-bg h-100 bg-EEEEEE position-relative">
+                    <div className="col-lg-6 mx-auto sign-right-bg h-100 bg-EEEEEE position-relative pt-4 pb-5">
                         <div className="row h-100 w-100">
                             <div className="col-lg-8 col-xl-7 col-xxl-6 mx-auto d-flex justify-content-center align-items-center">
                                 <div className="w-100 text-center">
@@ -41,7 +41,11 @@ import { Link } from 'react-router-dom'
                             </div>
                         </div>
                         <div className="position-absolute bottom-0 start-0 w-100">
-                            <h6 className="text-445B64 text-center">Terms & Conditions • Privacy Policy</h6>
+                            <h6 className="text-445B64 text-center">
+                                <Link to="/terms&conditions" className='text-445B64 text-decoration-none'>Terms & Conditions</Link>
+                                <span className="mx-2">•</span>
+                                <Link to="/privacy-policy" className='text-445B64 text-decoration-none'>Privacy Policy</Link>
+                            </h6>
                         </div>
                     </div>
                 </div >

@@ -151,6 +151,13 @@ const SignUp = () => {
                   {/* Password */}
                   <input className="form-control mb-3 rounded-3" type="password" id='password' name='password' value={formData.password} onChange={handleChange} placeholder="Password" aria-label="example" required />
                   {formErrors.password && <small className="text-danger">{formErrors.password}</small>}
+                  <ul className="text-muted small ps-4 mb-4">
+                    <li className="text-muted">Minimum characters 8</li>
+                    <li className="text-muted">One uppercase character</li>
+                    <li className="text-muted">One lowercase character</li>
+                    <li className="text-muted">One special character</li>
+                    <li className="text-muted">One number</li>
+                  </ul>
                   {/* Confirm Password */}
                   <input className="form-control mb-3 rounded-3" type="password" id='confirmPassword' name='confirmPassword' value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" aria-label="example" required />
                   {formErrors.confirmPassword && <small className="text-danger">{formErrors.confirmPassword}</small>}
@@ -168,7 +175,11 @@ const SignUp = () => {
               </div>
             </div>
             <div className="position-absolute bottom-0 start-0 w-100">
-              <h6 className="text-445B64 text-center">Terms & Conditions • Privacy Policy</h6>
+              <h6 className="text-445B64 text-center">
+                <Link to="/terms&conditions" className='text-445B64 text-decoration-none'>Terms & Conditions</Link>
+                <span className="mx-2">•</span>
+                <Link to="/privacy-policy" className='text-445B64 text-decoration-none'>Privacy Policy</Link>
+              </h6>
             </div>
           </div>
         </div >
