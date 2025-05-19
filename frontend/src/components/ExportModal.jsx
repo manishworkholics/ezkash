@@ -27,13 +27,13 @@ function ExportModal({ show, onClose, data }) {
 
         const exportData = filteredData.map((val, index) => ({
             SNo: index + 1,
-            Customer: val?.customerFirstName || "",
+            Customer_Name: val?.customerFirstName || "",
             Amount: val?.amount || "",
-            LicenseNo: val?.licenseNo || "",
+            ID_Number: val?.licenseNo || "",
             Company: val?.company || "",
-            CheckType: val?.checkType || "",
+            Type: val?.checkType || "",
             Comment: val?.comment || "",
-            Date: val?.date || "",
+            Date_and_Time: val?.date || "",
             Status: val?.status || ""
         }));
 
