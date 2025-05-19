@@ -5,6 +5,7 @@ import Sidebar from '../components/Sidebar';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from 'react-router-dom';
+import ChangePassword from '../components/ChangePassword';
 const URL = process.env.REACT_APP_URL;
 const token = localStorage.getItem('token')
 
@@ -89,7 +90,7 @@ const Profile = () => {
                                             </div>
                                         </div>
 
-                                        <div className="col-12">
+                                        <div className="col-md-12 mb-3">
                                             <div className="card border-0 rounded-3 mb-2">
                                                 <div className="card-body">
                                                     <div className="d-flex justify-content-between">
@@ -123,11 +124,19 @@ const Profile = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="d-flex justify-content-end">
-                                                <Link to="" className="btn btn-warning">Change password</Link>
+                                        </div>
+                                        <div className="col-md-12">
+                                            <h6 className="fw-semibold">Change Password</h6>
+                                            <div className="card border-0 rounded-3 mb-2">
+                                                <div className="card-body">
+                                                    <div className="row">
+                                                        <div className="col-lg-6 col-xl-5 col-xxl-4">
+                                                            <ChangePassword />
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
