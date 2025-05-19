@@ -27,7 +27,7 @@ function App() {
     <>
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
-          <Route path="/" element={<SignIn />} />
+          <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/dashboard" element={<ProtectedRoute element={<Home />}/>} />
           <Route path="/checks" element={<ProtectedRoute element={<Checks />}/>} />

@@ -1,10 +1,10 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
-import { toast,ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const URL = process.env.REACT_APP_URL;
 const token = localStorage.getItem('token')
 
@@ -17,10 +17,10 @@ const Profile = () => {
             try {
                 const userId = localStorage.getItem("userId")
                 const res = await axios.get(`${URL}/auth/get-venderById/${userId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 setUserData(res.data.data);
             } catch (error) {
                 console.error('Error fetching user data:', error);
@@ -30,17 +30,17 @@ const Profile = () => {
         fetchUser();
     }, []);
 
-     const handleLogout = () => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("role");
-            setTimeout(() => {
-                toast.success("Logged out successfully!")
-            }, 1000);
-            setTimeout(() => {
-                navigate("/");
-            }, 2000);
-        };
-    
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        setTimeout(() => {
+            toast.success("Logged out successfully!")
+        }, 1000);
+        setTimeout(() => {
+            navigate("/sign-in");
+        }, 2000);
+    };
+
     const handleBack = () => {
         navigate(-1);
     }
@@ -90,23 +90,23 @@ const Profile = () => {
                                         </div>
 
                                         <div className="col-12">
-                                            <div className="card border-0 rounded-3 mb-1">
+                                            <div className="card border-0 rounded-3 mb-2">
                                                 <div className="card-body">
                                                     <div className="d-flex justify-content-between">
                                                         <div className="d-flex gap-5">
                                                             <div>
                                                                 <h6 className="fs-14 mb-2">
-                                                                    <span className="fw-normal" style={{color:'#445B64'}}>Full Name : </span> <br />
+                                                                    <span className="fw-normal" style={{ color: '#445B64' }}>Full Name : </span> <br />
                                                                     <span className="text-0D161A fw-semibold">{userData?.firstname && userData?.lastname
                                                                         ? `${userData?.firstname} ${userData?.lastname}`
                                                                         : 'Loading...'}</span>
                                                                 </h6>
                                                                 <h6 className="fs-14 mb-2">
-                                                                    <span className="fw-normal" style={{color:'#445B64'}}>Mobile : </span> <br />
+                                                                    <span className="fw-normal" style={{ color: '#445B64' }}>Mobile : </span> <br />
                                                                     <span className="text-0D161A fw-semibold">+(1) {userData?.mobile} </span>
                                                                 </h6>
                                                                 <h6 className="fs-14 mb-0">
-                                                                    <span className="fw-normal" style={{color:'#445B64'}}>Email : </span> <br />
+                                                                    <span className="fw-normal" style={{ color: '#445B64' }}>Email : </span> <br />
                                                                     <span className="text-0D161A fw-semibold">{userData?.email || 'Loading...'}</span>
                                                                 </h6>
                                                             </div>
@@ -122,6 +122,9 @@ const Profile = () => {
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div className="d-flex justify-content-end">
+                                                <Link to="" className="btn btn-warning">Change password</Link>
                                             </div>
                                         </div>
 
