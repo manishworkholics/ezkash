@@ -150,33 +150,36 @@ const Support = () => {
                                                                             id="formFile"
                                                                             onChange={handleSubmit}
                                                                             accept="image/*"
-                                                                            capture="environment"
                                                                             style={{ opacity: 0, cursor: 'pointer' }}
                                                                         />
-                                                                        <div className="">
+                                                                        <div>
                                                                             <i className="fa-solid fa-camera fs-4 text-01A99A"></i>
-                                                                            <div className="text-445B64">Uplaod/Capture Image</div>
+                                                                            <div className="text-445B64">Upload / Capture Image</div>
                                                                         </div>
                                                                     </div>
+
                                                                 </div>
                                                             </div>
-                                                        </div>
-
-                                                        <div className="col-lg-6 mb-3 pb-3">
-                                                            <label className="form-label text-445B64">Description</label>
-                                                            <textarea className="form-control h-100" name='description' value={data.description} onChange={handleChange} defaultValue="Description" />
                                                         </div>
 
                                                         <div className="row">
 
                                                             {formData?.imageUrl &&
                                                                 <div className='col-lg-6'>
-                                                                    <label className="form-label text-445B64 mb-1 mt-3">Front Image</label>
+                                                                    <label className="form-label text-445B64 mb-1 mt-3">Image</label>
                                                                     <img src={formData.imageUrl} alt="Profile" loading="lazy" className='w-100 border rounded-4 overflow-hidden' />
                                                                 </div>
                                                             }
 
                                                         </div>
+
+
+                                                        <div className="col-lg-6 mb-3 pb-3">
+                                                            <label className="form-label text-445B64">Description</label>
+                                                            <textarea className="form-control h-100" name='description' value={data.description} onChange={handleChange} defaultValue="Description" />
+                                                        </div>
+
+
 
 
                                                         <div className="col-lg-4 me-auto mt-0 text-center">

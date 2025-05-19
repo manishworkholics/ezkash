@@ -11,5 +11,9 @@ router.get('/get-checkByVenderId/:venderId', checkController.getCheckByVenderId)
 router.get('/get-checkByCompany/:company', checkController.getCheckByCompany);
 router.get('/statuss', checkController.getCheckStatuss);
 router.get('/status', checkController.getCheckStatus);
+router.get('/status-by-venderid', checkController.getCheckStatusByVenderId);
+
+router.get('/getrecent-check-by-venderid/:venderId', checkController.getRecentChecksByVenderId);
+router.get('/getrecent-check', checkController.getRecentChecks);
 
 module.exports = router;
