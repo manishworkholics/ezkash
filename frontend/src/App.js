@@ -23,6 +23,7 @@ import MobileAddCheck from "./pages/MobileAddCheck";
 import Chat from "./pages/Chat";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import AddCheck from "./pages/AddCheck";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/dashboard" element={<ProtectedRoute element={<Home />}/>} />
+          <Route path="/add-check" element={<ProtectedRoute element={<AddCheck />}/>} />
           <Route path="/checks" element={<ProtectedRoute element={<Checks />}/>} />
           <Route path="/check-details/:id" element={<ProtectedRoute element={<CheckDetails />}/>} />
           <Route path="/report" element={<ProtectedRoute element={<Report />}/>} />

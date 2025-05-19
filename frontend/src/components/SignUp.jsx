@@ -19,26 +19,26 @@ const SignUp = () => {
     password: '',
     confirmPassword: '',
   })
-  const [passwordValidations, setPasswordValidations] = useState({
-    minLength: false,
-    hasUpperCase: false,
-    hasLowerCase: false,
-    hasNumber: false,
-    hasSpecialChar: false,
-  });
+  // const [passwordValidations, setPasswordValidations] = useState({
+  //   minLength: false,
+  //   hasUpperCase: false,
+  //   hasLowerCase: false,
+  //   hasNumber: false,
+  //   hasSpecialChar: false,
+  // });
   const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
 
   const validateForm = () => {
     const { firstname, lastname, email, mobile, password, confirmPassword } = formData;
-    const passwordRules = {
-      minLength: password.length >= 12,
-      hasUpperCase: /[A-Z]/.test(password),
-      hasLowerCase: /[a-z]/.test(password),
-      hasNumber: /[0-9]/.test(password),
-      hasSpecialChar: /[^A-Za-z0-9]/.test(password),
-    };
+    // const passwordRules = {
+    //   minLength: password.length >= 12,
+    //   hasUpperCase: /[A-Z]/.test(password),
+    //   hasLowerCase: /[a-z]/.test(password),
+    //   hasNumber: /[0-9]/.test(password),
+    //   hasSpecialChar: /[^A-Za-z0-9]/.test(password),
+    // };
     let errors = {};
 
     if (firstname.trim() === '') {
@@ -67,9 +67,10 @@ const SignUp = () => {
     if (mobile.length !== 10) {
       errors.mobile = 'Mobile number must be exactly 10 digits';
     }
-    if (!passwordRules.hasUpperCase || !passwordRules.hasLowerCase || !passwordRules.hasNumber || !passwordRules.hasSpecialChar) {
-      errors.password = "Password does not meet security criteria.";
-    }
+    // if (!passwordRules.hasUpperCase || !passwordRules.hasLowerCase || !passwordRules.hasNumber || !passwordRules.hasSpecialChar) {
+    //   errors.password = "Password does not meet security criteria.";
+    // }
+
     if (password.trim() === '') {
       errors.password = 'Password is required';
     }
@@ -89,16 +90,16 @@ const SignUp = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value })
 
-    if (name === 'password') {
-      const pwd = value;
-      setPasswordValidations({
-        minLength: pwd.length >= 8,
-        hasUpperCase: /[A-Z]/.test(pwd),
-        hasLowerCase: /[a-z]/.test(pwd),
-        hasNumber: /[0-9]/.test(pwd),
-        hasSpecialChar: /[^A-Za-z0-9]/.test(pwd),
-      });
-    }
+    // if (name === 'password') {
+    //   const pwd = value;
+    //   setPasswordValidations({
+    //     minLength: pwd.length >= 8,
+    //     hasUpperCase: /[A-Z]/.test(pwd),
+    //     hasLowerCase: /[a-z]/.test(pwd),
+    //     hasNumber: /[0-9]/.test(pwd),
+    //     hasSpecialChar: /[^A-Za-z0-9]/.test(pwd),
+    //   });
+    // }
   };
 
   const handleSubmit = async (e) => {
@@ -189,13 +190,13 @@ const SignUp = () => {
                   <div className="mb-3">
                     <input className="form-control rounded-3" type="password" id='password' name='password' value={formData.password} onChange={handleChange} placeholder="Password" aria-label="example" required />
                     {formErrors.password && <small className="text-danger">{formErrors.password}</small>}
-                    <ul className="small ps-4 mb-4">
+                    {/* <ul className="small ps-4 mb-4">
                       <li className={passwordValidations.minLength ? "text-success" : "text-danger"}>Minimum characters 8</li>
                       <li className={passwordValidations.hasUpperCase ? "text-success" : "text-danger"}>One uppercase character</li>
                       <li className={passwordValidations.hasLowerCase ? "text-success" : "text-danger"}>One lowercase character</li>
                       <li className={passwordValidations.hasSpecialChar ? "text-success" : "text-danger"}>One special character</li>
                       <li className={passwordValidations.hasNumber ? "text-success" : "text-danger"}>One number</li>
-                    </ul>
+                    </ul> */}
                   </div>
                   {/* Confirm Password */}
                   <div className="mb-3">

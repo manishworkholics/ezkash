@@ -52,7 +52,7 @@ const Checks = () => {
     };
 
     const handleAddCheckDesk = () => {
-        navigate("/dashboard");
+        navigate("/add-check");
     };
 
     const filteredCheck = checks.filter((item, index) => {

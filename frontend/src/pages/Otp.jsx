@@ -118,7 +118,7 @@ const Otp = () => {
                                     <h3 className="fw-semibold">Welcome!</h3>
                                     <h6 className="mb-4 text-445B64">Please enter code to verify</h6>
                                     <div className="text-center mb-3 text-danger">
-                                        Code expires in {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
+                                        {/* Code expires in {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')} */}
                                     </div>
                                     <form onSubmit={handleVerify}>
                                         <div className="d-flex justify-content-around">
@@ -146,7 +146,7 @@ const Otp = () => {
                                     <button type="submit" className="btn w-100 sign-btn mb-3" onClick={handleResendOtp}> {loadingResent ? (
                                         <>
                                             <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                            Resent Code
+                                            Resend Code
                                         </>
                                     ) : (
                                         "Resent Code"

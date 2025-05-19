@@ -64,7 +64,7 @@ const Report = () => {
                                                         <div className="col-6 col-lg-6">
                                                             <div className="d-flex justify-content-end">
                                                                 <div className="position-relative">
-                                                                    <button onClick={() => setShowModal(true)} className="btn btn-sm rounded-2 bg-E4FFFD text-01A99A">
+                                                                    <button onClick={() => setShowModal(true)} style={{ background: '#008CFF' }} className='btn border-0 rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0 mb-2'>
                                                                         Export Report
                                                                     </button>
                                                                     <ExportModal data={report} show={showModal} onClose={() => setShowModal(false)} />

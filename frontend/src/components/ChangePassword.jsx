@@ -46,15 +46,15 @@ const ChangePassword = () => {
     }
 
 
-    const passwordValidation = {
-        minLength: newPassword.length >= 8,
-        upperCase: /[A-Z]/.test(newPassword),
-        lowerCase: /[a-z]/.test(newPassword),
-        number: /[0-9]/.test(newPassword),
-        specialChar: /[^A-Za-z0-9]/.test(newPassword),
-    };
+    // const passwordValidation = {
+    //     minLength: newPassword.length >= 8,
+    //     upperCase: /[A-Z]/.test(newPassword),
+    //     lowerCase: /[a-z]/.test(newPassword),
+    //     number: /[0-9]/.test(newPassword),
+    //     specialChar: /[^A-Za-z0-9]/.test(newPassword),
+    // };
 
-    const isPasswordValid = Object.values(passwordValidation).every(Boolean);
+    // const isPasswordValid = Object.values(passwordValidation).every(Boolean);
 
     const EyeIcon = ({ visible }) => (
         <>
@@ -93,7 +93,8 @@ const ChangePassword = () => {
                     <div className="input-group">
                         <input
                             type={showNew ? 'text' : 'password'}
-                            className={`form-control ${isPasswordValid ? '' : 'border border-danger'}`}
+                            // className={`form-control ${isPasswordValid ? '' : 'border border-danger'}`}
+                            className={`form-control border `}
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
                         />
@@ -101,21 +102,21 @@ const ChangePassword = () => {
                             <EyeIcon visible={showNew} />
                         </span>
                     </div>
-                    {!isPasswordValid && (
+                    {/* {!isPasswordValid && (
                         <div className="form-text text-danger mt-1">
                             Please add all necessary characters to create safe password.
                         </div>
-                    )}
+                    )} */}
                 </div>
 
                 {/* Password Criteria */}
-                <ul className="text-muted small ps-4 mb-4">
+                {/* <ul className="text-muted small ps-4 mb-4">
                     <li className={passwordValidation.minLength ? "text-muted" : "text-danger"}>Minimum characters 8</li>
                     <li className={passwordValidation.upperCase ? "text-muted" : "text-danger"}>One uppercase character</li>
                     <li className={passwordValidation.lowerCase ? "text-muted" : "text-danger"}>One lowercase character</li>
                     <li className={passwordValidation.specialChar ? "text-muted" : "text-danger"}>One special character</li>
                     <li className={passwordValidation.number ? "text-muted" : "text-danger"}>One number</li>
-                </ul>
+                </ul> */}
 
                 {/* Confirm New Password */}
                 <div className="mb-4">
@@ -134,16 +135,22 @@ const ChangePassword = () => {
                 </div>
 
                 {/* Change Password Button */}
-                <button
+                {/* <button
                     type="submit"
                     className="btn sign-btn theme-btn w-100 mb-3"
                     onClick={handlesave}
                     disabled={!isPasswordValid || newPassword !== confirmPassword}
                 >
                     Change Password
+                </button> */}
+
+                <button
+                    type="submit"
+                    className="btn sign-btn theme-btn w-100 mb-3"
+                    onClick={handlesave}
+                >
+                    Change Password
                 </button>
-
-
 
             </form>
         </div>
