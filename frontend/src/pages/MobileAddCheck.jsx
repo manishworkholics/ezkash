@@ -750,6 +750,7 @@ const MobileAddCheck = () => {
                                     <div className="row">
                                         <div className="col-12 mb-3 input-wrapper">
                                             {/* <label className="form-label text-445B64">Customer Name <span className='text-danger'>*</span></label> */}
+
                                             <input
                                                 type="text"
                                                 placeholder=''
@@ -782,7 +783,7 @@ const MobileAddCheck = () => {
                                         <div className="col-12 mb-3 input-wrapper">
                                             <input type="text" className="form-control" placeholder='' value={formData.customerLastName} onChange={(e) => setFormData({ ...formData, customerLastName: e.target.value })} />
                                             <label className="floating-label">
-                                                Last Name <span className="required">*</span>
+                                                Last Name
                                             </label>
                                         </div>
                                         <div className="col-12 mb-3 input-wrapper">

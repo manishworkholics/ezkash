@@ -575,7 +575,7 @@ const Home = () => {
                                   <input type="text" className="form-control" placeholder='Middle Name' value={formData.customerMiddleName} onChange={(e) => setFormData({ ...formData, customerMiddleName: e.target.value })} />
                                 </div>
                                 <div className="col-md-4 mb-3">
-                                  <label className="form-label text-445B64">Last Name <span className='text-danger'>*</span></label>
+                                  <label className="form-label text-445B64">Last Name</label>
                                   <input type="text" className="form-control" placeholder='Last Name' value={formData.customerLastName} onChange={(e) => setFormData({ ...formData, customerLastName: e.target.value })} />
                                 </div>
                               </div>

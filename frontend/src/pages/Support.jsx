@@ -157,31 +157,24 @@ const Support = () => {
                                                                             <div className="text-445B64">Upload / Capture Image</div>
                                                                         </div>
                                                                     </div>
-
                                                                 </div>
+                                                                {formData?.imageUrl &&
+                                                                    <div className='col-lg-6'>
+                                                                        <label className="form-label text-445B64 mb-1 mt-3">Image</label>
+                                                                        <img src={formData.imageUrl} alt="Profile" loading="lazy" className='w-100 border rounded-4 overflow-hidden' />
+                                                                    </div>
+                                                                }
                                                             </div>
                                                         </div>
 
-                                                        <div className="row">
-
-                                                            {formData?.imageUrl &&
-                                                                <div className='col-lg-6'>
-                                                                    <label className="form-label text-445B64 mb-1 mt-3">Image</label>
-                                                                    <img src={formData.imageUrl} alt="Profile" loading="lazy" className='w-100 border rounded-4 overflow-hidden' />
+                                                        <div className="col-lg-6">
+                                                            <div className="row h-100">
+                                                                <div className="col-12 mb-3 pb-3">
+                                                                    <label className="form-label text-445B64">Description</label>
+                                                                    <textarea className="form-control h-100" name='description' value={data.description} onChange={handleChange} defaultValue="Description" />
                                                                 </div>
-                                                            }
-
+                                                            </div>
                                                         </div>
-
-
-                                                        <div className="col-lg-6 mb-3 pb-3">
-                                                            <label className="form-label text-445B64">Description</label>
-                                                            <textarea className="form-control h-100" name='description' value={data.description} onChange={handleChange} defaultValue="Description" />
-                                                        </div>
-
-
-
-
                                                         <div className="col-lg-4 me-auto mt-0 text-center">
                                                             <button className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100" onClick={addTicket}>Save</button>
                                                         </div>
