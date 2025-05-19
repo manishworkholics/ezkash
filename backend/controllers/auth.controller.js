@@ -4,58 +4,7 @@ const jwt = require('jsonwebtoken');
 const sendMail = require('../utils/sendMail');
 require('dotenv').config();
 
-// exports.registerVendor = async (req, res) => {
-//     try {
-//         const { firstname, middlename, lastname, mobile, bussiness, email, password } = req.body;
 
-//         // Check if a user with the given email exists
-//         const userExist = await User.findOne({ email });
-
-//         // If user exists and has verified OTP
-//         if (userExist && userExist.otpVerified === true) {
-//             return res.status(409).json({ message: 'Email already exists and verified. Please login.' });
-//         }
-
-//         const otp = Math.floor(100000 + Math.random() * 900000).toString();
-//         const hashedPassword = await bcrypt.hash(password, 10);
-
-//         // If user exists but has NOT verified OTP — update their details
-//         if (userExist && userExist.otpVerified === false) {
-//             userExist.firstname = firstname;
-//             userExist.middlename = middlename;
-//             userExist.lastname = lastname;
-//             userExist.mobile = mobile;
-//             userExist.bussiness = bussiness;
-//             userExist.password = hashedPassword;
-//             userExist.otp = otp;
-//             await userExist.save();
-
-//             await sendMail(email, otp);
-//             return res.status(200).json({ message: 'New OTP sent. Please verify to complete registration.' });
-//         }
-
-//         // If user does not exist, create a new one
-//         const newUser = new User({
-//             firstname,
-//             middlename,
-//             lastname,
-//             mobile,
-//             bussiness,
-//             email,
-//             password: hashedPassword,
-//             otp,
-//             otpVerified: false,
-//         });
-
-//         await newUser.save();
-//         await sendMail(email, otp);
-
-//         res.status(201).json({ message: 'OTP sent to email. Please verify.' });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: 'Something went wrong. Please try again later.' });
-//     }
-// };
 
 
 exports.registerVendor = async (req, res) => {
@@ -81,7 +30,7 @@ exports.registerVendor = async (req, res) => {
             await userExist.save();
 
             // Send response first
-            res.status(200).json({ message: 'New OTP sent. Please verify to complete registration.' });
+            res.status(200).json({ message: 'New OTP sent. Please verify to complete registration.', otp });
 
             // Send OTP email asynchronously
             sendMail(email, otp).catch(err => console.error("Failed to send OTP:", err));
@@ -103,7 +52,7 @@ exports.registerVendor = async (req, res) => {
         await newUser.save();
 
         // Send response first
-        res.status(201).json({ message: 'OTP sent to email. Please verify.' });
+        res.status(201).json({ message: 'OTP sent to email. Please verify.', otp });
 
         // Send OTP email asynchronously
         sendMail(email, otp).catch(err => console.error("Failed to send OTP:", err));
@@ -177,8 +126,9 @@ exports.resendOtp = async (req, res) => {
 
     // Send OTP via email
     try {
-        await sendMail(email, otp);
-        res.json({ message: 'OTP resent successfully' });
+        // Send OTP email asynchronously
+        sendMail(email, otp).catch(err => console.error("Failed to send OTP:", err));
+        res.json({ message: 'OTP resent successfully', otp });
     } catch (error) {
         res.status(500).json({ message: 'Failed to send OTP', error: error.message });
     }
@@ -207,12 +157,13 @@ exports.forgotPassword = async (req, res) => {
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
     user.otp = otp;
-    user.otpVerified = false; // optional: reset verification
+    user.otpVerified = true; // optional: reset verification
     await user.save();
 
     try {
-        await sendMail(email, otp);
-        res.json({ message: 'OTP sent to email' });
+        // Send OTP email asynchronously
+        sendMail(email, otp).catch(err => console.error("Failed to send OTP:", err));
+        res.json({ message: 'OTP sent to email', otp });
     } catch (error) {
         res.status(500).json({ message: 'Failed to send OTP', error: error.message });
     }
