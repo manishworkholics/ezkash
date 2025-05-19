@@ -36,7 +36,7 @@ exports.getAllChecks = async (req, res) => {
 exports.getCheckByVenderId = async (req, res) => {
     try {
         const { venderId } = req.params;
-        const checks = await Check.find({ venderId });
+        const checks = await Check.find({ venderId }).sort({ createdAt: -1 });
 
         if (!checks.length) {
             return res.status(404).json({ message: 'No checks found for this vendor' });
@@ -48,6 +48,52 @@ exports.getCheckByVenderId = async (req, res) => {
         return res.status(500).json({ message: 'Failed to fetch checks', error: error.message });
     }
 };
+
+exports.getRecentChecksByVenderId = async (req, res) => {
+    try {
+        const { venderId } = req.params;
+
+        const recentChecks = await Check.find({ venderId })
+            .sort({ createdAt: -1 }) // Sort by newest first
+            .limit(5);               // Limit to 5 recent entries
+
+        if (!recentChecks.length) {
+            return res.status(404).json({ message: 'No checks found for this vendor' });
+        }
+
+        return res.status(200).json({
+            message: 'Recent checks fetched successfully',
+            data: recentChecks
+        });
+    } catch (error) {
+        console.error('Error in getRecentChecksByVenderId:', error);
+        return res.status(500).json({
+            message: 'Failed to fetch recent checks',
+            error: error.message
+        });
+    }
+};
+
+
+exports.getRecentChecks = async (req, res) => {
+    try {
+        const recentChecks = await Check.find({})
+            .sort({ createdAt: -1 }) // Sort by latest first
+            .limit(5);               // Limit to 5 results
+
+        return res.status(200).json({
+            message: 'Recent checks fetched successfully',
+            data: recentChecks
+        });
+    } catch (error) {
+        console.error('Error in getRecentChecks:', error);
+        return res.status(500).json({
+            message: 'Failed to fetch recent checks',
+            error: error.message
+        });
+    }
+};
+
 
 
 exports.getCheckByCompany = async (req, res) => {
@@ -197,6 +243,61 @@ exports.getCheckStatus = async (req, res) => {
         ]);
 
         res.status(200).json({
+            day: dayStats,
+            week: weekStats,
+            month: monthStats
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to fetch check statistics', error: error.message });
+    }
+};
+
+
+exports.getCheckStatusByVenderId = async (req, res) => {
+    try {
+        const { venderId } = req.query; // Or use req.params if passed via route param
+
+        if (!venderId) {
+            return res.status(400).json({ message: 'vendorId is required' });
+        }
+
+        const now = new Date();
+
+        const calculateStats = async (startDate) => {
+            const checks = await Check.find({
+                venderId, // Make sure this field exists in your Check schema
+                createdAt: { $gte: startDate }
+            });
+
+            const totalAmount = checks.reduce((sum, c) => sum + (Number(c.amount) || 0), 0);
+            const totalChecks = checks.length;
+            const goodChecks = checks.filter(c => c.status === 'good').length;
+            const badChecks = checks.filter(c => c.status === 'bad').length;
+
+            return {
+                from: startDate,
+                to: now,
+                totalAmount,
+                totalChecks,
+                goodChecks,
+                badChecks
+            };
+        };
+
+        const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+        const [dayStats, weekStats, monthStats] = await Promise.all([
+            calculateStats(startOfDay),
+            calculateStats(startOfWeek),
+            calculateStats(startOfMonth),
+        ]);
+
+        res.status(200).json({
+            venderId,
             day: dayStats,
             week: weekStats,
             month: monthStats

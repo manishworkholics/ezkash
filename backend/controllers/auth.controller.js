@@ -4,40 +4,116 @@ const jwt = require('jsonwebtoken');
 const sendMail = require('../utils/sendMail');
 require('dotenv').config();
 
+// exports.registerVendor = async (req, res) => {
+//     try {
+//         const { firstname, middlename, lastname, mobile, bussiness, email, password } = req.body;
+
+//         // Check if a user with the given email exists
+//         const userExist = await User.findOne({ email });
+
+//         // If user exists and has verified OTP
+//         if (userExist && userExist.otpVerified === true) {
+//             return res.status(409).json({ message: 'Email already exists and verified. Please login.' });
+//         }
+
+//         const otp = Math.floor(100000 + Math.random() * 900000).toString();
+//         const hashedPassword = await bcrypt.hash(password, 10);
+
+//         // If user exists but has NOT verified OTP — update their details
+//         if (userExist && userExist.otpVerified === false) {
+//             userExist.firstname = firstname;
+//             userExist.middlename = middlename;
+//             userExist.lastname = lastname;
+//             userExist.mobile = mobile;
+//             userExist.bussiness = bussiness;
+//             userExist.password = hashedPassword;
+//             userExist.otp = otp;
+//             await userExist.save();
+
+//             await sendMail(email, otp);
+//             return res.status(200).json({ message: 'New OTP sent. Please verify to complete registration.' });
+//         }
+
+//         // If user does not exist, create a new one
+//         const newUser = new User({
+//             firstname,
+//             middlename,
+//             lastname,
+//             mobile,
+//             bussiness,
+//             email,
+//             password: hashedPassword,
+//             otp,
+//             otpVerified: false,
+//         });
+
+//         await newUser.save();
+//         await sendMail(email, otp);
+
+//         res.status(201).json({ message: 'OTP sent to email. Please verify.' });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: 'Something went wrong. Please try again later.' });
+//     }
+// };
+
 
 exports.registerVendor = async (req, res) => {
-    const { firstname, lastname, mobile, bussiness, email, password } = req.body;
+    try {
+        const { firstname, middlename, lastname, mobile, bussiness, email, password } = req.body;
 
-    // Check for existing email
-    const userExist = await User.findOne({ email });
-    if (userExist) {
-        return res.status(400).json({ message: 'Email already exists' });
+        const userExist = await User.findOne({ email });
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        if (userExist && userExist.otpVerified === true) {
+            return res.status(409).json({ message: 'Email already exists and verified. Please login.' });
+        }
+
+        if (userExist && userExist.otpVerified === false) {
+            userExist.firstname = firstname;
+            userExist.middlename = middlename;
+            userExist.lastname = lastname;
+            userExist.mobile = mobile;
+            userExist.bussiness = bussiness;
+            userExist.password = hashedPassword;
+            userExist.otp = otp;
+            await userExist.save();
+
+            // Send response first
+            res.status(200).json({ message: 'New OTP sent. Please verify to complete registration.' });
+
+            // Send OTP email asynchronously
+            sendMail(email, otp).catch(err => console.error("Failed to send OTP:", err));
+            return;
+        }
+
+        const newUser = new User({
+            firstname,
+            middlename,
+            lastname,
+            mobile,
+            bussiness,
+            email,
+            password: hashedPassword,
+            otp,
+            otpVerified: false,
+        });
+
+        await newUser.save();
+
+        // Send response first
+        res.status(201).json({ message: 'OTP sent to email. Please verify.' });
+
+        // Send OTP email asynchronously
+        sendMail(email, otp).catch(err => console.error("Failed to send OTP:", err));
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Something went wrong. Please try again later.' });
     }
-
-    // Check for existing mobile number
-    const mobileExist = await User.findOne({ mobile });
-    if (mobileExist) {
-        return res.status(400).json({ message: 'Mobile number already registered' });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-    const newUser = new User({
-        firstname,
-        lastname,
-        mobile,
-        bussiness,
-        email,
-        password: hashedPassword,
-        otp
-    });
-
-    await newUser.save();
-    await sendMail(email, otp);
-
-    res.json({ message: 'OTP sent to email. Please verify.' });
 };
+
 
 
 exports.getAllVender = async (req, res) => {

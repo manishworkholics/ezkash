@@ -15,7 +15,7 @@ const RecentCheck = () => {
     const fetchChecks = async () => {
         try {
             const vendorId = localStorage.getItem('userId');
-            const response = await axios.get(`${URL}/check/get-checkByVenderId/${vendorId}`, {
+            const response = await axios.get(`${URL}/check/getrecent-check-by-venderid/${vendorId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
