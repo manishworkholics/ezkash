@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logoLeft from '../assets/images/logoLeft.png';
+// import logoLeft from '../assets/images/logoLeft.png';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from "react-toastify";
@@ -105,14 +105,14 @@ const SignIn = () => {
 
   return (
     <>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
       <div className="container-fluid sign-page bg-EEEEEE">
         <div className="row sign-main-container">
-          <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
-          <div className="col-lg-6 sign-left-bg h-100 justify-content-center d-none d-lg-flex align-items-center">
+          {/* <div className="col-lg-6 sign-left-bg h-100 justify-content-center d-none d-lg-flex align-items-center">
             <img src={logoLeft} alt="logo" />
-          </div>
+          </div> */}
 
-          <div className="col-lg-6 sign-right-bg h-100 position-relative">
+          <div className="col-lg-6 mx-auto sign-right-bg h-100 position-relative">
             <div className="row h-100 w-100">
               <div className="col-lg-8 col-xl-7 col-xxl-6 mx-auto d-block d-md-flex justify-content-center align-items-center">
                 <div className="w-100">
