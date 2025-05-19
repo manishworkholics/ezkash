@@ -9,6 +9,7 @@ const token = localStorage.getItem('token')
 
 const CheckDetails = () => {
     const [checkDetails, setCheckDetails] = useState('');
+    const [showIdNumber, setShowIdNumber] = useState(false);
     const { id } = useParams()
     const navigate = useNavigate()
 
@@ -90,10 +91,21 @@ const CheckDetails = () => {
                                                                     <h6 className="text-0D161A fw-semibold fs-14">{checkDetails?.customerFirstName}</h6>
                                                                 </div>
                                                                 <div className="mb-3">
-                                                                    <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>ID Number</h6>
-                                                                    <h6 className="text-0D161A fw-semibold fs-14">{checkDetails?.licenseNo}</h6>
+                                                                    <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>
+                                                                        <span className="me-2">ID Number</span>
+                                                                        <i
+                                                                            className={`fa-solid ${showIdNumber ? 'fa-eye-slash' : 'fa-eye'} text-muted`}
+                                                                            onClick={() => setShowIdNumber(!showIdNumber)}
+                                                                            style={{ cursor: 'pointer' }}
+                                                                            title={showIdNumber ? 'Hide' : 'Show'}
+                                                                        ></i>
+                                                                    </h6>
+                                                                    <div className="d-flex align-items-center">
+                                                                        <h6 className="text-0D161A fw-semibold fs-14 me-2">
+                                                                            {showIdNumber ? (checkDetails?.licenseNo || '-') : '••••••••••'}
+                                                                        </h6>
+                                                                    </div>
                                                                 </div>
-                                                               
                                                                 <div className="mb-3">
                                                                     <h6 className="text-445B64 fs-14 mb-1" style={{ color: '#445B64' }}>Company</h6>
                                                                     <h6 className="text-0D161A fw-semibold fs-14">{checkDetails?.company || 'Not available'}</h6>
