@@ -33,7 +33,7 @@ const ChangePassword = () => {
                 setNewPassword('');
                 localStorage.removeItem("token");
                 localStorage.removeItem("role");
-                navigate('/sign-in');
+                navigate('/');
             }
         } catch (error) {
             console.error('Error submitting form:', error);

@@ -64,7 +64,7 @@ const ForgetPassword = () => {
                     toast.success('Password Reset successfully');
                 }, 1000);
                 setTimeout(() => {
-                    navigate('/sign-in');
+                    navigate('/');
                 }, 2000);
             } else {
                 setTimeout(() => {
@@ -148,7 +148,7 @@ const ForgetPassword = () => {
                                         )}
                                     </button>
                                     <h6 className="text-center text-445B64">
-                                        <Link to='/sign-in' className='text-00C7BE text-decoration-none'>
+                                        <Link to='/' className='text-00C7BE text-decoration-none'>
                                             <i className="fa-solid fa-chevron-left me-2"></i>
                                             Back to Sign-in
                                         </Link>

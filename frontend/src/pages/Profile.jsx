@@ -38,7 +38,7 @@ const Profile = () => {
             toast.success("Logged out successfully!")
         }, 1000);
         setTimeout(() => {
-            navigate("/sign-in");
+            navigate("/");
         }, 2000);
     };
 
