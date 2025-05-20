@@ -21,15 +21,15 @@ const SignIn = () => {
     const { email, password } = formData;
     let errors = {};
     if (email.trim() === '') {
-      errors.email = 'Email is required';
+      errors.email = 'Email is required.';
     } else {
       const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
       if (!emailPattern.test(email)) {
-        errors.email = 'Invalid email format';
+        errors.email = 'Invalid email address format.';
       }
     }
     if (password.trim() === '') {
-      errors.password = 'Password is required';
+      errors.password = 'Password is required.';
     }
     return errors;
   };
@@ -43,7 +43,7 @@ const SignIn = () => {
     e.preventDefault();
     const { email, password } = formData;
     if (!email.trim() || !password.trim()) {
-      toast.error('Please enter the fields first');
+      toast.error('Please fill in all required fields.');
       return;
     }
 
@@ -62,16 +62,16 @@ const SignIn = () => {
         localStorage.setItem("role", response.data.role);
         localStorage.setItem("userId", response.data.userId);
 
-        toast.success('Login successfully');
+        toast.success('Signed in successfully.');
         setTimeout(() => {
           navigate('/dashboard');
         }, 2000);
       } else {
-        toast.error("Failed to login");
+        toast.error("Sign-in failed. Please try again.");
       }
     } catch (error) {
-      console.log("Login error:", error);
-      toast.error(error.response?.data?.message || 'User not registered. Please try again!');
+      console.log("Sign-in error:", error);
+      toast.error(error.response?.data?.message || 'User not registered. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -87,17 +87,17 @@ const SignIn = () => {
     try {
       const response = await axios.post(`${URL}/auth/forget-password`, { email: forgotEmail });
       if (response.status >= 200 && response.status < 300) {
-        toast.success('OTP sent to your email.');
+        toast.success('code sent to your email.');
         localStorage.setItem("resetEmail", forgotEmail);
         setTimeout(() => {
           navigate('/forget-password-verification');
         }, 2000);
       } else {
-        toast.error('Failed to send OTP.');
+        toast.error('Failed to send code.');
       }
     } catch (error) {
-      console.error('OTP send error:', error);
-      toast.error(error.response?.data?.message || 'Error sending OTP.');
+      console.error('code send error:', error);
+      toast.error(error.response?.data?.message || 'Error sending code.');
     } finally {
       setLoading(false);
     }

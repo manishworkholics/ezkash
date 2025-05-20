@@ -94,7 +94,7 @@ const Dashboard = () => {
                                                             </svg>
                                                         </div>
                                                         <div>
-                                                            <h6 className="mb-1 fw-medium text-445B64">Total Vendor</h6>
+                                                            <h6 className="mb-1 fw-medium text-445B64">Total User</h6>
                                                             <h4 className="mb-0 text-00C7BE fw-bold">{data?.totalVendor}</h4>
                                                         </div>
                                                     </div>
@@ -118,7 +118,7 @@ const Dashboard = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-6 col-lg-4 col-xl-3 mb-3">
+                                        {/* <div className="col-md-6 col-lg-4 col-xl-3 mb-3">
                                             <div className="card shadow-sm border-0 rounded-4">
                                                 <div className="card-body">
                                                     <div className="d-flex align-items-center">
@@ -151,7 +151,7 @@ const Dashboard = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> */}
                                         <div className="col-md-6 col-lg-4 col-xl-3 mb-3">
                                             <div className="card shadow-sm border-0 rounded-4">
                                                 <div className="card-body">

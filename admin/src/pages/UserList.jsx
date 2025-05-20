@@ -120,11 +120,11 @@ const UserList = () => {
                                 <div className="container-fluid p-3 px-2">
                                     <div className="row">
                                         <div className="col-12">
-                                            <div className="card border-0 rounded-3 mb-3">
+                                            <div className="card border-0 rounded-3 mb-1">
                                                 <div className="card-body p-2">
                                                     <div className="row">
-                                                        <div className="col-12 col-lg-6">
-                                                            <div className="d-flex justify-content-between mb-3 mb-lg-0">
+                                                        <div className="col-12 col-md-3">
+                                                            <div className="d-flex justify-content-between mb-lg-0">
                                                                 <div className="d-flex align-items-center">
                                                                     <div className="table-circular-icon bg-F0F5F6 me-3"
                                                                         style={{ cursor: "pointer" }}>
@@ -136,19 +136,16 @@ const UserList = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="col-12 col-lg-6">
+                                                        <div className="col-12 col-md-9">
                                                             <div className="row">
-                                                                <div className="d-flex">
-                                                                    <div className="position-relative pe-0 pe-lg-4 me-3"
-                                                                        style={{ width: "-webkit-fill-available" }}>
-                                                                        <input className="form-control rounded-3 me-2 shadow-none bg-F0F5F6" style={{ paddingLeft: "40px" }}
-                                                                         onChange={(e) => setSearchTerm(e.target.value)}   type="search" placeholder="Search" aria-label="Search" />
-                                                                        <i className="fa-solid fa-magnifying-glass text-445B64 position-absolute top-0 start-0"
-                                                                            style={{ margin: "11px" }}></i>
+                                                                <div className="col-md-9">
+                                                                    <div className="d-flex position-relative" style={{ width: "100%;" }}>
+                                                                        <input className="form-control form-control-sm rounded-3 me-lg-2 shadow-none bg-F0F5F6" onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search" aria-label="Search" type="search" style={{ paddingLeft: "35px" }} />
+                                                                        <i class="fa fa-search text-445B64 position-absolute top-0 start-0" style={{ margin: "8px" }}></i>
                                                                     </div>
-                                                                    <div className="table-circular-icon bg-F0F5F6" style={{ cursor: "pointer" }} onClick={() => setShowModal(true)}>
-                                                                        <i className="fa-solid fa-user-plus"></i>
-                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-3 mt-3 mt-md-0 d-none d-md-flex justify-content-end align-items-center">
+                                                                    <button className="btn py-1 px-2 fs-14 text-white border-0 p-0 fw-medium" onClick={() => setShowModal(true)} style={{ background: "#008cff" }}><i class="fa fa-plus me-2"></i>Add User</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -163,18 +160,18 @@ const UserList = () => {
                                                                 <table className="table rounded-3">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th scope="col" className="text-center">
+                                                                            {/* <th scope="col" className="text-center">
                                                                                 <input className="form-check-input table-checkbox"
                                                                                     type="checkbox" value="" id="flexCheckDefault" />
-                                                                            </th>
-                                                                            <th scope="col" className="text-445B64">SNo.</th>
-                                                                            <th scope="col" className="text-445B64">User Name</th>
+                                                                            </th> */}
+                                                                            <th scope="col" className="text-445B64">#</th>
+                                                                            <th scope="col" className="text-445B64">Name</th>
                                                                             <th scope="col" className="text-445B64">Phone Number</th>
                                                                             <th scope="col" className="text-445B64">Email Address</th>
-                                                                            <th scope="col" className="text-445B64">bussiness</th>
+                                                                            <th scope="col" className="text-445B64">Company Name</th>
                                                                             <th scope="col" className="text-445B64">Status</th>
                                                                             <th scope="col" className="text-445B64">Role</th>
-                                                                            <th scope="col" className="text-445B64">OTP</th>
+                                                                            {/* <th scope="col" className="text-445B64">OTP</th> */}
                                                                             <th scope="col" className="text-445B64 text-center">Actions</th>
                                                                         </tr>
                                                                     </thead>
@@ -190,9 +187,9 @@ const UserList = () => {
                                                                         ) : filteredUsers.length > 0 ? (
                                                                             filteredUsers.map((user, index) => (
                                                                                 <tr key={user._id}>
-                                                                                    <td className="text-center">
+                                                                                    {/* <td className="text-center">
                                                                                         <input className="form-check-input table-checkbox" type="checkbox" />
-                                                                                    </td>
+                                                                                    </td> */}
                                                                                     <td>{indexOfFirstRow + index + 1}</td>
                                                                                     <td>{user?.firstname} {user?.lastname}</td>
                                                                                     <td>{user?.mobile}</td>
@@ -200,10 +197,10 @@ const UserList = () => {
                                                                                     <td>{user?.bussiness}</td>
                                                                                     <td>{user?.isActive ? "active" : "not active"}</td>
                                                                                     <td>{user?.role}</td>
-                                                                                    <td>{user?.otp}</td>
+                                                                                    {/* <td>{user?.otp}</td> */}
                                                                                     <td>
                                                                                         <div className="d-flex justify-content-center">
-                                                                                            <Link to={`/cm-admin/user-information/${user._id}`} className="btn">
+                                                                                            <Link to={`/cm-admin/user-information/${user._id}`} className="btn border-0">
                                                                                                 <i className="fa-solid fa-eye text-445B64"></i>
                                                                                             </Link>
                                                                                             <button className="btn" onClick={() => handleDeleteUser(user._id)}>
