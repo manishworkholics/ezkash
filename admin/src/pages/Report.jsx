@@ -37,7 +37,7 @@ const Report = () => {
                                                         </div>
                                                         <div className="col-6 col-lg-6 d-flex justify-content-end align-items-center">
                                                             <div className="d-flex justify-content-end align-items-center">
-                                                                <Link to="/cm-admin/export-report" className="btn btn-sm rounded-2 bg-E4FFFD text-01A99A">
+                                                                <Link to="/cm-admin/export-report" className="btn btn-sm rounded-2 bg-008CFF text-white">
                                                                     Export Report
                                                                 </Link>
                                                             </div>
@@ -53,15 +53,11 @@ const Report = () => {
                                                                 <table className="table rounded-3">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th scope="col" className="text-center">
-                                                                                <input className="form-check-input table-checkbox"
-                                                                                    type="checkbox" value="" id="flexCheckDefault" />
-                                                                            </th>
                                                                             <th scope="col" className="text-445B64">SNo.</th>
                                                                             <th scope="col" className="text-445B64">User Name</th>
                                                                             <th scope="col" className="text-445B64">Phone Number</th>
                                                                             <th scope="col" className="text-445B64">Email Address</th>
-                                                                            <th scope="col" className="text-445B64">Date
+                                                                            <th scope="col" className="text-445B64">Date & Time
                                                                             </th>
                                                                             <th scope="col" className="text-445B64">Status</th>
                                                                             <th scope="col" className="text-445B64 text-center">Actions</th>
@@ -69,10 +65,6 @@ const Report = () => {
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr>
-                                                                            <td className="text-center">
-                                                                                <input className="form-check-input table-checkbox"
-                                                                                    type="checkbox" value="" id="flexCheckDefault" />
-                                                                            </td>
                                                                             <td></td>
                                                                             <td></td>
                                                                             <td></td>
