@@ -14,6 +14,8 @@ const Checks = () => {
     const [checks, setChecks] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
+    const [showAll, setShowAll] = useState(false);
+
 
     useEffect(() => {
         fetchChecks();
@@ -146,6 +148,7 @@ const Checks = () => {
 
                                                 <div className="col-12 col-md-9 col-lg-9">
                                                     <div className="row">
+
                                                         <div className="col-md-9">
                                                             <div className="d-flex position-relative" style={{ width: "100%" }}>
                                                                 <input
@@ -160,6 +163,7 @@ const Checks = () => {
                                                                 <i className="fa fa-search text-445B64 position-absolute top-0 start-0" style={{ margin: "8px" }}></i>
                                                             </div>
                                                         </div>
+
                                                         <div className="col-md-3 mt-3 mt-md-0 d-none d-md-flex justify-content-end align-items-center">
                                                             <button
                                                                 style={{ background: '#008CFF' }}
@@ -224,46 +228,61 @@ const Checks = () => {
                                                                     Date & Time {getSortIcon('date')}
                                                                 </div>
                                                             </th>
+                                                            <th >
+                                                                <div className="d-flex align-items-center">
+                                                                    Customer Status
+                                                                </div>
+                                                            </th>
                                                             <th onClick={() => handleSort('status')} style={{ cursor: 'pointer' }}>
                                                                 <div className="d-flex align-items-center">
                                                                     Status {getSortIcon('status')}
                                                                 </div>
                                                             </th>
+
                                                             <th className='text-center'>Actions</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {sortedData.length > 0 ? (
-                                                            sortedData.map((item, index) => (
-                                                                <tr key={item._id}>
+                                                            showAll ? sortedData : sortedData.slice(0, 5)).map((item, index) => (
+                                                                <tr key={item?._id}>
                                                                     <td>{index + 1}</td>
-                                                                    <td>{item.customerFirstName}</td>
-                                                                    <td>$ {item.amount}</td>
-                                                                    <td>{item.licenseNo}</td>
-                                                                    <td>{item.company}</td>
-                                                                    <td>{item.checkType}</td>
-                                                                    <td>{item.comment?.length > 10 ? item.comment.substring(0, 10) + '...' : item.comment}</td>
-                                                                    <td>{item.date}</td>
-                                                                    <td>{item.status}</td>
+                                                                    <td>{item?.customerFirstName}</td>
+                                                                    <td>$ {item?.amount}</td>
+                                                                    <td>{item?.licenseNo}</td>
+                                                                    <td>{item?.company}</td>
+                                                                    <td>{item?.checkType}</td>
+                                                                    <td>{item?.comment?.length > 10 ? item?.comment.substring(0, 10) + '...' : item?.comment}</td>
+                                                                    <td>{item?.date}</td>
+                                                                    <td>{item?.customerStatus}</td>
+                                                                    <td>{item?.status}</td>
                                                                     <td className='text-center'>
                                                                         <div className="d-flex justify-content-center">
-                                                                            <Link to={`/check-details/${item._id}`} className="btn">
+                                                                            <Link to={`/check-details/${item?._id}`} className="btn">
                                                                                 <i className="fa-solid fa-eye text-445B64"></i>
                                                                             </Link>
-                                                                            <button className="btn" onClick={() => handleDeleteCheck(item._id)}>
+                                                                            <button className="btn" onClick={() => handleDeleteCheck(item?._id)}>
                                                                                 <i className="fa-solid fa-trash-can text-danger"></i>
                                                                             </button>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
-                                                            ))
-                                                        ) : (
+                                                            )
+                                                            ) : (
                                                             <tr>
                                                                 <td colSpan="10" className="text-center">No checks found</td>
                                                             </tr>
                                                         )}
                                                     </tbody>
                                                 </table>
+                                                {sortedData.length > 5 && (
+                                                    <div className="text-center mt-3 mb-3">
+                                                        <button style={{ background: '#008CFF' }} className='btn py-1 px-2 fs-14 text-white border-0 p-0 fw-medium' onClick={() => setShowAll(!showAll)}>
+                                                            {showAll ? 'Show Less' : 'Show More'}
+                                                        </button>
+                                                    </div>
+                                                )}
+
                                             </div>
                                         </div>
                                     </div>

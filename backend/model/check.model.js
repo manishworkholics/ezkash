@@ -17,6 +17,7 @@ const checkSchema = new mongoose.Schema({
   extractedText: String,
   comment: String,
   venderId: String,
+  customerStatus: { type: String, enum: ['verified customer', 'new customer'], default: 'new customer' },
   isActive: { type: Boolean, default: true },
   status: { type: String, enum: ['bad', 'good'], default: 'good' },
   createdAt: {

@@ -157,18 +157,33 @@ const Support = () => {
                                                         <div className="col-lg-6">
                                                             <div className="row">
                                                                 <div className="col-md-6 mb-3">
-                                                                    <label className="form-label text-445B64">Subject</label>
+                                                                    <label className="form-label text-445B64">Subject <span className='text-danger'>*</span></label>
                                                                     <input type="text" name='subject' value={data.subject} onChange={handleChange} className="form-control" />
                                                                     {errors.subject && <small className="text-danger">{errors.subject}</small>}
 
 
                                                                 </div>
                                                                 <div className="col-md-6 mb-3">
-                                                                    <label className="form-label text-445B64">Category</label>
-                                                                    <input type="text" name='category' value={data.category} onChange={handleChange} className="form-control" />
-                                                                    {errors.category && <small className="text-danger">{errors.category}</small>}
+                                                                    <label className="form-label text-445B64">
+                                                                        Category <span className="text-danger">*</span>
+                                                                    </label>
+                                                                    <select
+                                                                        name="category"
+                                                                        value={data.category}
+                                                                        onChange={handleChange}
+                                                                        className="form-control"
+                                                                    >
+                                                                        <option value="">Select Category</option>
+                                                                        <option value="Not Able to Upload Check">Not Able to Upload Check</option>
+                                                                        <option value="Problem with Login or Changing Password">Problem with Login or Changing Password</option>
+                                                                        <option value="Slow Internet Speed">Slow Internet Speed</option>
+                                                                        <option value="Invalid Check Format">Invalid Check Format</option>
+                                                                        <option value="Other">Other</option>
 
+                                                                    </select>
+                                                                    {errors.category && <small className="text-danger">{errors.category}</small>}
                                                                 </div>
+
                                                                 <div className="col-12 d-flex gap-3">
 
                                                                     <div className="form-control inputFile p-4 text-center position-relative d-flex justify-content-center align-items-center">
@@ -198,7 +213,7 @@ const Support = () => {
                                                         <div className="col-lg-6">
                                                             <div className="row h-100">
                                                                 <div className="col-12 mb-3 pb-3">
-                                                                    <label className="form-label text-445B64">Description</label>
+                                                                    <label className="form-label text-445B64">Description <span className='text-danger'>*</span></label>
                                                                     <textarea className="form-control h-100" name='description' value={data.description} onChange={handleChange} defaultValue="Description" />
                                                                     {errors.description && <small className="text-danger">{errors.description}</small>}
 
