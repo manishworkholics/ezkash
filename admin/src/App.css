@@ -27,6 +27,14 @@ body {
   background-color: #EEEEEE;
 }
 
+.bg-008f06 {
+  background-color: #008f06;
+}
+
+.bg-f44336 {
+  background-color: #f44336;
+}
+
 .bg-00C7BE {
   background-color: #008CFF;
 }
@@ -93,6 +101,9 @@ body {
 .text-445B64-img {
   color: #000000 !important;
 }
+.text-445B64R {
+  color: #445B64 !important;
+}
 
 .text-00C7BE {
   color: #008CFF;
@@ -131,6 +142,10 @@ body {
 /* SignIn - CSS - Start */
 .sign-main-container {
   height: 100vh;
+}
+
+.sign-logo {
+  width: 170px;
 }
 
 .sign-left-bg {
@@ -344,8 +359,8 @@ body {
   padding-top: 60px;
 
   .table-circular-icon {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border: 1px solid #DEE6E9;
     color: #000000;
     border-radius: 60px;
@@ -397,7 +412,7 @@ body {
     .active>.page-link,
     .page-link.active {
       z-index: 3;
-      color: #000000DE;
+      color: #FFFFFF;
       background-color: #008CFF;
     }
 

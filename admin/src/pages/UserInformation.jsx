@@ -331,7 +331,7 @@ const UserInformation = () => {
                 setShowModal(false);
                 // Update the check list state
                 if (response.data?.data) {
-                    setReport((prev) => [response.data.data, ...prev]); 
+                    setReport((prev) => [response.data.data, ...prev]);
                 }
                 // Optional: clear the form
                 setFormData({});
@@ -394,8 +394,8 @@ const UserInformation = () => {
                                                         </div>
                                                         <div className="col-4 col-lg-6 d-flex justify-content-end align-items-center">
                                                             <div className="d-flex justify-content-end align-items-center">
-                                                                <button className="btn btn-sm rounded-2 btn-light text-445B64" onClick={handleBack}>
-                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-445B64"></i>
+                                                                <button className="btn btn-sm rounded-2 btn-secondary text-white" onClick={handleBack}>
+                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
                                                                     Back
                                                                 </button>
                                                             </div>
@@ -415,7 +415,7 @@ const UserInformation = () => {
                                                         <div className="d-block d-lg-flex justify-content-between flex-wrap">
                                                             <div className="d-block d-lg-flex gap-5 flex-wrap">
                                                                 <div className='mb-3 mb-lg-0'>
-                                                                    <h6 className="text-445B64 fs-14 mb-1">User Name</h6>
+                                                                    <h6 className="text-445B64 fs-14 mb-1">Name</h6>
                                                                     <h6 className="text-0D161A fw-medium mb-0">{users?.firstname} {users?.lastname}</h6>
                                                                 </div>
                                                                 <div className='mb-3 mb-lg-0'>
@@ -432,10 +432,10 @@ const UserInformation = () => {
                                                                 </div>
                                                                 <div className='mb-3 mb-lg-0'>
                                                                     <h6 className="text-445B64 fs-14 mb-1">Total Amount</h6>
-                                                                    <h6 className="text-0D161A fw-medium mb-0">${totalAmount}</h6>
+                                                                    <h6 className="text-0D161A fw-medium mb-0">$ {totalAmount}</h6>
                                                                 </div>
                                                                 <div className='mb-3 mb-lg-0'>
-                                                                    <h6 className="text-445B64 fs-14 mb-1">Date</h6>
+                                                                    <h6 className="text-445B64 fs-14 mb-1">Date & Time</h6>
                                                                     <h6 className="text-0D161A fw-medium mb-0">
                                                                         {new Date("July 14, 2015").toLocaleDateString("en-GB", {
                                                                             day: "numeric",
@@ -448,7 +448,7 @@ const UserInformation = () => {
                                                             </div>
                                                             <div>
                                                                 <h6 className="text-445B64 fs-14 mb-1">Status</h6>
-                                                                <button className={`btn btn-sm rounded-2 lh-1 text-white ${users?.isActive ? 'bg-4FD1C5' : 'bg-E84D4D'}`}>
+                                                                <button className={`btn btn-sm rounded-2 lh-1 text-white ${users?.isActive ? 'bg-008f06' : 'bg-f44336'}`}>
                                                                     {users?.isActive ? 'Active' : 'Inactive'}
                                                                 </button>
                                                             </div>
@@ -461,13 +461,7 @@ const UserInformation = () => {
                                                 <div className=''>
                                                     <div className="card-body py-2 d-flex justify-content-between border-bottom">
                                                         <h6 className="text-0D161A fw-medium mb-0 d-flex align-items-center">Check List</h6>
-                                                        <h6
-                                                            className="table-circular-icon bg-F0F5F6 mb-0"
-                                                            style={{ cursor: "pointer" }}
-                                                            onClick={() => setShowModal(true)}
-                                                        >
-                                                            <i class="fa-solid fa-file-circle-plus"></i>
-                                                        </h6>
+                                                        <button class="btn py-1 px-2 fs-14 text-white border-0 p-0 fw-medium" onClick={() => setShowModal(true)} style={{background: '#008cff'}}><i class="fa fa-plus me-2"></i>Add Check</button>
                                                     </div>
                                                 </div>
                                                 <div className="card-body p-0">
@@ -477,18 +471,14 @@ const UserInformation = () => {
                                                                 <table className="table rounded-3">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th scope="col" className="text-center">
-                                                                                <input className="form-check-input table-checkbox"
-                                                                                    type="checkbox" value="" id="flexCheckDefault" />
-                                                                            </th>
-                                                                            <th scope="col" className="text-445B64">SNo.</th>
+                                                                            <th scope="col" className="text-445B64">#</th>
                                                                             <th scope="col" className="text-445B64">Customer Name</th>
                                                                             <th scope="col" className="text-445B64">Company Name</th>
-                                                                            <th scope="col" className="text-445B64">License No</th>
+                                                                            <th scope="col" className="text-445B64">ID Number</th>
                                                                             <th scope="col" className="text-445B64">Check Type</th>
                                                                             <th scope="col" className="text-445B64">Amount</th>
                                                                             <th scope="col" className="text-445B64">Comment</th>
-                                                                            <th scope="col" className="text-445B64">Date</th>
+                                                                            <th scope="col" className="text-445B64">Date & Time</th>
                                                                             <th scope="col" className="text-445B64">Status</th>
                                                                             <th scope="col" className="text-445B64 text-center">Actions</th>
                                                                         </tr>
@@ -496,21 +486,18 @@ const UserInformation = () => {
                                                                     <tbody>
                                                                         {cheques?.map((cheque, index1) => (
                                                                             <tr key={index1}>
-                                                                                <td className="text-center">
-                                                                                    <input className="form-check-input table-checkbox" type="checkbox" />
-                                                                                </td>
                                                                                 <td>{indexOfFirstRow + index1 + 1}</td>
                                                                                 <td>{cheque?.customerFirstName}</td>
                                                                                 <td>{cheque?.company}</td>
                                                                                 <td>{cheque?.licenseNo}</td>
                                                                                 <td>{cheque?.checkType}</td>
-                                                                                <td>{cheque?.amount}</td>
+                                                                                <td>$ {cheque?.amount}</td>
                                                                                 <td>{cheque?.comment?.length > 10 ? cheque?.comment.substring(0, 10) + '...' : cheque?.comment}</td>
                                                                                 <td>{new Date(cheque?.date).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</td>
                                                                                 <td className="text-01A99A">{cheque?.status}</td>
                                                                                 <td>
                                                                                     <div className="d-flex justify-content-center">
-                                                                                        <Link to={`/cm-admin/cheque-details/${cheque?._id}`} className="btn">
+                                                                                        <Link to={`/cm-admin/cheque-details/${cheque?._id}`} className="btn border-0">
                                                                                             <i className="fa-solid fa-eye text-445B64"></i>
                                                                                         </Link>
                                                                                         <button className="btn" onClick={() => handleDeleteCheque(cheque?._id)}>
@@ -655,7 +642,7 @@ const UserInformation = () => {
                                                                     <input type="text" className="form-control" value={licenseData.customerLastName || formData.customerLastName} onChange={(e) => setFormData({ ...formData, customerLastName: e.target.value })} />
                                                                 </div>
                                                                 <div className="col-md-3">
-                                                                    <label className="form-label">License No</label>
+                                                                    <label className="form-label">ID Number</label>
                                                                     <input type="text" className="form-control" value={licenseData.licenseNo || ''} onChange={(e) => setLicenseData({ ...licenseData, licenseNo: e.target.value })} />
                                                                 </div>
                                                                 <div className="col-md-3">
@@ -665,7 +652,7 @@ const UserInformation = () => {
                                                                 <div className="col-md-3">
                                                                     <label className="form-label">Check Type</label>
                                                                     <select className="form-select" value={formData.checkType || ''} onChange={(e) => setFormData({ ...formData, checkType: e.target.value })}>
-                                                                        <option value="">Select</option>
+                                                                        {/* <option value="">Select</option> */}
                                                                         <option value="Personal">Personal</option>
                                                                         <option value="Business">Business</option>
                                                                     </select>

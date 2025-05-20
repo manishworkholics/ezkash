@@ -70,8 +70,8 @@ const ChequeDetails = () => {
                                                                 </div>
                                                                 <div className="col-4 col-lg-6 d-flex justify-content-end align-items-center">
                                                                     <div className="d-flex justify-content-end">
-                                                                        <button className="btn btn-sm rounded-2 btn-light text-445B64" onClick={handleBack}>
-                                                                            <i className="fa-solid fa-arrow-left-long me-2 text-445B64"></i>
+                                                                        <button className="btn btn-sm rounded-2 btn-secondary text-white" onClick={handleBack}>
+                                                                            <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
                                                                             Back
                                                                         </button>
                                                                     </div>
@@ -86,27 +86,27 @@ const ChequeDetails = () => {
                                                             <div className="d-block d-lg-flex justify-content-between">
                                                                 <div className="d-block d-lg-flex gap-5">
                                                                     <div className="mb-3">
-                                                                        <h6 className="text-445B64 fs-14 mb-1">Customer Name</h6>
+                                                                        <h6 className="text-445B64R fs-14 mb-1">Customer Name</h6>
                                                                         <h6 className="text-0D161A fw-medium mb-0">{chequeDetails?.customerFirstName}</h6>
                                                                     </div>
                                                                     <div className="mb-3">
-                                                                        <h6 className="text-445B64 fs-14 mb-1">License No</h6>
+                                                                        <h6 className="text-445B64R fs-14 mb-1">Id Number</h6>
                                                                         <h6 className="text-0D161A fw-medium mb-0">{chequeDetails?.licenseNo}</h6>
                                                                     </div>
                                                                     <div className="mb-3">
-                                                                        <h6 className="text-445B64 fs-14 mb-1">Company</h6>
+                                                                        <h6 className="text-445B64R fs-14 mb-1">Company</h6>
                                                                         <h6 className="text-0D161A fw-medium mb-0">{chequeDetails?.company}</h6>
                                                                     </div>
                                                                     <div className="mb-3">
-                                                                        <h6 className="text-445B64 fs-14 mb-1">Check Type</h6>
+                                                                        <h6 className="text-445B64R fs-14 mb-1">Check Type</h6>
                                                                         <h6 className="text-0D161A fw-medium mb-0">{chequeDetails?.checkType}</h6>
                                                                     </div>
                                                                     <div className="mb-3">
-                                                                        <h6 className="text-445B64 fs-14 mb-1">Amount</h6>
-                                                                        <h6 className="text-0D161A fw-medium mb-0">{chequeDetails?.amount}</h6>
+                                                                        <h6 className="text-445B64R fs-14 mb-1">Amount</h6>
+                                                                        <h6 className="text-0D161A fw-medium mb-0">$ {chequeDetails?.amount}</h6>
                                                                     </div>
                                                                     <div className="mb-3">
-                                                                        <h6 className="text-445B64 fs-14 mb-1">Date</h6>
+                                                                        <h6 className="text-445B64R fs-14 mb-1">Date & Time</h6>
                                                                         <h6 className="text-0D161A fw-medium mb-0">
                                                                             {chequeDetails?.date &&
                                                                                 new Date(chequeDetails.date).toLocaleDateString("en-GB", {
@@ -118,26 +118,21 @@ const ChequeDetails = () => {
 
                                                                     </div>
                                                                 </div>
-                                                                <div className="d-block d-lg-flex gap-5">
+                                                                {/* <div className="d-block d-lg-flex gap-5">
                                                                     <div className="mb-3">
-                                                                        <h6 className="text-445B64 fs-14 mb-1">Status</h6>
+                                                                        <h6 className="text-445B64R fs-14 mb-1">Status</h6>
                                                                         <div className="">
                                                                             <button className="btn btn-sm rounded-2 lh-1 bg-4FD1C5 text-white me-3">
                                                                                 {chequeDetails?.status}
                                                                             </button>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> */}
                                                             </div>
                                                             <div className="d-block d-lg-flex gap-5">
                                                                 <div className="mb-3 w-100">
-                                                                    <h6 className="text-445B64 fs-14 mb-1">Comments</h6>
-                                                                    <div className="card rounded-3">
-                                                                        <div className="card-body p-2">
-                                                                            <p className="text-0D161A fw-light fs-14 mb-0">{chequeDetails?.comment}</p>
-                                                                        </div>
-                                                                    </div>
-
+                                                                    <h6 className="text-445B64R fs-14 mb-1">Comments</h6>
+                                                                    <h6 className="text-0D161A fw-medium mb-0">{chequeDetails?.comment}</h6>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -150,11 +145,19 @@ const ChequeDetails = () => {
                                                                     <div className="row">
                                                                         <div className="col-lg-6 mb-3 mb-lg-0">
                                                                             <label className="form-label text-445B64">Front Image</label>
-                                                                            <img src={chequeDetails?.imageUrl} alt="Check Front" className="img-fluid rounded" />
+                                                                            {chequeDetails?.imageUrl ?
+                                                                                <img src={chequeDetails?.imageUrl} alt="Check Front" className="img-fluid rounded" />
+                                                                                :
+                                                                                <h6 class="text-secondary fs-14">Image not Available</h6>
+                                                                            }
                                                                         </div>
                                                                         <div className="col-lg-6">
                                                                             <label className="form-label text-445B64">Back Image</label>
-                                                                            <img src={chequeDetails?.imageUrl2} alt="Check Front" className="img-fluid rounded" />
+                                                                            {chequeDetails?.imageUrl2 ?
+                                                                                <img src={chequeDetails?.imageUrl2} alt="Check back" className="img-fluid rounded" />
+                                                                                :
+                                                                                <h6 class="text-secondary fs-14">Image not Available</h6>
+                                                                            }
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -167,11 +170,19 @@ const ChequeDetails = () => {
                                                                     <div className="row">
                                                                         <div className="col-lg-6 mb-3 mb-lg-0">
                                                                             <label className="form-label text-445B64">Front Image</label>
-                                                                            <img src={chequeDetails?.imageUrl3} alt="License Front" className="img-fluid rounded" />
+                                                                            {chequeDetails?.imageUrl3 ?
+                                                                                <img src={chequeDetails?.imageUrl3} alt="License Front" className="img-fluid rounded" />
+                                                                                :
+                                                                                <h6 class="text-secondary fs-14">Image not Available</h6>
+                                                                            }
                                                                         </div>
                                                                         <div className="col-lg-6">
                                                                             <label className="form-label text-445B64">Back Image</label>
-                                                                            <img src={chequeDetails?.imageUrl4} alt="License Front" className="img-fluid rounded" />
+                                                                            {chequeDetails?.imageUrl4 ?
+                                                                                <img src={chequeDetails?.imageUrl4} alt="License Back" className="img-fluid rounded" />
+                                                                                :
+                                                                                <h6 class="text-secondary fs-14">Image not Available</h6>
+                                                                            }
                                                                         </div>
                                                                     </div>
                                                                 </div>

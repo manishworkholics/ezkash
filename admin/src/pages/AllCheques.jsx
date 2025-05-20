@@ -103,15 +103,12 @@ const AllCheques = () => {
                                                         <div className="col-12 col-lg-6">
                                                             <div className="row">
                                                                 <div className="d-flex">
-                                                                    <div className="position-relative pe-0 pe-lg-4 me-3"
+                                                                    <div className="position-relative"
                                                                         style={{ width: "-webkit-fill-available" }}>
-                                                                        <input className="form-control rounded-3 me-2 shadow-none bg-F0F5F6" style={{ paddingLeft: "40px" }}
+                                                                        <input className="form-control form-control-sm rounded-3 shadow-none bg-F0F5F6" style={{ paddingLeft: "40px" }}
                                                                             onChange={(e) => setSearchTerm(e.target.value)} type="search" placeholder="Search" aria-label="Search" />
                                                                         <i className="fa-solid fa-magnifying-glass text-445B64 position-absolute top-0 start-0"
-                                                                            style={{ margin: "11px" }}></i>
-                                                                    </div>
-                                                                    <div className="table-circular-icon bg-F0F5F6" style={{ cursor: "pointer" }} >
-                                                                        <i className="fa-solid fa-square-plus"></i>
+                                                                            style={{ margin: "8px" }}></i>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -127,18 +124,14 @@ const AllCheques = () => {
                                                                 <table className="table rounded-3">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th scope="col" className="text-center">
-                                                                                <input className="form-check-input table-checkbox"
-                                                                                    type="checkbox" value="" id="flexCheckDefault" />
-                                                                            </th>
-                                                                            <th scope="col" className="text-445B64">SNo.</th>
+                                                                            <th scope="col" className="text-445B64">#</th>
                                                                             <th scope="col" className="text-445B64">Customer Name</th>
                                                                             <th scope="col" className="text-445B64">Company Name</th>
-                                                                            <th scope="col" className="text-445B64">License No</th>
+                                                                            <th scope="col" className="text-445B64">ID Number</th>
                                                                             <th scope="col" className="text-445B64">Check Type</th>
                                                                             <th scope="col" className="text-445B64">Amount</th>
                                                                             <th scope="col" className="text-445B64">Comment</th>
-                                                                            <th scope="col" className="text-445B64">Date</th>
+                                                                            <th scope="col" className="text-445B64">Date & Time</th>
                                                                             <th scope="col" className="text-445B64">Status</th>
                                                                             <th scope="col" className="text-445B64 text-center">Actions</th>
                                                                         </tr>
@@ -155,15 +148,12 @@ const AllCheques = () => {
                                                                                 .slice(indexOfFirstRow, indexOfLastRow)
                                                                                 .map((cheque, index) => (
                                                                                     <tr key={cheque._id}>
-                                                                                        <td className="text-center">
-                                                                                            <input className="form-check-input table-checkbox" type="checkbox" />
-                                                                                        </td>
                                                                                         <td>{indexOfFirstRow + index + 1}</td>
                                                                                         <td>{cheque?.customerFirstName}</td>
                                                                                         <td>{cheque?.company}</td>
                                                                                         <td>{cheque?.licenseNo}</td>
                                                                                         <td>{cheque?.chequeType}</td>
-                                                                                        <td>{cheque?.amount}</td>
+                                                                                        <td>$ {cheque?.amount}</td>
                                                                                         <td>{cheque?.comment?.length > 10 ? cheque?.comment.substring(0, 10) + '...' : cheque?.comment}</td>
                                                                                         <td>
                                                                                             {cheque?.date &&
