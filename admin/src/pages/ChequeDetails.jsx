@@ -87,27 +87,27 @@ const ChequeDetails = () => {
                                                                 <div className="d-block d-lg-flex gap-5">
                                                                     <div className="mb-3">
                                                                         <h6 className="text-445B64R fs-14 mb-1">Customer Name</h6>
-                                                                        <h6 className="text-0D161A fw-medium mb-0">{chequeDetails?.customerFirstName}</h6>
+                                                                        <h6 className="text-0D161A fs-14 fw-medium mb-0">{chequeDetails?.customerFirstName}</h6>
                                                                     </div>
                                                                     <div className="mb-3">
                                                                         <h6 className="text-445B64R fs-14 mb-1">Id Number</h6>
-                                                                        <h6 className="text-0D161A fw-medium mb-0">{chequeDetails?.licenseNo}</h6>
+                                                                        <h6 className="text-0D161A fs-14 fw-medium mb-0">{chequeDetails?.licenseNo}</h6>
                                                                     </div>
                                                                     <div className="mb-3">
                                                                         <h6 className="text-445B64R fs-14 mb-1">Company</h6>
-                                                                        <h6 className="text-0D161A fw-medium mb-0">{chequeDetails?.company}</h6>
+                                                                        <h6 className="text-0D161A fs-14 fw-medium mb-0">{chequeDetails?.company}</h6>
                                                                     </div>
                                                                     <div className="mb-3">
                                                                         <h6 className="text-445B64R fs-14 mb-1">Check Type</h6>
-                                                                        <h6 className="text-0D161A fw-medium mb-0">{chequeDetails?.checkType}</h6>
+                                                                        <h6 className="text-0D161A fs-14 fw-medium mb-0">{chequeDetails?.checkType}</h6>
                                                                     </div>
                                                                     <div className="mb-3">
                                                                         <h6 className="text-445B64R fs-14 mb-1">Amount</h6>
-                                                                        <h6 className="text-0D161A fw-medium mb-0">$ {chequeDetails?.amount}</h6>
+                                                                        <h6 className="text-0D161A fs-14 fw-medium mb-0">$ {chequeDetails?.amount}</h6>
                                                                     </div>
                                                                     <div className="mb-3">
                                                                         <h6 className="text-445B64R fs-14 mb-1">Date & Time</h6>
-                                                                        <h6 className="text-0D161A fw-medium mb-0">
+                                                                        <h6 className="text-0D161A fs-14 fw-medium mb-0">
                                                                             {chequeDetails?.date &&
                                                                                 new Date(chequeDetails.date).toLocaleDateString("en-GB", {
                                                                                     day: "numeric",
@@ -132,7 +132,12 @@ const ChequeDetails = () => {
                                                             <div className="d-block d-lg-flex gap-5">
                                                                 <div className="mb-3 w-100">
                                                                     <h6 className="text-445B64R fs-14 mb-1">Comments</h6>
-                                                                    <h6 className="text-0D161A fw-medium mb-0">{chequeDetails?.comment}</h6>
+                                                                    {chequeDetails?.comment ?
+                                                                        <h6 className="text-0D161A fs-14 fw-medium mb-0">{chequeDetails?.comment}</h6>
+                                                                        :
+                                                                        <h6 className="text-0D161A fs-14 fw-medium mb-0">No comments available.</h6>
+                                                                    }
+
                                                                 </div>
                                                             </div>
                                                         </div>
