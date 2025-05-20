@@ -5,13 +5,19 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const token = localStorage.getItem('token')
+
+const token = localStorage.getItem('token');
 const URL = process.env.REACT_APP_URL;
 
 const Checks = () => {
     const navigate = useNavigate();
     const [checks, setChecks] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
+
+    useEffect(() => {
+        fetchChecks();
+    }, []);
 
     const fetchChecks = async () => {
         try {
@@ -25,7 +31,7 @@ const Checks = () => {
                 setChecks(response.data.data);
             }
         } catch (error) {
-            console.error("Error fetching check:", error);
+            console.error("Error fetching checks:", error);
         }
     };
 
@@ -42,41 +48,66 @@ const Checks = () => {
                 fetchChecks();
             }
         } catch (error) {
-            toast.error("Error in deleting check: " + error.message);
-            console.error("Error in deleting check", error);
+            toast.error("Error deleting check: " + error.message);
         }
     };
 
-    const handleAddCheck = () => {
-        navigate("/upload-check");
+    const handleAddCheck = () => navigate("/upload-check");
+    const handleAddCheckDesk = () => navigate("/add-check");
+
+    const handleSort = (key) => {
+        let direction = 'asc';
+        if (sortConfig.key === key && sortConfig.direction === 'asc') {
+            direction = 'desc';
+        }
+        setSortConfig({ key, direction });
     };
 
-    const handleAddCheckDesk = () => {
-        navigate("/add-check");
+    const getSortIcon = (key) => {
+        const isActive = sortConfig.key === key;
+        const isAsc = sortConfig.direction === 'asc';
+
+        return (
+            <span className="d-inline-flex flex-column ms-1" style={{ fontSize: '0.75rem', lineHeight: '1' }}>
+                <span style={{ color: isActive && isAsc ? '#000' : '#ccc' }}>▲</span>
+                <span style={{ color: isActive && !isAsc ? '#000' : '#ccc' }}>▼</span>
+            </span>
+        );
     };
 
     const filteredCheck = checks.filter((item, index) => {
         const search = searchTerm.toLowerCase();
         return (
             (index + 1).toString().includes(search) ||
-            item.customerName?.toLowerCase().includes(search) ||
+            item.customerFirstName?.toLowerCase().includes(search) ||
             item.company?.toLowerCase().includes(search) ||
-            item.licenseNo?.toString().toLowerCase().includes(search) ||
+            item.licenseNo?.toLowerCase().includes(search) ||
             item.checkType?.toLowerCase().includes(search) ||
-            item.amount?.toString().toLowerCase().includes(search) ||
+            item.amount?.toString().includes(search) ||
             item.comment?.toLowerCase().includes(search) ||
             item.date?.toLowerCase().includes(search) ||
             item.status?.toLowerCase().includes(search)
         );
     });
 
-    useEffect(() => {
-        fetchChecks();
-    }, []);
+    const sortedData = [...filteredCheck].sort((a, b) => {
+        const { key, direction } = sortConfig;
+        if (!key) return 0;
+
+        let valA = key === 'serial' ? checks.indexOf(a) + 1 : a[key];
+        let valB = key === 'serial' ? checks.indexOf(b) + 1 : b[key];
+
+        if (typeof valA === 'string') valA = valA.toLowerCase();
+        if (typeof valB === 'string') valB = valB.toLowerCase();
+
+        if (valA < valB) return direction === 'asc' ? -1 : 1;
+        if (valA > valB) return direction === 'asc' ? 1 : -1;
+        return 0;
+    });
 
     return (
         <div className="container-fluid">
-            <ToastContainer position='top-right' autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+            <ToastContainer position='top-right' autoClose={3000} />
             <Header />
             <div className="row mh-100vh">
                 <div className="col-lg-3 col-xl-2 d-none d-lg-block position-relative">
@@ -102,11 +133,17 @@ const Checks = () => {
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <div className="col-6 d-flex justify-content-end align-items-center d-md-none">
-                                                    <button style={{background:'#008CFF'}} className='btn border-0 rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0 mb-2' onClick={handleAddCheck}>
+                                                    <button
+                                                        style={{ background: '#008CFF' }}
+                                                        className='btn border-0 rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0 mb-2'
+                                                        onClick={handleAddCheck}
+                                                    >
                                                         <i className="fa fa-plus me-2"></i>Add Check
                                                     </button>
                                                 </div>
+
                                                 <div className="col-12 col-md-9 col-lg-9">
                                                     <div className="row">
                                                         <div className="col-md-9">
@@ -124,7 +161,11 @@ const Checks = () => {
                                                             </div>
                                                         </div>
                                                         <div className="col-md-3 mt-3 mt-md-0 d-none d-md-flex justify-content-end align-items-center">
-                                                            <button style={{background:'#008CFF'}} className='btn py-1 px-2 fs-14 text-white border-0 p-0 fw-medium' onClick={handleAddCheckDesk}>
+                                                            <button
+                                                                style={{ background: '#008CFF' }}
+                                                                className='btn py-1 px-2 fs-14 text-white border-0 p-0 fw-medium'
+                                                                onClick={handleAddCheckDesk}
+                                                            >
                                                                 <i className="fa fa-plus me-2"></i>Add Check
                                                             </button>
                                                         </div>
@@ -138,26 +179,62 @@ const Checks = () => {
                                 <div className="col-12">
                                     <div className="card border-0 rounded-3 mb-1 overflow-hidden">
                                         <div className="card-body p-0">
-                                            {/* Table Starts Here */}
                                             <div className="table-responsive">
                                                 <table className="table table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th>#</th>
-                                                            <th>Customer Name</th>
-                                                            <th>Amount</th>
-                                                            <th>ID Number</th>
-                                                            <th>Company</th>
-                                                            <th>Type</th>
-                                                            <th>Comment</th>
-                                                            <th>Date & Time</th>
-                                                            <th>Status</th>
+                                                            <th onClick={() => handleSort('serial')} style={{ cursor: 'pointer' }}>
+                                                                <div className="d-flex align-items-center">
+                                                                    #
+                                                                    {getSortIcon('serial')}
+                                                                </div>
+                                                            </th>
+                                                            <th onClick={() => handleSort('customerFirstName')} style={{ cursor: 'pointer' }}>
+                                                                <div className="d-flex align-items-center">
+                                                                    Customer Name {getSortIcon('customerFirstName')}
+                                                                </div>
+                                                            </th>
+                                                            <th onClick={() => handleSort('amount')} style={{ cursor: 'pointer' }}>
+                                                                <div className="d-flex align-items-center">
+                                                                    Amount {getSortIcon('amount')}
+                                                                </div>
+                                                            </th>
+                                                            <th onClick={() => handleSort('licenseNo')} style={{ cursor: 'pointer' }}>
+                                                                <div className="d-flex align-items-center">
+                                                                    ID Number {getSortIcon('licenseNo')}
+                                                                </div>
+                                                            </th>
+                                                            <th onClick={() => handleSort('company')} style={{ cursor: 'pointer' }}>
+                                                                <div className="d-flex align-items-center">
+                                                                    Company {getSortIcon('company')}
+                                                                </div>
+                                                            </th>
+                                                            <th onClick={() => handleSort('checkType')} style={{ cursor: 'pointer' }}>
+                                                                <div className="d-flex align-items-center">
+                                                                    Type {getSortIcon('checkType')}
+                                                                </div>
+                                                            </th>
+                                                            <th onClick={() => handleSort('comment')} style={{ cursor: 'pointer' }}>
+                                                                <div className="d-flex align-items-center">
+                                                                    Comment {getSortIcon('comment')}
+                                                                </div>
+                                                            </th>
+                                                            <th onClick={() => handleSort('date')} style={{ cursor: 'pointer' }}>
+                                                                <div className="d-flex align-items-center">
+                                                                    Date & Time {getSortIcon('date')}
+                                                                </div>
+                                                            </th>
+                                                            <th onClick={() => handleSort('status')} style={{ cursor: 'pointer' }}>
+                                                                <div className="d-flex align-items-center">
+                                                                    Status {getSortIcon('status')}
+                                                                </div>
+                                                            </th>
                                                             <th className='text-center'>Actions</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {filteredCheck.length > 0 ? (
-                                                            filteredCheck.map((item, index) => (
+                                                        {sortedData.length > 0 ? (
+                                                            sortedData.map((item, index) => (
                                                                 <tr key={item._id}>
                                                                     <td>{index + 1}</td>
                                                                     <td>{item.customerFirstName}</td>
@@ -166,16 +243,14 @@ const Checks = () => {
                                                                     <td>{item.company}</td>
                                                                     <td>{item.checkType}</td>
                                                                     <td>{item.comment?.length > 10 ? item.comment.substring(0, 10) + '...' : item.comment}</td>
-                                                                    <td>
-                                                                        {item?.date}
-                                                                    </td>
-
+                                                                    <td>{item.date}</td>
                                                                     <td>{item.status}</td>
                                                                     <td className='text-center'>
-                                                                        <div className=" justify-content-center">
-                                                                            <Link to={`/check-details/${item?._id}`} className="btn">
+                                                                        <div className="d-flex justify-content-center">
+                                                                            <Link to={`/check-details/${item._id}`} className="btn">
                                                                                 <i className="fa-solid fa-eye text-445B64"></i>
-                                                                            </Link><button className="btn" onClick={() => handleDeleteCheck(item._id)}>
+                                                                            </Link>
+                                                                            <button className="btn" onClick={() => handleDeleteCheck(item._id)}>
                                                                                 <i className="fa-solid fa-trash-can text-danger"></i>
                                                                             </button>
                                                                         </div>
@@ -190,7 +265,6 @@ const Checks = () => {
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            {/* Table Ends Here */}
                                         </div>
                                     </div>
                                 </div>
@@ -204,4 +278,3 @@ const Checks = () => {
 };
 
 export default Checks;
-

@@ -141,64 +141,10 @@ const Chat = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-xxl-8 chat-section">
+                                        <div className="col-12 chat-section">
                                             <div className="card border-0 rounded-3 mb-2">
                                                 <div className="card-body">
-                                                    <div className="d-flex flex-column gap-2">
-                                                        <div className="mb-3">
-                                                            <textarea
-                                                                className="form-control bg-FAFAFA fs-14"
-                                                                placeholder="Write your reply"
-                                                                rows="3"
-                                                                value={message}
-                                                                onChange={(e) => setMessage(e.target.value)}
-                                                                onKeyDown={(e) => {
-                                                                    if (e.key === 'Enter' && !e.shiftKey) {
-                                                                        e.preventDefault(); // prevent new line
-                                                                        sendChat();         // trigger send function
-                                                                    }
-                                                                }}
-                                                            />
-
-                                                        </div>
-
-                                                        <div className="d-flex justify-content-between align-items-center mb-3">
-                                                            <div>
-                                                                <label
-                                                                    htmlFor="formFile"
-                                                                    className="btn bg-F6FFFE text-445B64 fs-14 d-inline-flex align-items-center"
-                                                                    style={{ border: '1px solid #D7D7D7', cursor: 'pointer' }}
-                                                                >
-                                                                    <i className="fa-solid fa-arrow-up-from-bracket text-01A99A fs-6 me-2"></i>
-                                                                    Upload Attachment
-                                                                </label>
-                                                                <input
-                                                                    type="file"
-                                                                    id="formFile"
-                                                                    className="d-none"
-                                                                    onChange={handleUpload}
-                                                                />
-                                                            </div>
-
-                                                            <div>
-                                                                <button className="btn sign-btn py-2 px-4 fs-14" onClick={sendChat}>
-                                                                    <div className="d-none d-md-block">Send reply</div>
-                                                                    <div className="d-block d-md-none">
-                                                                        <i class="fa-solid fa-paper-plane text-white"></i>
-                                                                    </div>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-
-                                                        {image && (
-                                                            <div className='row mb-3'>
-                                                                <div className="col-md-6 col-lg-4">
-                                                                    <img src={image} alt="Attachment Preview" loading="lazy" className='w-100 border rounded-4' />
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                    {/* <div className="chat-container">
+                                                    <div className="chat-container">
                                                         <div className="px-3 msg-section px-lg-5 pb-3">
 
                                                             {data?.length > 0 ? (
@@ -276,7 +222,7 @@ const Chat = () => {
 
                                                                     <div>
                                                                         <button className="btn sign-btn py-2 px-4 fs-14" onClick={sendChat}>
-                                                                            <div className="d-none d-md-block">Send reply</div>
+                                                                            <div className="d-none d-md-block">Send reply</div> 
                                                                             <div className="d-block d-md-none">
                                                                                 <i class="fa-solid fa-paper-plane text-white"></i>
                                                                             </div>
@@ -293,33 +239,27 @@ const Chat = () => {
                                                                 )}
                                                             </div>
                                                         </div>
-                                                    </div> */}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-xxl-4">
-                                            <div className="card border-0 rounded-3 mb-2">
-                                                <div className="card-body">
-                                                    status
-                                                </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                {/* Image Preview Modal */}
-                <div className="modal fade" id="imagePreviewModal" tabIndex="-1" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-centered" style={{ width: 'fit-content' }}>
-                        <div className="modal-content bg-transparent border-0 shadow rounded-4">
-                            <div className="modal-body text-center p-0">
-                                {previewImage && (
-                                    <img src={previewImage} alt="Preview" className="img-fluid rounded-4" />
-                                )}
-                            </div>
+            {/* Image Preview Modal */}
+            <div className="modal fade" id="imagePreviewModal" tabIndex="-1" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered" style={{ width: 'fit-content' }}>
+                    <div className="modal-content bg-transparent border-0 shadow rounded-4">
+                        <div className="modal-body text-center p-0">
+                            {previewImage && (
+                                <img src={previewImage} alt="Preview" className="img-fluid rounded-4" />
+                            )}
                         </div>
                     </div>
                 </div>

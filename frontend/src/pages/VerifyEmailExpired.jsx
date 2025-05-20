@@ -52,7 +52,7 @@ const VerifyEmailExpired = () => {
                             <div className="w-100 text-center">
                                 <img src={emailVerifyExpired} alt="" className="mb-3" style={{ width: '70px' }} />
                                 <h5 className="fw-semibold">Email verification link expired</h5>
-                                <h6 className="mb-4 text-445B64 fs-14">Looks like the email verification link has expired. No worries we can send the link again.</h6>
+                                <h6 className="mb-4 text-445B64 fs-14">Looks like the email verification link has expired. No worries we can send the code again.</h6>
                                 <button
                                     onClick={handleResendOtp}
                                     className="btn w-100 sign-btn mb-3"

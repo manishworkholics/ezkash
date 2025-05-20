@@ -19,7 +19,7 @@ const SignUp = () => {
     password: '',
     confirmPassword: '',
   })
-  // const [passwordValidations, setPasswordValidations] = useState({
+  // const [setPasswordValidations] = useState({
   //   minLength: false,
   //   hasUpperCase: false,
   //   hasLowerCase: false,
@@ -42,46 +42,47 @@ const SignUp = () => {
     let errors = {};
 
     if (firstname.trim() === '') {
-      errors.firstname = 'First Name is required';
+      errors.firstname = 'First name is required.';
     }
 
     if (lastname.trim() === '') {
-      errors.lastname = 'Last Name is required';
+      errors.lastname = 'Last name is required.';
     }
     if (email.trim() === '') {
-      errors.email = 'Email is required';
+      errors.email = 'Email is required.';
     } else {
       const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
       if (!emailPattern.test(email)) {
-        errors.email = 'Invalid email format';
+        errors.email = 'Invalid email address format.';
       }
     }
+    
     if (mobile.trim() === '') {
-      errors.mobile = 'Phone number is required';
+      errors.mobile = 'Mobile number is required.';
     } else {
-      const mobilePattern = /^[0-9]{10}$/;
-      if (!mobilePattern.test(mobile)) {
-        errors.mobile = 'Invalid mobile number';
+      const mobilePattern = /^\+?[1-9]\d{1,14}$/;
+
+      const sanitizedMobile = mobile.replace(/[\s\-()]/g, '');
+
+      if (!mobilePattern.test(sanitizedMobile)) {
+        errors.mobile = 'Invalid mobile number.';
       }
-    }
-    if (mobile.length !== 10) {
-      errors.mobile = 'Mobile number must be exactly 10 digits';
     }
     // if (!passwordRules.hasUpperCase || !passwordRules.hasLowerCase || !passwordRules.hasNumber || !passwordRules.hasSpecialChar) {
-    //   errors.password = "Password does not meet security criteria.";
+    //   errors.password = "Password must include uppercase, lowercase, a number, and a special character.";
     // }
 
     if (password.trim() === '') {
-      errors.password = 'Password is required';
+      errors.password = 'Password is required.';
     }
     if (password.length < 8) {
-      errors.password = "Password must 8 digits long";
+      errors.password = "Password must be at least 8 characters long.";
     }
     if (confirmPassword.trim() === '') {
-      errors.confirmPassword = "Confirm Password must be required";
+      errors.confirmPassword = "Confirm password is required.";
     }
     if (password !== confirmPassword) {
-      errors.confirmPassword = "Password and Confirm Password do not match";
+      errors.confirmPassword = "Passwords do not match.";
     }
     return errors;
   };
@@ -119,22 +120,22 @@ const SignUp = () => {
       });
 
       if (response.status === 201) {
-        toast.success('OTP sent to email. Please verify.');
+        toast.success('Code has been sent to your email. Please verify to continue.');
         localStorage.setItem("email", formData.email);
         navigate('/verify-otp');
       } else if (response.status === 200) {
-        toast.success("New OTP sent. Please verify to complete registration.");
+        toast.success("A new code has been sent. Please verify to complete registration.");
         localStorage.setItem("email", formData.email);
         navigate('/verify-otp');
       } else if (response.status === 409) {
-        toast.error("Email already exists and verified. Please login.");
+        toast.error("This email is already registered and verified. Please log in.");
         navigate('/'); // Redirect to login instead of OTP
       }
     } catch (error) {
       if (error.response && error.response.status === 500) {
         toast.error('Something went wrong. Please try again later.');
       } else {
-        toast.error(error?.response?.data?.message || 'Unexpected error occurred.');
+        toast.error(error?.response?.data?.message || 'An unexpected error occurred.');
       }
     } finally {
       setLoading(false);
@@ -190,13 +191,6 @@ const SignUp = () => {
                   <div className="mb-3">
                     <input className="form-control rounded-3" type="password" id='password' name='password' value={formData.password} onChange={handleChange} placeholder="Password" aria-label="example" required />
                     {formErrors.password && <small className="text-danger">{formErrors.password}</small>}
-                    {/* <ul className="small ps-4 mb-4">
-                      <li className={passwordValidations.minLength ? "text-success" : "text-danger"}>Minimum characters 8</li>
-                      <li className={passwordValidations.hasUpperCase ? "text-success" : "text-danger"}>One uppercase character</li>
-                      <li className={passwordValidations.hasLowerCase ? "text-success" : "text-danger"}>One lowercase character</li>
-                      <li className={passwordValidations.hasSpecialChar ? "text-success" : "text-danger"}>One special character</li>
-                      <li className={passwordValidations.hasNumber ? "text-success" : "text-danger"}>One number</li>
-                    </ul> */}
                   </div>
                   {/* Confirm Password */}
                   <div className="mb-3">

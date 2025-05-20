@@ -69,8 +69,8 @@ const CheckDetails = () => {
                                                         </div>
                                                         <div className="col-4 col-lg-6">
                                                             <div className="d-flex justify-content-end">
-                                                                <button onClick={handleBack} className="btn btn-sm rounded-2 btn-light text-445B64">
-                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-445B64"></i>
+                                                                <button onClick={handleBack} className="btn btn-sm rounded-2 btn-secondary text-white">
+                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
                                                                     Back
                                                                 </button>
                                                             </div>

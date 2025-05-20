@@ -140,8 +140,8 @@ const Support = () => {
                                                         </div>
                                                         <div className="col-6 col-lg-6">
                                                             <div className="d-flex justify-content-end">
-                                                                <button style={{ background: '#008CFF' }} className='btn border-0 rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0 mb-2' onClick={() => navigate('/my-ticket')}>
-                                                                    My Ticket
+                                                                <button style={{ background: '#008CFF' }} className='btn border-0 rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0' onClick={() => navigate('/my-ticket')}>
+                                                                    My Tickets
                                                                 </button>
                                                             </div>
                                                         </div>
