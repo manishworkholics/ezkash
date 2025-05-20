@@ -149,7 +149,7 @@ const Otp = () => {
                                             Resend Code
                                         </>
                                     ) : (
-                                        "Resent Code"
+                                        "Resend Code"
                                     )}</button>
                                 </div>
                             </div>
