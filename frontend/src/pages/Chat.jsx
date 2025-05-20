@@ -6,6 +6,7 @@ import moment from 'moment'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useNavigate, useParams } from 'react-router-dom';
+import profileImg from '../assets/images/userImg.png'
 const token = localStorage.getItem('token')
 const URL = process.env.REACT_APP_URL;
 
@@ -162,122 +163,144 @@ const Chat = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-xxl-8 chat-section">
-                                            <div className="card border-0 rounded-3 mb-2">
-                                                <div className="card-body">
-                                                    <div className="d-flex flex-column gap-2">
-                                                        <div className="mb-3">
-                                                            <CKEditor
-                                                                editor={ClassicEditor}
-                                                                data={message}
-                                                                onChange={(event, editor) => {
-                                                                    const data = editor.getData();
-                                                                    setMessage(data);
-                                                                }}
-                                                                onReady={(editor) => {
-                                                                    editor.editing.view.document.on('enter', (evt, data) => {
-                                                                        if (!data.shiftKey) {
-                                                                            data.preventDefault();
-                                                                            sendChat();
-                                                                        }
-                                                                    });
-                                                                }}
-                                                            />
-
-
-                                                        </div>
-
-                                                        <div className="d-flex justify-content-between align-items-center mb-3">
-                                                            <div>
-                                                                <label
-                                                                    htmlFor="formFile"
-                                                                    className="btn bg-F6FFFE text-445B64 fs-14 d-inline-flex align-items-center"
-                                                                    style={{ border: '1px solid #D7D7D7', cursor: 'pointer' }}
-                                                                >
-                                                                    <i className="fa-solid fa-arrow-up-from-bracket text-01A99A fs-6 me-2"></i>
-                                                                    Upload Attachment
-                                                                </label>
-                                                                <input
-                                                                    type="file"
-                                                                    id="formFile"
-                                                                    className="d-none"
-                                                                    onChange={handleUpload}
+                                        <div className="col-xxl-8 col-lg-7">
+                                            <div className="">
+                                                <div className="card border-0 rounded-3 mb-4">
+                                                    <div className="card-body">
+                                                        <div className="d-flex flex-column gap-2">
+                                                            <div className="mb-3">
+                                                                <CKEditor
+                                                                    editor={ClassicEditor}
+                                                                    data={message}
+                                                                    onChange={(event, editor) => {
+                                                                        const data = editor.getData();
+                                                                        setMessage(data);
+                                                                    }}
+                                                                    onReady={(editor) => {
+                                                                        editor.editing.view.document.on('enter', (evt, data) => {
+                                                                            if (!data.shiftKey) {
+                                                                                data.preventDefault();
+                                                                                sendChat();
+                                                                            }
+                                                                        });
+                                                                    }}
                                                                 />
+
+
                                                             </div>
 
-                                                            <div>
-                                                                <button className="btn sign-btn py-2 px-4 fs-14" onClick={sendChat}>
-                                                                    <div className="d-none d-md-block">Send reply</div>
-                                                                    <div className="d-block d-md-none">
-                                                                        <i class="fa-solid fa-paper-plane text-white"></i>
-                                                                    </div>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-
-                                                        {image && (
-                                                            <div className='row mb-3'>
-                                                                <div className="col-md-6 col-lg-4">
-                                                                    <img src={image} alt="Attachment Preview" loading="lazy" className='w-100 border rounded-4' />
+                                                            <div className="d-flex justify-content-between align-items-center">
+                                                                <div>
+                                                                    <label
+                                                                        htmlFor="formFile"
+                                                                        className="btn bg-F6FFFE text-445B64 fs-14 d-inline-flex align-items-center"
+                                                                        style={{ border: '1px solid #D7D7D7', cursor: 'pointer' }}
+                                                                    >
+                                                                        <i className="fa-solid fa-arrow-up-from-bracket text-01A99A fs-6 me-2"></i>
+                                                                        Upload Attachment
+                                                                    </label>
+                                                                    <input
+                                                                        type="file"
+                                                                        id="formFile"
+                                                                        className="d-none"
+                                                                        onChange={handleUpload}
+                                                                    />
                                                                 </div>
                                                             </div>
-                                                        )}
-                                                    </div>
 
+                                                            {image && (
+                                                                <div className='row mb-3'>
+                                                                    <div className="col-md-6 col-lg-4">
+                                                                        <img src={image} alt="Attachment Preview" loading="lazy" className='w-100 border rounded-4' />
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                                <div className='text-end mb-4'>
+                                                    <button className="btn sign-btn py-2 px-5 px-4 fs-14" onClick={sendChat}>
+                                                        <div className="d-none d-md-block fw-medium">Reply</div>
+                                                        <div className="d-block d-md-none">
+                                                            <i class="fa-solid fa-paper-plane text-white"></i>
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className="">
+                                                {data?.map((val, index) => {
+                                                    return (
+                                                        <>
+                                                            <div key={index} className="">
+                                                                <div className="card border-0 rounded-3 mb-2">
+                                                                    <div className="card-body">
+                                                                        <div>
+                                                                            <div className="d-flex justify-content-between mb-3">
+                                                                                <h6 className='text-dark fw-bolder'>
+                                                                                    <img src={profileImg} alt="" className="shadow-sm border border-light rounded-circle me-2" style={{ width: '40px' }} />
+                                                                                    {val?.senderId?.role}</h6>
+                                                                                <h6 className='text-secondary fs-14'> {moment(val?.createdAt).format("MMM DD, YYYY hh:mm A")}</h6>
+                                                                            </div>
+                                                                            <div className="card rounded-4 border-0 bg-F0F5F6">
+                                                                                <div className="card-body">
+                                                                                    <div className="" style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }} dangerouslySetInnerHTML={{ __html: val?.message }} />
+                                                                                    <div>
+                                                                                        {val?.image && (
+                                                                                            <>
+                                                                                                <div className="">
+                                                                                                    <img
+                                                                                                        src={val?.image}
+                                                                                                        alt="chat"
+                                                                                                        className='rounded-4'
+                                                                                                        style={{ maxWidth: '200px', cursor: 'pointer' }}
+                                                                                                        data-bs-toggle="modal"
+                                                                                                        data-bs-target="#imagePreviewModal"
+                                                                                                        onClick={() => setPreviewImage(val?.image)}
+                                                                                                    />
+                                                                                                </div>
+                                                                                            </>
+                                                                                        )}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </>
+                                                    )
+                                                })}
                                             </div>
                                         </div>
 
-                                        {data?.map((val, index) => {
-                                            return (
-                                                <>
-                                                    <div key={index} className="col-xxl-8 chat-section">
-                                                        <div className="card border-0 rounded-3 mb-2">
-                                                            <div className="card-body">
-                                                                <div>
-                                                                    <p>{val?.senderId?.role}</p>
-                                                                    <p> {moment(val?.createdAt).format("MMM DD, YYYY hh:mm A")}</p>
-                                                                    <div
-                                                                        className="form-control border-0 bg-F0F5F6"
-                                                                        style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
-                                                                        dangerouslySetInnerHTML={{ __html: val?.message }}
-                                                                    />
-                                                                    <div>
-                                                                        {val?.image && (
-                                                                            <>
-                                                                                <div className="">
-                                                                                    <img
-                                                                                        src={val?.image}
-                                                                                        alt="chat"
-                                                                                        className='rounded-4'
-                                                                                        style={{ maxWidth: '200px', cursor: 'pointer' }}
-                                                                                        data-bs-toggle="modal"
-                                                                                        data-bs-target="#imagePreviewModal"
-                                                                                        onClick={() => setPreviewImage(val?.image)}
-                                                                                    />
-                                                                                </div>
-                                                                            </>
-                                                                        )}
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div></>
-                                            )
-                                        })}
-
-                                        <div className="col-xxl-4">
+                                        <div className="col-xxl-4 col-lg-5">
                                             <div className="card border-0 rounded-3 mb-2">
-                                                <div className="card-body">
-                                                    status {ticketdetail?.status}
+                                                <div className="card-header bg-white">
+                                                    <h6 className="mb-0">
+                                                        <span className="text-dark">Status : </span>
+                                                        <span className="text-secondary fw-medium">{ticketdetail?.status}</span>
+                                                    </h6>
                                                 </div>
-                                                <p> category:{ticketdetail?.category}</p>
-                                                <p> subject:{ticketdetail?.subject}</p>
-                                                <p>description:{ticketdetail?.description}</p>
-
-                                                <image src={ticketdetail?.checkImg} />
-                                                <p> createdAt:{moment(ticketdetail?.createdAt).format("MMM DD, YYYY hh:mm A")}</p>
+                                                <div className="card-body">
+                                                    <h6 className=''>
+                                                        <span className="text-dark">Category : </span>
+                                                        <span className="text-secondary fw-medium">{ticketdetail?.category}</span>
+                                                    </h6>
+                                                    <h6>
+                                                        <span className="text-dark">Subject : </span>
+                                                        <span className="text-secondary fw-medium">{ticketdetail?.subject}</span>
+                                                    </h6>
+                                                    <h6>
+                                                        <span className="text-dark">Description : </span>
+                                                        <span className="text-secondary fw-medium">{ticketdetail?.description}</span>
+                                                    </h6>
+                                                    <image src={ticketdetail?.checkImg} />
+                                                    <h6>
+                                                        <span className="text-dark fs-14">Created at : </span>
+                                                        <span className="text-secondary fw-medium fs-14">{moment(ticketdetail?.createdAt).format("MMM DD, YYYY hh:mm A")}</span>
+                                                    </h6>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
