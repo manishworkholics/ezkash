@@ -24,3 +24,40 @@ exports.getTicketsByVendor = async (req, res) => {
   }
 };
 
+exports.getTicketDetailsById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const ticket = await Ticket.findById(id); // Fetch by MongoDB _id
+    if (!ticket) {
+      return res.status(404).json({ message: 'Ticket not found' });
+    }
+    res.status(200).json(ticket);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching ticket', error: error.message });
+  }
+};
+
+
+exports.updateTicketById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    const updatedTicket = await Ticket.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedTicket) {
+      return res.status(404).json({ message: 'Ticket not found' });
+    }
+
+    res.status(200).json({
+      message: 'Ticket updated successfully',
+      ticket: updatedTicket
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating ticket', error: error.message });
+  }
+};

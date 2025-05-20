@@ -1,13 +1,148 @@
 const Check = require('../model/check.model');
 
 
+// exports.addCheckDetail = async (req, res) => {
+//     try {
+//         const { imageUrl, imageUrl2, imageUrl3, imageUrl4, customerFirstName, customerMiddleName, customerLastName, licenseNo, date, company, checkType, amount, status, extractedText, comment, venderId } = req.body;
+
+//         const newCheck = new Check({ imageUrl, imageUrl2, imageUrl3, imageUrl4, customerFirstName, customerMiddleName, customerLastName, licenseNo, date, company, checkType, amount, status, extractedText, comment, venderId });
+
+//         await newCheck.save();
+
+//         return res.status(201).json({
+//             message: 'Check details added successfully',
+//             data: newCheck,
+//         });
+//     } catch (error) {
+//         console.error('Error in addCheckDetail:', error);
+//         return res.status(500).json({
+//             message: 'Something went wrong while saving check details',
+//             error: error.message,
+//         });
+//     }
+// };
+
+
+
+// exports.addCheckDetail = async (req, res) => {
+//     try {
+//         const {
+//             imageUrl,
+//             imageUrl2,
+//             imageUrl3,
+//             imageUrl4,
+//             customerFirstName,
+//             customerMiddleName,
+//             customerLastName,
+//             licenseNo,
+//             date,
+//             company,
+//             checkType,
+//             amount,
+//             status,
+//             extractedText,
+//             comment,
+//             venderId
+//         } = req.body;
+
+//         // Normalize input (trim and lowercase)
+//         const normalizedFirstName = customerFirstName?.trim().toLowerCase() || '';
+//         const normalizedMiddleName = customerMiddleName?.trim().toLowerCase() || '';
+//         const normalizedLastName = customerLastName?.trim().toLowerCase() || '';
+//         const normalizedLicenseNo = licenseNo?.trim().toLowerCase() || '';
+
+//         // Case-insensitive match using regex
+//         const existingCheck = await Check.findOne({
+//             customerFirstName: new RegExp(`^${normalizedFirstName}$`, 'i'),
+//             customerMiddleName: new RegExp(`^${normalizedMiddleName}$`, 'i'),
+//             customerLastName: new RegExp(`^${normalizedLastName}$`, 'i'),
+//             licenseNo: new RegExp(`^${normalizedLicenseNo}$`, 'i'),
+//         });
+
+//         const customerStatus = existingCheck ? "verified customer" : "new customer";
+
+//         const newCheck = new Check({
+//             imageUrl,
+//             imageUrl2,
+//             imageUrl3,
+//             imageUrl4,
+//             customerFirstName: customerFirstName?.trim(),
+//             customerMiddleName: customerMiddleName?.trim(),
+//             customerLastName: customerLastName?.trim(),
+//             licenseNo: licenseNo?.trim(),
+//             date,
+//             company,
+//             checkType,
+//             amount,
+//             status,
+//             extractedText,
+//             comment,
+//             venderId,
+//             customerStatus
+//         });
+
+//         await newCheck.save();
+
+//         return res.status(201).json({
+//             message: 'Check details added successfully',
+//             data: newCheck,
+//         });
+//     } catch (error) {
+//         console.error('Error in addCheckDetail:', error);
+//         return res.status(500).json({
+//             message: 'Something went wrong while saving check details',
+//             error: error.message,
+//         });
+//     }
+// };
+
+
 exports.addCheckDetail = async (req, res) => {
     try {
-        const { imageUrl, imageUrl2, imageUrl3, imageUrl4, customerFirstName, customerMiddleName, customerLastName, licenseNo, date, company, checkType, amount, status, extractedText, comment, venderId } = req.body;
+        const {
+            imageUrl, imageUrl2, imageUrl3, imageUrl4,
+            customerFirstName, customerMiddleName, customerLastName,
+            licenseNo, date, company, checkType, amount,
+            status, extractedText, comment, venderId
+        } = req.body;
 
-        const newCheck = new Check({ imageUrl, imageUrl2, imageUrl3, imageUrl4, customerFirstName, customerMiddleName, customerLastName, licenseNo, date, company, checkType, amount, status, extractedText, comment, venderId });
+        // Normalize for consistent matching
+        const normalizedFirstName = customerFirstName?.trim().toLowerCase();
+        const normalizedMiddleName = customerMiddleName?.trim().toLowerCase();
+        const normalizedLastName = customerLastName?.trim().toLowerCase();
+        const normalizedLicenseNo = licenseNo?.trim();
+
+        // Save as 'new customer' by default
+        const newCheck = new Check({
+            imageUrl, imageUrl2, imageUrl3, imageUrl4,
+            customerFirstName, customerMiddleName, customerLastName,
+            licenseNo, date, company, checkType, amount,
+            status, extractedText, comment, venderId,
+            customerStatus: 'new customer'
+        });
 
         await newCheck.save();
+
+        // After saving, count how many checks exist for this customer
+        const customerChecks = await Check.find({
+            customerFirstName: { $regex: new RegExp(`^${normalizedFirstName}$`, 'i') },
+            customerMiddleName: { $regex: new RegExp(`^${normalizedMiddleName}$`, 'i') },
+            customerLastName: { $regex: new RegExp(`^${normalizedLastName}$`, 'i') },
+            licenseNo: normalizedLicenseNo
+        });
+
+        // If more than one, update all to 'verified customer'
+        if (customerChecks.length > 1) {
+            await Check.updateMany(
+                {
+                    customerFirstName: { $regex: new RegExp(`^${normalizedFirstName}$`, 'i') },
+                    customerMiddleName: { $regex: new RegExp(`^${normalizedMiddleName}$`, 'i') },
+                    customerLastName: { $regex: new RegExp(`^${normalizedLastName}$`, 'i') },
+                    licenseNo: normalizedLicenseNo
+                },
+                { $set: { customerStatus: 'verified customer' } }
+            );
+        }
 
         return res.status(201).json({
             message: 'Check details added successfully',
@@ -21,6 +156,7 @@ exports.addCheckDetail = async (req, res) => {
         });
     }
 };
+
 
 
 exports.getAllChecks = async (req, res) => {

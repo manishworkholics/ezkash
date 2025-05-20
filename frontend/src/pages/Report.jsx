@@ -13,6 +13,7 @@ const Report = () => {
     const [showModal, setShowModal] = useState(false);
     const [sortField, setSortField] = useState('');
     const [sortOrder, setSortOrder] = useState('asc');
+    const [searchTerm, setSearchTerm] = useState("");
 
     const fetchReport = async () => {
         try {
@@ -34,13 +35,29 @@ const Report = () => {
         fetchReport();
     }, []);
 
+
+    const filteredCheck = report.filter((item, index) => {
+        const search = searchTerm.toLowerCase();
+        return (
+            (index + 1).toString().includes(search) ||
+            item.customerFirstName?.toLowerCase().includes(search) ||
+            item.company?.toLowerCase().includes(search) ||
+            item.licenseNo?.toLowerCase().includes(search) ||
+            item.checkType?.toLowerCase().includes(search) ||
+            item.amount?.toString().includes(search) ||
+            item.comment?.toLowerCase().includes(search) ||
+            item.date?.toLowerCase().includes(search) ||
+            item.status?.toLowerCase().includes(search)
+        );
+    });
+
     const handleSort = (field) => {
         const order = (sortField === field && sortOrder === 'asc') ? 'desc' : 'asc';
         setSortField(field);
         setSortOrder(order);
     };
 
-    const sortedReport = [...report];
+    const sortedReport = [...filteredCheck];
     if (sortField) {
         sortedReport.sort((a, b) => {
             let aValue, bValue;
@@ -64,19 +81,22 @@ const Report = () => {
     }
 
     const renderSortIcons = (field) => {
-    const isActive = sortField === field;
-    const isAsc = sortOrder === 'asc';
+        const isActive = sortField === field;
+        const isAsc = sortOrder === 'asc';
 
-    return (
-        <span
-            className="d-inline-flex flex-column ms-1"
-            style={{ fontSize: '0.75rem', lineHeight: '1' }}
-        >
-            <span style={{ color: isActive && isAsc ? '#000' : '#ccc' }}>▲</span>
-            <span style={{ color: isActive && !isAsc ? '#000' : '#ccc' }}>▼</span>
-        </span>
-    );
-};
+        return (
+            <span
+                className="d-inline-flex flex-column ms-1"
+                style={{ fontSize: '0.75rem', lineHeight: '1' }}
+            >
+                <span style={{ color: isActive && isAsc ? '#000' : '#ccc' }}>▲</span>
+                <span style={{ color: isActive && !isAsc ? '#000' : '#ccc' }}>▼</span>
+            </span>
+        );
+    };
+
+
+
 
     return (
         <div className="container-fluid">
@@ -108,6 +128,22 @@ const Report = () => {
                                                     </div>
                                                     <div className="col-6 col-lg-6">
                                                         <div className="d-flex justify-content-end">
+
+                                                            <div className="col-md-9">
+                                                                <div className="d-flex position-relative" style={{ width: "100%" }}>
+                                                                    <input
+                                                                        className="form-control form-control-sm rounded-3 me-lg-2 shadow-none bg-F0F5F6"
+                                                                        value={searchTerm}
+                                                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                                                        type="search"
+                                                                        placeholder="Search"
+                                                                        aria-label="Search"
+                                                                        style={{ paddingLeft: "35px" }}
+                                                                    />
+                                                                    <i className="fa fa-search text-445B64 position-absolute top-0 start-0" style={{ margin: "8px" }}></i>
+                                                                </div>
+                                                            </div>
+
                                                             <div className="position-relative">
                                                                 <button onClick={() => setShowModal(true)} style={{ background: '#008CFF' }} className='btn border-0 rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0'>
                                                                     Export Report

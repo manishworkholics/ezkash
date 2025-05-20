@@ -163,10 +163,12 @@ const MyTicket = () => {
                                                                             className="cursor-pointer"
                                                                         >
                                                                             <td>{index + 1}</td>
-                                                                            <td>{ticket.subject}</td>
+                                                                            <td>  {ticket.subject.length > 40 ? ticket.subject.substring(0, 40) + '...' : ticket.subject} </td>
+
                                                                             <td><span className={getStatusClass(ticket.status)}>{ticket.status}</span></td>
-                                                                            <td>{ticket.category}</td>
-                                                                            <td>{ticket.description}</td>
+                                                                            <td>{ticket.category.length > 40 ? ticket.category.substring(0, 40) + '...' : ticket.category}</td>
+                                                                            <td>{ticket.description.length > 40 ? ticket.description.substring(0, 40) + '...' : ticket.description}</td>
+
                                                                             <td className='text-center'><Link to={`/chat/${ticket._id}`}><i class="fa-solid fa-comment-dots text-4FD1C5"></i></Link></td>
 
                                                                         </tr>
