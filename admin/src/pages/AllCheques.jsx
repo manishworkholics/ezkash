@@ -87,8 +87,8 @@ const AllCheques = () => {
                                             <div className="card border-0 rounded-3 mb-3">
                                                 <div className="card-body p-2">
                                                     <div className="row">
-                                                        <div className="col-12 col-lg-6">
-                                                            <div className="d-flex justify-content-between mb-3 mb-lg-0">
+                                                        <div className="col-6">
+                                                            <div className="d-flex justify-content-between">
                                                                 <div className="d-flex align-items-center">
                                                                     <div className="table-circular-icon bg-F0F5F6 me-3"
                                                                         style={{ cursor: "pointer" }}>
@@ -100,7 +100,7 @@ const AllCheques = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="col-12 col-lg-6">
+                                                        <div className="col-6">
                                                             <div className="row">
                                                                 <div className="d-flex">
                                                                     <div className="position-relative"

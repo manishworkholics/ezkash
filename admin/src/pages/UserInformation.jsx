@@ -449,24 +449,24 @@ const UserInformation = () => {
                                                         <div className="d-block d-lg-flex justify-content-between flex-wrap">
                                                             <div className="d-block d-lg-flex gap-5 flex-wrap">
                                                                 <div className='mb-3 mb-lg-0'>
-                                                                    <h6 className="text-445B64 fs-14 mb-1">Name</h6>
-                                                                    <h6 className="text-0D161A fw-medium mb-0">{users?.firstname} {users?.lastname}</h6>
+                                                                    <h6 className="text-445B64R fs-14 mb-1">Name</h6>
+                                                                    <h6 className="text-0D161A fs-14 fw-semibold mb-0">{users?.firstname} {users?.lastname}</h6>
                                                                 </div>
                                                                 <div className='mb-3 mb-lg-0'>
-                                                                    <h6 className="text-445B64 fs-14 mb-1">Phone Number</h6>
-                                                                    <h6 className="text-0D161A fw-medium mb-0">{users?.mobile}</h6>
+                                                                    <h6 className="text-445B64R fs-14 mb-1">Phone Number</h6>
+                                                                    <h6 className="text-0D161A fs-14 fw-semibold mb-0">{users?.mobile}</h6>
                                                                 </div>
                                                                 <div className='mb-3 mb-lg-0'>
-                                                                    <h6 className="text-445B64 fs-14 mb-1">Email Address</h6>
-                                                                    <h6 className="text-0D161A fw-medium mb-0">{users?.email}</h6>
+                                                                    <h6 className="text-445B64R fs-14 mb-1">Email Address</h6>
+                                                                    <h6 className="text-0D161A fs-14 fw-semibold mb-0">{users?.email}</h6>
                                                                 </div>
                                                                 <div className='mb-3 mb-lg-0'>
-                                                                    <h6 className="text-445B64 fs-14 mb-1">Total Checks</h6>
-                                                                    <h6 className="text-0D161A fw-medium mb-0">{cheques?.length}</h6>
+                                                                    <h6 className="text-445B64R fs-14 mb-1">Total Checks</h6>
+                                                                    <h6 className="text-0D161A fs-14 fw-semibold mb-0">{cheques?.length}</h6>
                                                                 </div>
                                                                 <div className='mb-3 mb-lg-0'>
-                                                                    <h6 className="text-445B64 fs-14 mb-1">Total Amount</h6>
-                                                                    <h6 className="text-0D161A fw-medium mb-0">$ {totalAmount}</h6>
+                                                                    <h6 className="text-445B64R fs-14 mb-1">Total Amount</h6>
+                                                                    <h6 className="text-0D161A fs-14 fw-semibold mb-0">$ {totalAmount}</h6>
                                                                 </div>
 
                                                             </div>

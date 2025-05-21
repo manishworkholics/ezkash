@@ -120,8 +120,8 @@ const Report = () => {
                                             <div className="card border-0 rounded-3 mb-2">
                                                 <div className="card-body p-2">
                                                     <div className="row">
-                                                        <div className="col-4 col-lg-4">
-                                                            <div className="d-flex justify-content-between mb-lg-0">
+                                                        <div className="col-6 col-md-3 col-lg-3">
+                                                            <div className="d-flex justify-content-between mb-3 mb-md-0">
                                                                 <div className="d-flex align-items-center">
                                                                     <div className="table-circular-icon bg-F0F5F6 me-3" style={{ cursor: "pointer" }}>
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="15" viewBox="0 0 14 15" fill="none">
@@ -132,10 +132,15 @@ const Report = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="col-8 col-lg-8">
-                                                            <div className="d-flex justify-content-end">
-
-                                                                <div className="col-md-7">
+                                                        <div className="col-6 d-flex justify-content-end align-items-center mb-3 d-md-none">
+                                                            <button onClick={handleBack} style={{ background: '#6c757d' }} className='btn border-0  rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0'>
+                                                                <i className="fa-solid fa-arrow-left-long text-white me-2"></i>
+                                                                Back
+                                                            </button>
+                                                        </div>
+                                                        <div className="col-12 col-md-9 col-lg-9">
+                                                            <div className="row justify-content-end">
+                                                                <div className="col-7">
                                                                     <div className="d-flex position-relative" style={{ width: "100%" }}>
                                                                         <input
                                                                             className="form-control form-control-sm rounded-3 me-lg-2 shadow-none bg-F0F5F6"
@@ -150,22 +155,16 @@ const Report = () => {
                                                                     </div>
                                                                 </div>
 
-                                                                <div className="position-relative">
-                                                                    <button onClick={() => setShowModal(true)} style={{ background: '#008CFF' }} className='btn border-0 rounded-2 mx-1 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0'>
+                                                                <div className="col-5 d-flex justify-content-end align-items-center">
+                                                                    <button onClick={() => setShowModal(true)} style={{ background: '#008CFF' }} className='btn border-0 rounded-2 text-white fw-medium py-1 px-2 me-md-3 fs-14 text-445B64 p-0'>
                                                                         Export Report
                                                                     </button>
                                                                     <ExportModal data={report} show={showModal} onClose={() => setShowModal(false)} />
-                                                                </div>
-
-                                                                <div className="position-relative">
-                                                                    <button onClick={handleBack} style={{ background: '#6c757d' }} className='btn border-0  rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0'>
+                                                                    <button onClick={handleBack} style={{ background: '#6c757d' }} className='btn border-0  rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0 d-none d-md-block'>
                                                                         <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
                                                                         Back
                                                                     </button>
-
                                                                 </div>
-
-
                                                             </div>
                                                         </div>
                                                     </div>

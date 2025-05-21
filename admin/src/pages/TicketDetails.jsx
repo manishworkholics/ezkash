@@ -149,8 +149,8 @@ const TicketDetails = () => {
                                                         </div>
                                                         <div className="col-4 col-lg-6 d-flex justify-content-end align-items-center">
                                                             <div className="d-flex justify-content-end">
-                                                                <button className="btn btn-sm rounded-2 btn-light text-445B64" onClick={handleBack}>
-                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-445B64"></i>
+                                                                <button className="btn btn-sm rounded-2 btn-secondary text-white" onClick={handleBack}>
+                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
                                                                     Back
                                                                 </button>
                                                             </div>
@@ -159,80 +159,73 @@ const TicketDetails = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-12">
-                                            <div className="card border-0 rounded-3 mb-2">
-                                                <div className="card-body p-0">
-                                                    <div className="row">
-                                                        <div className="col-12">
+                                        <div className="col-lg-8 mb-3">
+                                            <div className="card h-100 border-0 rounded-3 mb-2">
+                                                <div className="card-header bg-white py-3">
+                                                    <h6 className="text-445B64 fw-semibold mb-0">Ticket Info</h6>
+                                                </div>
+                                                <div className="card-body">
+                                                    <div className="table-responsive p-2">
+                                                        <table className="table w-100 mb-0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td className='text-445B64-img w-110px border-0'>Priority</td>
+                                                                    <td><span className="text-445B64-img me-2"></span> High</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className='text-445B64-img w-110px border-0'>Created</td>
+                                                                    <td><span className="text-445B64-img border-0 me-2"></span>{moment(ticketDetails?.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
 
-                                                            <div className="">
-                                                                <div className="d-lg-flex ">
-                                                                    <div className="w-100 w-lg-50">
-                                                                        <h6 className="text-445B64 fw-semibold p-3 mb-0 border-end border-bottom">User Info</h6>
-                                                                        <div className="border-end">
-                                                                            <div className="table-responsive p-2">
-                                                                                <table className="table mb-0">
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <td className='text-445B64-img w-60px border-0'>Name</td>
-                                                                                            <td><span className="text-445B64-img border-0">-</span> {ticketDetails?.vendorId?.firstname} {ticketDetails?.vendorId?.lastname}</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td className='text-445B64-img w-60px border-0'>Email</td>
-                                                                                            <td><span className="text-445B64-img border-0">-</span> {ticketDetails?.vendorId?.email}</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td className='text-445B64-img w-60px border-0'>Phone</td>
-                                                                                            <td><span className="text-445B64-img border-0">-</span> {ticketDetails?.vendorId?.mobile}</td>
-                                                                                        </tr>
-                                                                                       
-                                                                                    </tbody>
-                                                                                </table>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="w-100 w-lg-50">
-                                                                        <h6 className="text-445B64 fw-semibold p-3 mb-0  border-bottom">Ticket Info</h6>
-                                                                        <div className="table-responsive p-2">
-                                                                            <table className="table mb-0">
-                                                                                <tbody>
-                                                                                    <tr>
-                                                                                        <td className='text-445B64-img w-110px border-0'>Priority</td>
-                                                                                        <td><span className="text-445B64-img border-0">-</span> High</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td className='text-445B64-img w-110px border-0'>Created</td>
-                                                                                        <td><span className="text-445B64-img border-0">-</span>  {moment(ticketDetails?.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
-
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td className='text-445B64-img w-110px border-0'>Last Updated</td>
-                                                                                        <td><span className="text-445B64-img border-0">-</span> {moment(ticketDetails?.updatedAt).format("MMM DD, YYYY hh:mm A")}</td>
-                                                                                    </tr>
-                                                                                     <tr>
-                                                                                            <td className='text-445B64-img w-60px border-0'>Subject</td>
-                                                                                            <td><span className="text-445B64-img border-0">-</span> {ticketDetails?.subject}</td>
-                                                                                        </tr>
-                                                                                         <tr>
-                                                                                            <td className='text-445B64-img w-60px border-0'>Category</td>
-                                                                                            <td><span className="text-445B64-img border-0">-</span> {ticketDetails?.category}</td>
-                                                                                        </tr>
-                                                                                         <tr>
-                                                                                            <td className='text-445B64-img w-60px border-0'>Description</td>
-                                                                                            <td><span className="text-445B64-img border-0">-</span> {ticketDetails?.description}</td>
-                                                                                        </tr>
-                                                                                         <tr>
-                                                                                            <td className='text-445B64-img w-60px border-0'>Image</td>
-                                                                                            <td><span className="text-445B64-img border-0">-</span> <img src={ticketDetails?.checkImg} style={{height:100,width:100}} alt="" /></td>
-                                                                                        </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className='text-445B64-img w-110px border-0'>Last Updated</td>
+                                                                    <td><span className="text-445B64-img border-0 me-2"></span>{moment(ticketDetails?.updatedAt).format("MMM DD, YYYY hh:mm A")}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className='text-445B64-img w-60px border-0'>Subject</td>
+                                                                    <td><span className="text-445B64-img border-0 me-2"></span>{ticketDetails?.subject}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className='text-445B64-img w-60px border-0'>Category</td>
+                                                                    <td><span className="text-445B64-img border-0 me-2"></span>{ticketDetails?.category}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className='text-445B64-img w-60px border-0' style={{verticalAlign:'top'}}>Description</td>
+                                                                    <td><span className="text-445B64-img border-0 me-2"></span>{ticketDetails?.description}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className='text-445B64-img w-60px border-0'>Image</td>
+                                                                    <td><img src={ticketDetails?.checkImg} style={{ height: 100, width: 100 }} alt="" /></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4 mb-3">
+                                            <div className="card h-100 border-0 rounded-3 mb-2">
+                                                <div className="card-header bg-white py-3">
+                                                    <h6 className="text-445B64 fw-semibold mb-0">User Info</h6>
+                                                </div>
+                                                <div className="table-responsive p-2">
+                                                    <table className="table mb-0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td className='text-445B64R w-60px border-0'>Name</td>
+                                                                <td><span className="text-445B64 border-0 me-2"></span>{ticketDetails?.vendorId?.firstname} {ticketDetails?.vendorId?.lastname}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td className='text-445B64R w-60px border-0'>Email</td>
+                                                                <td><span className="text-445B64 border-0 me-2"></span>{ticketDetails?.vendorId?.email}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td className='text-445B64R w-60px border-0'>Phone</td>
+                                                                <td><span className="text-445B64 border-0 me-2"></span>{ticketDetails?.vendorId?.mobile}</td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
@@ -293,10 +286,10 @@ const TicketDetails = () => {
                                                 </div>
                                                 <div className='text-end mb-4'>
                                                     <button className="btn sign-btn py-2 px-5 px-4 fs-14" onClick={sendChat}>
-                                                        <div className="d-none d-md-block fw-medium">Reply</div>
-                                                        <div className="d-block d-md-none">
+                                                        <div className="fw-medium">Reply</div>
+                                                        {/* <div className="d-block d-md-none">
                                                             <i class="fa-solid fa-paper-plane text-white"></i>
-                                                        </div>
+                                                        </div> */}
                                                     </button>
                                                 </div>
                                             </div>
@@ -311,7 +304,7 @@ const TicketDetails = () => {
                                                                             <div className="d-flex justify-content-between mb-3">
                                                                                 <h6 className='text-dark fw-bolder'>
                                                                                     <img src='' alt="" className="shadow-sm border border-light rounded-circle me-2" style={{ width: '40px' }} />
-                                                                                    {val?.senderId?.role==null?'Admin':val?.senderId?.role}</h6>
+                                                                                    {val?.senderId?.role == null ? 'Admin' : val?.senderId?.role}</h6>
                                                                                 <h6 className='text-secondary fs-14'> {moment(val?.createdAt).format("MMM DD, YYYY hh:mm A")}</h6>
                                                                             </div>
                                                                             <div className="card rounded-4 border-0 bg-F0F5F6">

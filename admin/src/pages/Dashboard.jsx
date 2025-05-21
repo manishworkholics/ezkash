@@ -136,7 +136,7 @@ const Dashboard = () => {
                                         </div>
                                     </div>
                                     <div className="row mb-2">
-                                        <div className="col-12 col-xl-12 mb-3">
+                                        <div className="col-12 col-xl-6 mb-3">
                                             <div className="card shadow-sm border-0 rounded-4">
                                                 <div className="card-body">
                                                     <div className="row pb-2">

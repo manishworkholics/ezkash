@@ -62,6 +62,7 @@ body {
 .bg-4FD1C5 {
   background-color: #008CFF !important;
 }
+
 .bg-008CFF {
   background-color: #008CFF !important;
 }
@@ -104,6 +105,7 @@ body {
 .text-445B64-img {
   color: #000000 !important;
 }
+
 .text-445B64R {
   color: #445B64 !important;
 }
@@ -144,7 +146,8 @@ body {
 
 /* SignIn - CSS - Start */
 .sign-main-container {
-  height: 100vh;
+  min-height: 100vh;
+  max-height: fit-content;
 }
 
 .sign-logo {
@@ -156,6 +159,14 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  min-height: 100vh;
+}
+
+.sign-right-bg {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sign-btn,
@@ -212,7 +223,19 @@ body {
 .otp-input {
   width: 50px;
   height: 50px;
+}
 
+@media only screen and (max-width:767px) {
+  .sign-page {
+    background-image: url("assets/images/mobileBg.png");
+    background-size: cover;
+    background-position: center;
+  }
+
+  .sign-right-bg {
+    min-height: 90vh;
+    align-items: start;
+  }
 }
 
 /* SignIn - CSS - End */
@@ -353,6 +376,16 @@ body {
   }
 }
 
+input::placeholder {
+  color: #6c757d;
+  /* default gray */
+}
+
+input::placeholder:after {
+  content: '*';
+  color: red;
+}
+
 .dashboard-page {
 
   .nav-pills .nav-link {
@@ -365,6 +398,17 @@ body {
     color: #008CFF;
     background-color: #DEF0FF;
   }
+}
+
+/* Add to your CSS */
+.btn-sm.rounded-circle {
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Home - CSS - End */
@@ -386,6 +430,9 @@ body {
   }
 
   table {
+    width: max-content;
+    min-width: 100%;
+
     th {
       color: #000000 !important;
       font-weight: normal;
@@ -393,7 +440,7 @@ body {
     }
 
     td {
-      color: #0D161A;
+      color: #0D161A !important;
       font-weight: 500;
       padding: 10px;
     }
@@ -441,3 +488,142 @@ body {
 }
 
 /* Main-Content - CSS - End */
+
+
+/* Mobile View - CSS - Start */
+.mobile-bg {
+  background-image: url('../src/assets/images/mobileBg.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: repeat-y;
+
+  .inputFile {
+    border: 1px dashed #DFDFDF;
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 44px !important;
+  }
+
+  .form-label {
+    font-size: 12px;
+    margin-bottom: 0;
+    color: #292929;
+  }
+
+  .form-control {
+    font-size: 14px;
+    margin-bottom: 0;
+    color: #000000;
+  }
+
+  input::placeholder {
+    color: #000000;
+  }
+
+  textarea::placeholder {
+    color: #000000;
+  }
+
+  .expand-img-icon {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #008cff;
+    color: white;
+    border-radius: 5px;
+  }
+
+  .table {
+    width: max-content;
+    min-width: 100%;
+
+    th {
+      font-size: 13px;
+      color: #445B64;
+      font-weight: 500 !important;
+    }
+
+    td {
+      font-size: 14px;
+      color: #0D161A;
+      font-weight: 500 !important;
+      border: #F0F5F6;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #FAFAFA !important;
+    }
+  }
+
+  .input-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .floating-label {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    color: #000000;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    background: white;
+    padding: 0 4px;
+  }
+
+  .floating-label .required {
+    color: red;
+  }
+
+  .input-wrapper input:focus+.floating-label,
+  .input-wrapper input:not(:placeholder-shown)+.floating-label {
+    top: -8px;
+    left: 8px;
+    font-size: 0.75rem;
+    display: none;
+  }
+
+}
+
+.mob-addCheck-btn {
+  background: linear-gradient(0deg, rgba(0, 172, 238, 1) 0%, rgba(2, 126, 251, 1) 100%);
+}
+
+.MobSidebarBg {
+  background-image: url('../src/assets/images/sidebarBG.png');
+  background-position: right;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: #008CFF;
+
+  .nav-link {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: #ffffff;
+    padding-left: 0;
+  }
+
+  .nav-pills .nav-link.active,
+  .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: transparent;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .navbar-brand img {
+    width: 100px;
+    height: 35px;
+    object-fit: contain;
+  }
+}
+
+/* Mobile View - CSS - End */

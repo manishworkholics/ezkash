@@ -123,8 +123,8 @@ const UserList = () => {
                                             <div className="card border-0 rounded-3 mb-1">
                                                 <div className="card-body p-2">
                                                     <div className="row">
-                                                        <div className="col-12 col-md-3">
-                                                            <div className="d-flex justify-content-between mb-lg-0">
+                                                        <div className="col-6 col-md-3 col-lg-3">
+                                                            <div className="d-flex justify-content-between mb-2 mb-md-0">
                                                                 <div className="d-flex align-items-center">
                                                                     <div className="table-circular-icon bg-F0F5F6 me-3"
                                                                         style={{ cursor: "pointer" }}>
@@ -136,8 +136,17 @@ const UserList = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="col-12 col-md-9">
-                                                            <div className="row">
+                                                        <div className="col-6 d-flex justify-content-end align-items-center d-md-none">
+                                                            <button
+                                                                style={{ background: '#008CFF' }}
+                                                                className='btn border-0 rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0 mb-2'
+                                                                onClick={() => setShowModal(true)}
+                                                            >
+                                                                <i className="fa fa-plus me-2"></i>Add User
+                                                            </button>
+                                                        </div>
+                                                        <div className="col-12 col-md-9 col-lg-9">
+                                                            <div className="row justify-content-end">
                                                                 <div className="col-md-9">
                                                                     <div className="d-flex position-relative" style={{ width: "100%;" }}>
                                                                         <input className="form-control form-control-sm rounded-3 me-lg-2 shadow-none bg-F0F5F6" onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search" aria-label="Search" type="search" style={{ paddingLeft: "35px" }} />
@@ -207,12 +216,9 @@ const UserList = () => {
                                                                                                 <i className="fa-solid fa-trash-can text-danger"></i>
                                                                                             </button>
                                                                                             <Link to={`/cd-admin/report/${user._id}`} className="btn border-0">
-
                                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18" fill="none">
-                                                                                                    <path d="M7.875 6.45H12.6875L7.875 1.775V6.45ZM1.75 0.5H8.75L14 5.6V15.8C14 16.2509 13.8156 16.6833 13.4874 17.0021C13.1592 17.3209 12.7141 17.5 12.25 17.5H1.75C1.28587 17.5 0.840752 17.3209 0.512563 17.0021C0.184374 16.6833 0 16.2509 0 15.8V2.2C0 1.2565 0.77875 0.5 1.75 0.5ZM2.625 15.8H4.375V10.7H2.625V15.8ZM6.125 15.8H7.875V9H6.125V15.8ZM9.625 15.8H11.375V12.4H9.625V15.8Z" fill="#000000" />
+                                                                                                    <path d="M7.875 6.45H12.6875L7.875 1.775V6.45ZM1.75 0.5H8.75L14 5.6V15.8C14 16.2509 13.8156 16.6833 13.4874 17.0021C13.1592 17.3209 12.7141 17.5 12.25 17.5H1.75C1.28587 17.5 0.840752 17.3209 0.512563 17.0021C0.184374 16.6833 0 16.2509 0 15.8V2.2C0 1.2565 0.77875 0.5 1.75 0.5ZM2.625 15.8H4.375V10.7H2.625V15.8ZM6.125 15.8H7.875V9H6.125V15.8ZM9.625 15.8H11.375V12.4H9.625V15.8Z" fill="#008cff" />
                                                                                                 </svg>
-
-
                                                                                             </Link>
                                                                                         </div>
                                                                                     </td>
@@ -266,7 +272,7 @@ const UserList = () => {
                         </div>
                     </div>
                     {showModal && (
-                        <div className="modal fade show d-block" tabIndex="-1" role="dialog">
+                        <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{ background: '#00000096' }}>
                             <div className="modal-dialog modal-lg" role="document">
                                 <div className="modal-content">
                                     <div className="modal-header">
