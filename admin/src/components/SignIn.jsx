@@ -72,7 +72,7 @@ const SignIn = () => {
                     toast.success('Signed in successfully.');
                 }, 1000);
                 setTimeout(() => {
-                    navigate('/cm-admin/dashboard');
+                    navigate('/cd-admin/dashboard');
                 }, 2000);
             } else {
                 setTimeout(() => {
@@ -139,7 +139,7 @@ const SignIn = () => {
                                     </div>
 
                                     {/* <h6 className="text-end text-445B64 mb-3">
-                                        <Link to="/cm-admin/" className="text-00C7BE text-decoration-none">
+                                        <Link to="/cd-admin/" className="text-00C7BE text-decoration-none">
                                             Forget Password
                                         </Link>
                                     </h6> */}
@@ -149,16 +149,16 @@ const SignIn = () => {
                                     </button>
                                     {/* <h6 className="text-center text-445B64">
                                         Don't have an account?
-                                        <Link to="/cm-admin/sign-up" className="text-00C7BE text-decoration-none"> Sign up</Link>
+                                        <Link to="/cd-admin/sign-up" className="text-00C7BE text-decoration-none"> Sign up</Link>
                                     </h6> */}
                                 </div>
                             </div>
                         </div>
                         <div className="position-absolute bottom-0 start-0 w-100">
                             <h6 className="text-445B64 text-center">
-                                <Link to="/cm-admin/terms&conditions" className='text-445B64 text-decoration-none'>Terms & Conditions</Link>
+                                <Link to="/cd-admin/terms&conditions" className='text-445B64 text-decoration-none'>Terms & Conditions</Link>
                                 <span className="mx-2">•</span>
-                                <Link to="/cm-admin/privacy-policy" className='text-445B64 text-decoration-none'>Privacy Policy</Link>
+                                <Link to="/cd-admin/privacy-policy" className='text-445B64 text-decoration-none'>Privacy Policy</Link>
                             </h6>
                         </div>
                     </div>

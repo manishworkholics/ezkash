@@ -104,7 +104,7 @@ const SignUp = () => {
           toast.success('Admin Register successfully');
         }, 1000);
         setTimeout(() => {
-          navigate('/cm-admin/');
+          navigate('/cd-admin/');
           localStorage.setItem("email", formData.email)
         }, 2000);
       } else {

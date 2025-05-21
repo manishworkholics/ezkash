@@ -497,7 +497,7 @@ const UserInformation = () => {
                                                                                 <td className="text-01A99A">{cheque?.status}</td>
                                                                                 <td>
                                                                                     <div className="d-flex justify-content-center">
-                                                                                        <Link to={`/cm-admin/cheque-details/${cheque?._id}`} className="btn border-0">
+                                                                                        <Link to={`/cd-admin/cheque-details/${cheque?._id}`} className="btn border-0">
                                                                                             <i className="fa-solid fa-eye text-445B64"></i>
                                                                                         </Link>
                                                                                         <button className="btn" onClick={() => handleDeleteCheque(cheque?._id)}>

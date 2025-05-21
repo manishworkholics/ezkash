@@ -116,7 +116,7 @@ const Support = () => {
                                                                                         <td></td>
                                                                                         <td className="">
                                                                                             <div className="d-flex justify-content-center">
-                                                                                                <Link to={`/cm-admin/ticket-details/${val?._id}`} className="btn">
+                                                                                                <Link to={`/cd-admin/ticket-details/${val?._id}`} className="btn">
                                                                                                     <i className="fa-solid fa-eye text-445B64"></i>
                                                                                                 </Link>
                                                                                             </div>

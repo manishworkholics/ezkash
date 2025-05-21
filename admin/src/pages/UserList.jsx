@@ -200,7 +200,7 @@ const UserList = () => {
                                                                                     {/* <td>{user?.otp}</td> */}
                                                                                     <td>
                                                                                         <div className="d-flex justify-content-center">
-                                                                                            <Link to={`/cm-admin/user-information/${user._id}`} className="btn border-0">
+                                                                                            <Link to={`/cd-admin/user-information/${user._id}`} className="btn border-0">
                                                                                                 <i className="fa-solid fa-eye text-445B64"></i>
                                                                                             </Link>
                                                                                             <button className="btn" onClick={() => handleDeleteUser(user._id)}>

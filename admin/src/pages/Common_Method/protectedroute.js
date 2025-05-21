@@ -6,7 +6,7 @@ const ProtectedRoute = ({ element }) => {
     const token = localStorage.getItem("token"); 
 
     if (!token) {
-        return <Navigate to="/cm-admin/" />;
+        return <Navigate to="/cd-admin/" />;
     }
     return element;
 };

@@ -37,7 +37,7 @@ const Report = () => {
                                                         </div>
                                                         <div className="col-6 col-lg-6 d-flex justify-content-end align-items-center">
                                                             <div className="d-flex justify-content-end align-items-center">
-                                                                <Link to="/cm-admin/export-report" className="btn btn-sm rounded-2 bg-008CFF text-white">
+                                                                <Link to="/cd-admin/export-report" className="btn btn-sm rounded-2 bg-008CFF text-white">
                                                                     Export Report
                                                                 </Link>
                                                             </div>
@@ -73,7 +73,7 @@ const Report = () => {
                                                                             <td className="text-01A99A"></td>
                                                                             <td className="">
                                                                                 <div className="d-flex justify-content-center">
-                                                                                    <Link to="/cm-admin/report" className="btn">
+                                                                                    <Link to="/cd-admin/report" className="btn">
                                                                                         <i className="fa-solid fa-eye text-445B64"></i>
                                                                                     </Link>
                                                                                     <button className="btn">

@@ -20,19 +20,19 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/cm-admin/" element={<SignIn />} />
-          <Route path="/cm-admin/sign-up" element={<SignUp />} />
-          <Route path="/cm-admin/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
-          <Route path="/cm-admin/user-list" element={<ProtectedRoute element={<UserList />} />} />
-          <Route path="/cm-admin/user-information/:id" element={<ProtectedRoute element={<UserInformation />} />} />
-          <Route path="/cm-admin/all-cheques" element={<ProtectedRoute element={<AllCheques />} />} />
-          <Route path="/cm-admin/cheque-details/:id" element={<ProtectedRoute element={<ChequeDetails />} />} />
-          <Route path="/cm-admin/report" element={<ProtectedRoute element={<Report />} />} />
-          <Route path="/cm-admin/export-report" element={<ProtectedRoute element={<ReportExport />} />} />
-          <Route path="/cm-admin/support" element={<ProtectedRoute element={<Support />} />} />
-          <Route path="/cm-admin/ticket-details/:id" element={<ProtectedRoute element={<TicketDetails />} />} />
-          <Route path="/cm-admin/terms&conditions" element={<ProtectedRoute element={<TermsAndConditions />} />} />
-          <Route path="/cm-admin/privacy-policy" element={<ProtectedRoute element={<PrivacyPolicy />} />} />
+          <Route path="/cd-admin/" element={<SignIn />} />
+          <Route path="/cd-admin/sign-up" element={<SignUp />} />
+          <Route path="/cd-admin/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
+          <Route path="/cd-admin/user-list" element={<ProtectedRoute element={<UserList />} />} />
+          <Route path="/cd-admin/user-information/:id" element={<ProtectedRoute element={<UserInformation />} />} />
+          <Route path="/cd-admin/all-cheques" element={<ProtectedRoute element={<AllCheques />} />} />
+          <Route path="/cd-admin/cheque-details/:id" element={<ProtectedRoute element={<ChequeDetails />} />} />
+          <Route path="/cd-admin/report" element={<ProtectedRoute element={<Report />} />} />
+          <Route path="/cd-admin/export-report" element={<ProtectedRoute element={<ReportExport />} />} />
+          <Route path="/cd-admin/support" element={<ProtectedRoute element={<Support />} />} />
+          <Route path="/cd-admin/ticket-details/:id" element={<ProtectedRoute element={<TicketDetails />} />} />
+          <Route path="/cd-admin/terms&conditions" element={<ProtectedRoute element={<TermsAndConditions />} />} />
+          <Route path="/cd-admin/privacy-policy" element={<ProtectedRoute element={<PrivacyPolicy />} />} />
         </Routes>
       </BrowserRouter>
     </>
