@@ -3,8 +3,11 @@ import axios from 'axios';
 import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const URL = process.env.REACT_APP_URL;
 const token = localStorage.getItem('token')
+
 
 const Support = () => {
     const navigate = useNavigate();
@@ -36,7 +39,7 @@ const Support = () => {
                 setFormData(parsedData);
             }
         } catch (error) {
-            console.error('Error during image upload:', error);
+            toast.error('Error during image upload:', error);
         }
 
     };
@@ -52,11 +55,11 @@ const Support = () => {
             const value = data[field];
             if (!value || value.trim() === '') {
                 if (field === 'subject') {
-                    newErrors.subject = 'Please enter subject';
+                    newErrors.subject = 'Please enter subject.';
                 } else if (field === 'category') {
-                    newErrors.category = 'Please enter category';
+                    newErrors.category = 'Please select category.';
                 } else if (field === 'description') {
-                    newErrors.description = 'Please enter description';
+                    newErrors.description = 'Please enter description.';
                 }
             }
         });
@@ -95,14 +98,14 @@ const Support = () => {
             );
 
             if (response.status === 201) {
-                alert('Ticket raised successfully!');
+                toast.success('Ticket raised successfully!');
                 setData({ subject: '', category: '', description: '', checkImg: '', vendorId: '' });
                 setFormData({ imageUrl: '' });
                 setErrors({});
             }
         } catch (error) {
             console.error(error);
-            alert('Failed to raise ticket. Please try again.');
+            toast.error('Failed to raise ticket. Please try again.');
         }
     };
 
@@ -111,6 +114,7 @@ const Support = () => {
     return (
         <>
             <div className="container-fluid">
+                <ToastContainer position='top-right' autoClose={3000} />
                 <Header />
                 <div className="">
                     <div className="row mh-100vh">
@@ -131,7 +135,7 @@ const Support = () => {
                                                                     <div className="table-circular-icon bg-F0F5F6 me-3"
                                                                         style={{ cursor: "pointer" }}>
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="none">
-                                                                            <path d="M6 7.25C6.625 7.25 7.15625 7.03125 7.59375 6.59375C8.03125 6.15625 8.25 5.625 8.25 5C8.25 4.375 8.03125 3.84375 7.59375 3.40625C7.15625 2.96875 6.625 2.75 6 2.75C5.375 2.75 4.84375 2.96875 4.40625 3.40625C3.96875 3.84375 3.75 4.375 3.75 5C3.75 5.625 3.96875 6.15625 4.40625 6.59375C4.84375 7.03125 5.375 7.25 6 7.25ZM1.5 12.5C1.0875 12.5 0.734375 12.3531 0.440625 12.0594C0.146875 11.7656 0 11.4125 0 11V2C0 1.5875 0.146875 1.23438 0.440625 0.940625C0.734375 0.646875 1.0875 0.5 1.5 0.5H10.5C10.9125 0.5 11.2656 0.646875 11.5594 0.940625C11.8531 1.23438 12 1.5875 12 2V11C12 11.4125 11.8531 11.7656 11.5594 12.0594C11.2656 12.3531 10.9125 12.5 10.5 12.5H1.5ZM1.5 11H10.5C9.975 10.2875 9.31562 9.73438 8.52187 9.34062C7.72812 8.94687 6.8875 8.75 6 8.75C5.1125 8.75 4.27187 8.94687 3.47812 9.34062C2.68437 9.73438 2.025 10.2875 1.5 11Z" fill="#000000" />
+                                                                            <path d="M6 0.5C2.68941 0.5 0 2.786 0 5.6C0 8.414 2.68941 10.7 6 10.7H6.35294V12.5C9.78353 11.096 12 8.3 12 5.6C12 2.786 9.31059 0.5 6 0.5ZM6.70588 9.2H5.29412V8H6.70588V9.2ZM6.70588 7.1H5.29412C5.29412 5.15 7.41177 5.3 7.41177 4.1C7.41177 3.44 6.77647 2.9 6 2.9C5.22353 2.9 4.58824 3.44 4.58824 4.1H3.17647C3.17647 2.774 4.44 1.7 6 1.7C7.56 1.7 8.82353 2.774 8.82353 4.1C8.82353 5.6 6.70588 5.75 6.70588 7.1Z" fill="#000000" />
                                                                         </svg>
                                                                     </div>
                                                                     <span className="text-445B64 fw-medium">Support</span>

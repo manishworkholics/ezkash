@@ -147,30 +147,26 @@ const MyTicket = () => {
                                                         <table className="table table-borderless">
                                                             <thead>
                                                                 <tr>
-                                                                    <th className='border-bottom'>S.No</th>
+                                                                    <th className='border-bottom'>#</th>
                                                                     <th className='border-bottom'>Subject</th>
-                                                                    <th className='border-bottom'>Status</th>
                                                                     <th className='border-bottom'>Category</th>
                                                                     <th className='border-bottom'>Descrition</th>
-                                                                    <th className='border-bottom text-center'>Action</th>
+                                                                    <th className='border-bottom'>Status</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 {tickets?.filter(ticket => filter.length === 0 || filter.includes(ticket.status)).map((ticket, index) => (
                                                                     <React.Fragment key={index}>
-                                                                        <tr
-
-                                                                            className="cursor-pointer"
-                                                                        >
+                                                                        <tr className="">
                                                                             <td>{index + 1}</td>
-                                                                            <td>  {ticket.subject.length > 40 ? ticket.subject.substring(0, 40) + '...' : ticket.subject} </td>
-
-                                                                            <td><span className={getStatusClass(ticket.status)}>{ticket.status}</span></td>
+                                                                            <td>
+                                                                                <Link to={`/chat/${ticket._id}`} className='text-capitalize'>
+                                                                                    {ticket.subject.length > 40 ? ticket.subject.substring(0, 40) + '...' : ticket.subject}
+                                                                                </Link>
+                                                                            </td>
                                                                             <td>{ticket.category.length > 40 ? ticket.category.substring(0, 40) + '...' : ticket.category}</td>
                                                                             <td>{ticket.description.length > 40 ? ticket.description.substring(0, 40) + '...' : ticket.description}</td>
-
-                                                                            <td className='text-center'><Link to={`/chat/${ticket._id}`}><i class="fa-solid fa-comment-dots text-4FD1C5"></i></Link></td>
-
+                                                                            <td><span className={getStatusClass(ticket.status)}>{ticket.status}</span></td>
                                                                         </tr>
 
 
