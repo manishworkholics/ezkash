@@ -46,7 +46,7 @@ const VerifyEmailExpired = () => {
                 {/* <div className="col-lg-6 sign-left-bg h-100 justify-content-center d-none d-lg-flex align-items-center">
                     <img src={logoLeft} alt="" className="" />
                 </div> */}
-                <div className="col-lg-6 mx-auto sign-right-bg h-100 bg-EEEEEE position-relative pt-4 pb-5">
+                <div className="col-lg-6 mx-auto sign-right-bg h-100 position-relative pt-4 pb-5">
                     <div className="row h-100 w-100">
                         <div className="col-lg-8 col-xl-7 col-xxl-6 mx-auto d-flex justify-content-center align-items-center">
                             <div className="w-100 text-center">

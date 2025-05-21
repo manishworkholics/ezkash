@@ -153,8 +153,8 @@ const Chat = () => {
                                                         </div>
                                                         <div className="col-6 col-lg-6">
                                                             <div className="d-flex justify-content-end">
-                                                                <button className="btn btn-sm rounded-2 btn-light text-445B64" onClick={handleBack}>
-                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-445B64"></i>
+                                                                <button className="btn btn-sm rounded-2 btn-secondary text-white" onClick={handleBack}>
+                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
                                                                     Back
                                                                 </button>
                                                             </div>
@@ -283,20 +283,20 @@ const Chat = () => {
                                                     </h6>
                                                 </div>
                                                 <div className="card-body">
-                                                    <h6 className=''>
-                                                        <span className="text-dark">Category : </span>
-                                                        <span className="text-secondary fw-medium">{ticketdetail?.category}</span>
-                                                    </h6>
-                                                    <h6>
-                                                        <span className="text-dark">Subject : </span>
-                                                        <span className="text-secondary fw-medium">{ticketdetail?.subject}</span>
-                                                    </h6>
-                                                    <h6>
-                                                        <span className="text-dark">Description : </span>
-                                                        <span className="text-secondary fw-medium">{ticketdetail?.description}</span>
-                                                    </h6>
+                                                    <div className='mb-3'>
+                                                        <h6 className="text-dark mb-1">Category</h6>
+                                                        <h6 className="text-secondary fw-medium fs-14">{ticketdetail?.category}</h6>
+                                                    </div>
+                                                    <div>
+                                                        <h6 className="text-dark mb-1">Subject</h6>
+                                                        <h6 className="text-secondary fw-medium fs-14">{ticketdetail?.subject}</h6>
+                                                    </div>
+                                                    <div>
+                                                        <h6 className="text-dark mb-1">Description</h6>
+                                                        <h6 className="text-secondary fw-medium fs-14">{ticketdetail?.description}</h6>
+                                                    </div>
                                                     <image src={ticketdetail?.checkImg} />
-                                                    <h6>
+                                                    <h6 className=''>
                                                         <span className="text-dark fs-14">Created at : </span>
                                                         <span className="text-secondary fw-medium fs-14">{moment(ticketdetail?.createdAt).format("MMM DD, YYYY hh:mm A")}</span>
                                                     </h6>
