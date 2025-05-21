@@ -220,10 +220,10 @@ const Chat = () => {
                                                 </div>
                                                 <div className='text-end mb-4'>
                                                     <button className="btn sign-btn py-2 px-5 px-4 fs-14" onClick={sendChat}>
-                                                        <div className="d-none d-md-block fw-medium">Reply</div>
-                                                        <div className="d-block d-md-none">
+                                                        <div className="fw-medium">Reply</div>
+                                                        {/* <div className="d-block d-md-none">
                                                             <i class="fa-solid fa-paper-plane text-white"></i>
-                                                        </div>
+                                                        </div> */}
                                                     </button>
                                                 </div>
                                             </div>

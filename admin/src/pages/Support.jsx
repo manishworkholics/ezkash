@@ -69,8 +69,8 @@ const Support = () => {
                                                         </div>
                                                         <div className="col-4 col-lg-6 d-flex justify-content-end align-items-center">
                                                             <div className="d-flex justify-content-end">
-                                                                <button className="btn btn-sm rounded-2 btn-light text-445B64">
-                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-445B64"></i>
+                                                                <button className="btn btn-sm rounded-2 btn-secondary text-white">
+                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
                                                                     Back
                                                                 </button>
                                                             </div>
@@ -86,17 +86,12 @@ const Support = () => {
                                                                 <table className="table rounded-3">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th scope="col" className="text-center">
-                                                                                <input className="form-check-input table-checkbox"
-                                                                                    type="checkbox" value="" id="flexCheckDefault" />
-                                                                            </th>
-                                                                            <th scope="col" className="text-445B64">SNo.</th>
+                                                                            <th scope="col" className="text-445B64">#</th>
                                                                             <th scope="col" className="text-445B64">Ticket ID</th>
                                                                             <th scope="col" className="text-445B64">Subject</th>
                                                                             <th scope="col" className="text-445B64">Status</th>
                                                                             <th scope="col" className="text-445B64">Created</th>
                                                                             <th scope="col" className="text-445B64">Assigned To</th>
-                                                                            <th scope="col" className="text-445B64 text-center">Actions</th>
                                                                         </tr>
                                                                     </thead>
                                                                     {ticket?.map((val, index) => {
@@ -104,25 +99,16 @@ const Support = () => {
                                                                             <>
                                                                                 <tbody key={index}>
                                                                                     <tr>
-                                                                                        <td className="text-center">
-                                                                                            <input className="form-check-input table-checkbox"
-                                                                                                type="checkbox" value="" id="flexCheckDefault" />
-                                                                                        </td>
                                                                                         <td scope="row">{index + 1}</td>
-                                                                                        <td>#{val?._id?.slice(-5)}</td>
-
+                                                                                        <td>
+                                                                                            <Link to={`/cd-admin/ticket-details/${val?._id}`} className="">
+                                                                                                #{val?._id?.slice(-5)}
+                                                                                            </Link>
+                                                                                        </td>
                                                                                         <td>{val?.subject?.slice(0, 20)}...</td>
-
-                                                                                        <td><span className="text-primary">{val?.status}</span></td>
+                                                                                        <td><span className="text-info">{val?.status}</span></td>
                                                                                         <td>{moment(val?.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
                                                                                         <td></td>
-                                                                                        <td className="">
-                                                                                            <div className="d-flex justify-content-center">
-                                                                                                <Link to={`/cd-admin/ticket-details/${val?._id}`} className="btn">
-                                                                                                    <i className="fa-solid fa-eye text-445B64"></i>
-                                                                                                </Link>
-                                                                                            </div>
-                                                                                        </td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </>

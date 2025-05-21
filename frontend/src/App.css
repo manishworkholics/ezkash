@@ -70,6 +70,7 @@ body {
 .bg-4FD1C5 {
   background-color: #008CFF !important;
 }
+
 .bg-008CFF {
   background-color: #008CFF !important;
 }
@@ -119,6 +120,10 @@ body {
 
 .text-445B64 {
   color: #000000;
+}
+
+.text-445B64R {
+  color: #445B64 !important;
 }
 
 .text-616161 {
@@ -242,7 +247,6 @@ body {
 .otp-input {
   width: 50px;
   height: 50px;
-
 }
 
 @media only screen and (max-width:767px) {
@@ -373,7 +377,8 @@ body {
 
 /* Home - CSS - Start */
 
-.new-check-form {
+.new-cheque-form,
+.modal-body {
   .form-label {
     font-size: 14px;
     color: #000000;
