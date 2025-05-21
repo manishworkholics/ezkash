@@ -18,6 +18,6 @@ router.post('/reset-password', authController.resetPassword);
 router.get('/get-all-vender', authController.getAllVender);
 router.get('/get-venderById/:id', authController.getAllVenderId);
 
-router.post('/change-password', authenticate, authController.changePassword);
+router.post('/change-password', authController.changePassword);
 
 module.exports = router;

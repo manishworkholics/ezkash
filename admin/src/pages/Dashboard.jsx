@@ -94,7 +94,7 @@ const Dashboard = () => {
                                                         </div>
                                                         <div>
                                                             <h6 className="mb-1 fw-medium text-445B64">Today’s Status</h6>
-                                                            <h4 className="mb-0 text-00C7BE fw-bold">${data?.todayStatus}</h4>
+                                                            <h4 className="mb-0 text-00C7BE fw-bold">${parseFloat(data?.todayStatus || 0).toFixed(2)}</h4>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -111,7 +111,7 @@ const Dashboard = () => {
                                                         </div>
                                                         <div>
                                                             <h6 className="mb-1 fw-medium text-445B64">Weekly Status</h6>
-                                                            <h4 className="mb-0 text-00C7BE fw-bold">${data?.weeklyStatus}</h4>
+                                                            <h4 className="mb-0 text-00C7BE fw-bold">${parseFloat(data?.weeklyStatus || 0).toFixed(2)}</h4>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -128,7 +128,7 @@ const Dashboard = () => {
                                                         </div>
                                                         <div>
                                                             <h6 className="mb-1 fw-medium text-445B64">Monthly Status</h6>
-                                                            <h4 className="mb-0 text-00C7BE fw-bold">${data?.monthlyStatus}</h4>
+                                                            <h4 className="mb-0 text-00C7BE fw-bold"> ${parseFloat(data?.monthlyStatus || 0).toFixed(2)}</h4>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -136,7 +136,7 @@ const Dashboard = () => {
                                         </div>
                                     </div>
                                     <div className="row mb-2">
-                                        <div className="col-12 col-xl-6 mb-3">
+                                        <div className="col-12 col-xl-12 mb-3">
                                             <div className="card shadow-sm border-0 rounded-4">
                                                 <div className="card-body">
                                                     <div className="row pb-2">

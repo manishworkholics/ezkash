@@ -279,13 +279,14 @@ exports.deleteUser = async (req, res) => {
 
 exports.getAllChecks = async (req, res) => {
     try {
-        const Checks = await Check.find();
-        return res.status(200).json({ message: 'All Check fetched successfully', data: Checks });
+        const Checks = await Check.find().populate('venderId'); // Populates the vendor details
+        return res.status(200).json({ message: 'All Checks fetched successfully', data: Checks });
     } catch (error) {
-        console.error('Error in getAlChecks:', error);
+        console.error('Error in getAllChecks:', error);
         return res.status(500).json({ message: 'Failed to fetch Checks', error: error.message });
     }
 };
+
 
 exports.getAllChecksById = async (req, res) => {
     try {
