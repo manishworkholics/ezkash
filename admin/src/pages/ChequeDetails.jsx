@@ -87,7 +87,7 @@ const ChequeDetails = () => {
                                                                 <div className="d-block d-lg-flex gap-5">
                                                                     <div className="mb-3">
                                                                         <h6 className="text-445B64R fs-14 mb-1">Customer Name</h6>
-                                                                        <h6 className="text-0D161A fs-14 fw-medium mb-0">{chequeDetails?.customerFirstName}</h6>
+                                                                        <h6 className="text-0D161A fs-14 fw-medium mb-0">{chequeDetails?.customerFirstName} {chequeDetails?.customerMiddleName} {chequeDetails?.customerLastName}</h6>
                                                                     </div>
                                                                     <div className="mb-3">
                                                                         <h6 className="text-445B64R fs-14 mb-1">Id Number</h6>
@@ -108,26 +108,13 @@ const ChequeDetails = () => {
                                                                     <div className="mb-3">
                                                                         <h6 className="text-445B64R fs-14 mb-1">Date & Time</h6>
                                                                         <h6 className="text-0D161A fs-14 fw-medium mb-0">
-                                                                            {chequeDetails?.date &&
-                                                                                new Date(chequeDetails.date).toLocaleDateString("en-GB", {
-                                                                                    day: "numeric",
-                                                                                    month: "long",
-                                                                                    year: "numeric",
-                                                                                }).replace(/(\w+) (\d{4})$/, "$1, $2")}
+                                                                            {chequeDetails?.date}
+                                                                               
                                                                         </h6>
 
                                                                     </div>
                                                                 </div>
-                                                                {/* <div className="d-block d-lg-flex gap-5">
-                                                                    <div className="mb-3">
-                                                                        <h6 className="text-445B64R fs-14 mb-1">Status</h6>
-                                                                        <div className="">
-                                                                            <button className="btn btn-sm rounded-2 lh-1 bg-4FD1C5 text-white me-3">
-                                                                                {chequeDetails?.status}
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div> */}
+                                                              
                                                             </div>
                                                             <div className="d-block d-lg-flex gap-5">
                                                                 <div className="mb-3 w-100">
@@ -171,12 +158,12 @@ const ChequeDetails = () => {
                                                         <div className='col-lg-6'>
                                                             <div className="card border-0 rounded-3">
                                                                 <div className="card-body">
-                                                                    <label className="form-label text-445B64 fw-medium">License Image</label>
+                                                                    <label className="form-label text-445B64 fw-medium">Id Image</label>
                                                                     <div className="row">
                                                                         <div className="col-lg-6 mb-3 mb-lg-0">
                                                                             <label className="form-label text-445B64">Front Image</label>
                                                                             {chequeDetails?.imageUrl3 ?
-                                                                                <img src={chequeDetails?.imageUrl3} alt="License Front" className="img-fluid rounded" />
+                                                                                <img src={chequeDetails?.imageUrl3} alt="ID Front" className="img-fluid rounded" />
                                                                                 :
                                                                                 <h6 class="text-secondary fs-14">Image not Available</h6>
                                                                             }
@@ -184,7 +171,7 @@ const ChequeDetails = () => {
                                                                         <div className="col-lg-6">
                                                                             <label className="form-label text-445B64">Back Image</label>
                                                                             {chequeDetails?.imageUrl4 ?
-                                                                                <img src={chequeDetails?.imageUrl4} alt="License Back" className="img-fluid rounded" />
+                                                                                <img src={chequeDetails?.imageUrl4} alt="ID Back" className="img-fluid rounded" />
                                                                                 :
                                                                                 <h6 class="text-secondary fs-14">Image not Available</h6>
                                                                             }

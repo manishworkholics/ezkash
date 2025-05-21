@@ -25,18 +25,14 @@ const Header = () => {
                 <nav className="navbar navbar-expand-lg bg-body-white px-3 w-100">
                     <ToastContainer position='top-right' autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
                     <div className="d-flex align-items-center">
-                        <Link className="navbar-brand d-flex align-items-center" to=''>
+                        <Link className="navbar-brand d-flex align-items-center" to='/cd-admin/dashboard'>
                             <img src={logo} alt="" className="me-2" />
                         </Link>
                     </div>
                     {/* Navbar right-side */}
 
                     <ul className="navbar-nav ms-auto mb-lg-0 d-flex flex-row">
-                        <li className="nav-item me-lg-0">
-                            <Link className="nav-link header-icon me-2" to=''>
-                                <i className="fa-solid fa-bell fs-5"></i>
-                            </Link>
-                        </li>
+                       
                         <li className="nav-item dropdown me-2 me-lg-4 d-none d-lg-block">
                             <Link className="nav-link header-icon dropdown-toggle " to='' data-bs-toggle="dropdown">
                                 <i className="fa-solid fa-circle-user fs-5"></i>

@@ -132,7 +132,7 @@ const AllCheques = () => {
                                                                             <th scope="col" className="text-445B64">Amount</th>
                                                                             <th scope="col" className="text-445B64">Comment</th>
                                                                             <th scope="col" className="text-445B64">Date & Time</th>
-                                                                            <th scope="col" className="text-445B64">Status</th>
+
                                                                             <th scope="col" className="text-445B64 text-center">Actions</th>
                                                                         </tr>
                                                                     </thead>
@@ -152,18 +152,13 @@ const AllCheques = () => {
                                                                                         <td>{cheque?.customerFirstName}</td>
                                                                                         <td>{cheque?.company}</td>
                                                                                         <td>{cheque?.licenseNo}</td>
-                                                                                        <td>{cheque?.chequeType}</td>
+                                                                                        <td>{cheque?.checkType}</td>
                                                                                         <td>$ {cheque?.amount}</td>
                                                                                         <td>{cheque?.comment?.length > 10 ? cheque?.comment.substring(0, 10) + '...' : cheque?.comment}</td>
                                                                                         <td>
-                                                                                            {cheque?.date &&
-                                                                                                new Date(cheque.date).toLocaleDateString("en-GB", {
-                                                                                                    day: "numeric",
-                                                                                                    month: "long",
-                                                                                                    year: "numeric",
-                                                                                                }).replace(/(\w+) (\d{4})$/, '$1, $2')}
+                                                                                            {cheque?.date}
                                                                                         </td>
-                                                                                        <td className="text-01A99A">{cheque?.status}</td>
+
                                                                                         <td>
                                                                                             <div className="d-flex justify-content-center">
                                                                                                 <Link to={`/cd-admin/cheque-details/${cheque?._id}`} className="btn">
