@@ -7,7 +7,7 @@ import moment from 'moment';
 const URL = process.env.REACT_APP_URL;
 
 const Support = () => {
-   
+
 
     const [ticket, setTicket] = useState()
     const [users, setUsers] = useState([])
@@ -15,7 +15,7 @@ const Support = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
 
-   
+
 
 
     const getAllTickets = async () => {
@@ -109,8 +109,10 @@ const Support = () => {
                                                                                                 type="checkbox" value="" id="flexCheckDefault" />
                                                                                         </td>
                                                                                         <td scope="row">{index + 1}</td>
-                                                                                        <td>#0001</td>
-                                                                                        <td>{val?.subject}</td>
+                                                                                        <td>#{val?._id?.slice(-5)}</td>
+
+                                                                                        <td>{val?.subject?.slice(0, 20)}...</td>
+
                                                                                         <td><span className="text-primary">{val?.status}</span></td>
                                                                                         <td>{moment(val?.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
                                                                                         <td></td>

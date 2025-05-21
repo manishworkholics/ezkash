@@ -27,7 +27,7 @@ function App() {
           <Route path="/cd-admin/user-information/:id" element={<ProtectedRoute element={<UserInformation />} />} />
           <Route path="/cd-admin/all-cheques" element={<ProtectedRoute element={<AllCheques />} />} />
           <Route path="/cd-admin/cheque-details/:id" element={<ProtectedRoute element={<ChequeDetails />} />} />
-          <Route path="/cd-admin/report" element={<ProtectedRoute element={<Report />} />} />
+          <Route path="/cd-admin/report/:id" element={<ProtectedRoute element={<Report />} />} />
           <Route path="/cd-admin/export-report" element={<ProtectedRoute element={<ReportExport />} />} />
           <Route path="/cd-admin/support" element={<ProtectedRoute element={<Support />} />} />
           <Route path="/cd-admin/ticket-details/:id" element={<ProtectedRoute element={<TicketDetails />} />} />

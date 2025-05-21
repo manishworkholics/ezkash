@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios'
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const URL = process.env.REACT_APP_URL;
+const url = process.env.REACT_APP_URL;
+const token = localStorage.getItem('token')
 
 const UserInformation = () => {
     const navigate = useNavigate();
@@ -16,6 +17,8 @@ const UserInformation = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [showModal, setShowModal] = useState(false);
     const [report, setReport] = useState([]);
+    const [status, setStatus] = useState({});
+
     const rowsPerPage = 10;
 
     // Pagination logic
@@ -27,7 +30,7 @@ const UserInformation = () => {
     const fetchUsers = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`${URL}/admin/get-all-users-byId/${id}`);
+            const response = await axios.get(`${url}/admin/get-all-users-byId/${id}`);
             if (response.status >= 200 && response.status < 300) {
                 setUsers(response?.data?.data)
             }
@@ -41,7 +44,7 @@ const UserInformation = () => {
     const fetchCheques = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`${URL}/check/get-checkByVenderId/${id}`);
+            const response = await axios.get(`${url}/check/get-checkByVenderId/${id}`);
             if (response.status >= 200 && response.status < 300) {
                 setCheques(response?.data?.data)
             }
@@ -66,78 +69,82 @@ const UserInformation = () => {
         }
     };
 
-    const [formData, setFormData] = useState({
-        customerFirstName: '',
-        customerMiddleName: '',
-        customerLastName: '',
-        licenseNo: '',
-        date: '',
-        company: '',
-        checkType: '',
-        amount: '',
-        imageUrl: '',
-        extractedText: '',
-    });
 
-    const [formDataback, setFormDataback] = useState({
-        customerFirstName: '',
-        customerMiddleName: '',
-        customerLastName: '',
-        licenseNo: '',
-        date: '',
-        company: '',
-        checkType: '',
-        amount: '',
-        imageUrl: '',
-        extractedText: '',
-    });
 
-    const [licenseData, setLicenseData] = useState({
-        imageUrl: '',
-        name: '',
-        licenseNo: '',
-        class: '',
-        dob: '',
-        sex: '',
-        eyes: '',
-        height: '',
-        address: '',
-        issuedDate: '',
-        expiryDate: '',
-    });
 
-    const [licenseDataback, setLicenseDataback] = useState({
-        imageUrl: '',
-        name: '',
-        licenseNo: '',
-        class: '',
-        dob: '',
-        sex: '',
-        eyes: '',
-        height: '',
-        address: '',
-        issuedDate: '',
-        expiryDate: '',
-    });
+    const licenseFrontRef = useRef(null);
+    const licenseBackRef = useRef(null);
+    const checkFrontRef = useRef(null);
+    const checkBackRef = useRef(null);
 
-    const [status, setStatus] = useState({});
+
+
+    const [previewCheckfront, setPreviewCheckfront] = useState(null);
+    const [previewCheckback, setPreviewCheckback] = useState(null);
+    const [previewLicencefront, setPreviewLicencefront] = useState(null);
+    const [previewLicenceback, setPreviewLicenceback] = useState(null);
+
+    const [formData, setFormData] = useState({ customerFirstName: '', customerMiddleName: '', customerLastName: '', licenseNo: '', date: '', company: '', checkType: 'Personal', amount: '', imageUrl: '', extractedText: '', });
+
+    const [formDataback, setFormDataback] = useState({ imageUrl: '' });
+
+    const [licenseData, setLicenseData] = useState({ imageUrl: '', name: '', licenseNo: '', class: '', dob: '', sex: '', eyes: '', height: '', address: '', issuedDate: '', expiryDate: '', });
+
+    const [licenseDataback, setLicenseDataback] = useState({ imageUrl: '' });
+
+
+    const handleCancelCheckFront = () => { setPreviewCheckfront(null); setFormData({ ...formData, imageUrl: '', customerFirstName: '', customerMiddleName: '', customerLastName: '', amount: '', company: '' }); if (checkFrontRef.current) { checkFrontRef.current.value = ''; } };
+
+    const handleCancelCheckBack = () => { setPreviewCheckback(null); setFormDataback({ ...formDataback, imageUrl: '' }); if (checkBackRef.current) { checkBackRef.current.value = ''; } };
+
+    const handleCancelLicenseFront = () => { setPreviewLicencefront(null); setLicenseData({ ...licenseData, imageUrl: '', licenseNo: '' }); if (licenseFrontRef.current) { licenseFrontRef.current.value = ''; } };
+
+    const handleCancelLicenseBack = () => { setPreviewLicenceback(null); setLicenseDataback({ ...licenseDataback, imageUrl: '' }); if (licenseBackRef.current) { licenseBackRef.current.value = ''; } };
+
+    const [errors, setErrors] = useState({});
+
+
+    const requiredFields = ['customerFirstName', 'customerLastName', 'amount'];
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        requiredFields.forEach(field => {
+            const value = formData[field];
+            if (!value || value.trim() === '') {
+                if (field === 'customerFirstName') {
+                    newErrors.customerFirstName = 'Please fill this field';
+                } else if (field === 'customerLastName') {
+                    newErrors.customerLastName = 'Please enter customerLastName';
+                } else if (field === 'amount') {
+                    newErrors.amount = 'Please enter amount';
+                } else {
+                    newErrors[field] = 'This field is required';
+                }
+            }
+        });
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const file = e.target.files[0];
         if (!file) {
-            alert("Please upload a cheque image.");
+            alert("Please upload a check image.");
             return;
         }
+        // Instant preview
+        const previewUrl = URL.createObjectURL(file);
+        setPreviewCheckfront(previewUrl);
         const formData = new FormData();
         formData.append('image', file);
         try {
-            const response = await axios.post(`${URL}/scan-check`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
 
+            const response = await axios.post(`${url}/scan-check`, formData)
+            toast.success('Check front image upload successfully!');
             const result = response.data;
             if (result && result.customerName) {
                 const parsedData = {
@@ -157,119 +164,199 @@ const UserInformation = () => {
                 setFormData(parsedData);
             }
         } catch (error) {
+            setTimeout(() => {
+                toast.error("Error in image uploading", error);
+            }, 1000);
             console.error('Error during image upload:', error);
         }
-
     };
 
     const handleSubmitback = async (e) => {
         e.preventDefault();
         const file = e.target.files[0];
         if (!file) {
-            alert("Please upload a cheque image.");
+            alert("Please upload a check image.");
             return;
         }
+        // Instant preview
+        const previewUrl = URL.createObjectURL(file);
+        setPreviewCheckback(previewUrl);
         const formData = new FormData();
         formData.append('image', file);
         try {
-            const response = await axios.post(`${URL}/scan-check`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+
+            const response = await axios.post(`${url}/upload-image`, formData)
+            toast.success('Check Back image upload successfully!');
 
             const result = response.data;
-            if (result && result.customerName) {
+            if (result) {
                 const parsedData = {
-                    customerName: result.customerName || '',
-                    date: result.date || '',
-                    company: result.company || '',
-                    checkType: result.checkType || '',
-                    amount: result.amountNumeric || '',
-                    amountWords: result.amountWords || '',
-                    payee: result.payee || '',
-                    memo: result.memo || '',
-                    imageUrl: result.imageUrl || '',
-                    extractedText: result.extractedText || ''
+                    imageUrl: result.data.imageUrl || '',
                 };
                 setFormDataback(parsedData);
             }
         } catch (error) {
+            setTimeout(() => {
+                toast.error("Error in image uploading", error);
+            }, 1000);
             console.error('Error during image upload:', error);
         }
-
     };
 
     const handleSubmitLicense = async (e) => {
         e.preventDefault();
         const file = e.target.files[0];
         if (!file) {
-            alert("Please upload a License image.");
+            alert("Please upload a ID image.");
             return;
         }
+        // Instant preview
+        const previewUrl = URL.createObjectURL(file);
+        setPreviewLicencefront(previewUrl);
         const formData = new FormData();
         formData.append('image', file);
         try {
-            const response = await axios.post(`${URL}/scan-license`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+
+            const response = await axios.post(`${url}/scan-license`, formData)
+            toast.success('ID Front image upload successfully!');
+
             const result = response.data;
             if (result) {
                 const parsedData = {
-                    imageUrl: result.imageUrl || '',
-                    name: result.name || '',
-                    licenseNo: result.licenseNo || '',
-                    dob: result.dob || '',
-                    sex: result.sex || '',
-                    eyes: result.eyes || '',
-                    height: result.height || '',
-                    address: result.address || '',
-                    issuedDate: result.issuedDate || '',
-                    expiryDate: result.expiryDate || '',
+                    imageUrl: result?.imageUrl || '',
+                    name: result?.name || '',
+                    licenseNo: result?.licenseNo || '',
+                    dob: result?.dob || '',
+                    sex: result?.sex || '',
+                    eyes: result?.eyes || '',
+                    height: result?.height || '',
+                    address: result?.address || '',
+                    issuedDate: result?.issuedDate || '',
+                    expiryDate: result?.expiryDate || '',
                 };
                 setLicenseData(parsedData);
             }
         } catch (error) {
+            toast.error("Error in image uploading", error);
             console.error('Error during image upload:', error);
         }
-
     };
 
     const handleSubmitLicenseback = async (e) => {
         e.preventDefault();
         const file = e.target.files[0];
         if (!file) {
-            alert("Please upload a License image.");
+            alert("Please upload a ID image.");
             return;
         }
+        // Instant preview
+        const previewUrl = URL.createObjectURL(file);
+        setPreviewLicenceback(previewUrl);
         const formData = new FormData();
         formData.append('image', file);
         try {
-            const response = await axios.post(`${URL}/scan-license`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+
+            const response = await axios.post(`${url}/upload-image`, formData)
+            toast.success('ID Back image upload successfully!');
+
             const result = response.data;
             if (result) {
                 const parsedData = {
-                    imageUrl: result.imageUrl || '',
-                    name: result.name || '',
-                    licenseNo: result.licenseNo || '',
-                    dob: result.dob || '',
-                    sex: result.sex || '',
-                    eyes: result.eyes || '',
-                    height: result.height || '',
-                    address: result.address || '',
-                    issuedDate: result.issuedDate || '',
-                    expiryDate: result.expiryDate || '',
+                    imageUrl: result?.data?.imageUrl || '',
                 };
                 setLicenseDataback(parsedData);
             }
         } catch (error) {
+            toast.error("Error in image uploading", error);
             console.error('Error during image upload:', error);
+        }
+    };
+
+
+
+
+    const handleSave = async (e) => {
+        e.preventDefault();
+
+
+        if (!validateForm()) {
+            alert('Please fill all required fields');
+            return;
+        }
+
+        if (formData.imageUrl === '') {
+            alert('Please upload id image');
+            return;
+        }
+
+        try {
+            const response = await axios.post(`${url}/check/add-check`, {
+                imageUrl: formData.imageUrl || '',
+                imageUrl2: formDataback.imageUrl || '',
+                imageUrl3: licenseData.imageUrl || '',
+                imageUrl4: licenseDataback.imageUrl || '',
+                customerFirstName: formData.customerFirstName,
+                customerLastName: formData.customerLastName,
+                customerMiddleName: formData.customerMiddleName,
+                licenseNo: licenseData.licenseNo,
+                date: new Date(Date.now()).toLocaleString('en-US', {
+                    month: '2-digit',
+                    day: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false
+                }),
+                company: formData.company,
+                checkType: formData.checkType || 'Personal',
+                amount: formData.amount,
+                status: formData.status,
+                extractedText: formData.extractedText,
+                comment: formData.comment,
+                venderId: id
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (response.status === 201) {
+                toast.success('Check added successfully!');
+
+                // Reset all form states after success
+                setFormData({
+                    imageUrl: '',
+                    customerFirstName: '',
+                    customerLastName: '',
+                    customerMiddleName: '',
+                    company: '',
+                    checkType: 'Personal',
+                    amount: '',
+                    status: '',
+                    extractedText: '',
+                    comment: ''
+                });
+
+                setLicenseData({
+                    imageUrl: '',
+                    licenseNo: ''
+                });
+
+                setPreviewCheckfront(null)
+                setPreviewCheckback(null)
+
+                setPreviewLicencefront(null)
+                setPreviewLicenceback(null)
+
+                setFormDataback({ imageUrl: '' });
+                setLicenseDataback({ imageUrl: '' });
+            }
+
+
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            toast.error('An error occurred while submitting the form');
         }
     };
 
@@ -292,60 +379,7 @@ const UserInformation = () => {
         handleStatus();
     }, [])
 
-    const handleSave = async (e) => {
-        e.preventDefault();
-        if (!formData.imageUrl || !licenseData.imageUrl) {
-            toast.error('Please upload both Cheque and License front images');
-            return;
-        }
 
-        try {
-            const response = await axios.post(`${URL}/check/add-check`, {
-                imageUrl: formData.imageUrl || '',
-                imageUrl2: formDataback.imageUrl || '',
-                imageUrl3: licenseData.imageUrl || '',
-                imageUrl4: licenseDataback.imageUrl || '',
-                customerFirstName: formData.customerFirstName,
-                customerMiddleName: formData.customerMiddleName,
-                customerLastName: formData.customerLastName,
-                licenseNo: licenseData.licenseNo,
-                date: new Date(Date.now()).toLocaleString('en-GB', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    hour12: false,
-                }),
-                company: formData.company,
-                checkType: formData.checkType,
-                amount: formData.amount,
-                status: formData.status,
-                extractedText: formData.extractedText,
-                comment: formData.comment || 'xyz',
-                venderId: id,
-            });
-            if (response.status >= 200 && response.status < 300) {
-                toast.success('Check added successfully');
-                setShowModal(false);
-                // Update the check list state
-                if (response.data?.data) {
-                    setReport((prev) => [response.data.data, ...prev]);
-                }
-                // Optional: clear the form
-                setFormData({});
-                setLicenseData({});
-                setFormDataback({});
-                setLicenseDataback({});
-            } else {
-                toast.error('Failed to add check');
-            }
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            toast.error('An error occurred while submitting the form');
-        }
-    };
     const totalAmount = cheques.reduce((sum, cheque) => {
         const num = parseFloat(cheque.amount?.replace(/[^\d.-]/g, '') || 0);
         return sum + (isNaN(num) ? 0 : num);
@@ -434,20 +468,10 @@ const UserInformation = () => {
                                                                     <h6 className="text-445B64 fs-14 mb-1">Total Amount</h6>
                                                                     <h6 className="text-0D161A fw-medium mb-0">$ {totalAmount}</h6>
                                                                 </div>
-                                                                <div className='mb-3 mb-lg-0'>
-                                                                    <h6 className="text-445B64 fs-14 mb-1">Date & Time</h6>
-                                                                    <h6 className="text-0D161A fw-medium mb-0">
-                                                                        {new Date("July 14, 2015").toLocaleDateString("en-GB", {
-                                                                            day: "numeric",
-                                                                            month: "long",
-                                                                            year: "numeric",
-                                                                        }).replace(/(\w+) (\d{4})$/, "$1, $2")}
-                                                                    </h6>
 
-                                                                </div>
                                                             </div>
                                                             <div>
-                                                                <h6 className="text-445B64 fs-14 mb-1">Status</h6>
+
                                                                 <button className={`btn btn-sm rounded-2 lh-1 text-white ${users?.isActive ? 'bg-008f06' : 'bg-f44336'}`}>
                                                                     {users?.isActive ? 'Active' : 'Inactive'}
                                                                 </button>
@@ -461,7 +485,7 @@ const UserInformation = () => {
                                                 <div className=''>
                                                     <div className="card-body py-2 d-flex justify-content-between border-bottom">
                                                         <h6 className="text-0D161A fw-medium mb-0 d-flex align-items-center">Check List</h6>
-                                                        <button class="btn py-1 px-2 fs-14 text-white border-0 p-0 fw-medium" onClick={() => setShowModal(true)} style={{background: '#008cff'}}><i class="fa fa-plus me-2"></i>Add Check</button>
+                                                        <button class="btn py-1 px-2 fs-14 text-white border-0 p-0 fw-medium" onClick={() => setShowModal(true)} style={{ background: '#008cff' }}><i class="fa fa-plus me-2"></i>Add Check</button>
                                                     </div>
                                                 </div>
                                                 <div className="card-body p-0">
@@ -479,7 +503,7 @@ const UserInformation = () => {
                                                                             <th scope="col" className="text-445B64">Amount</th>
                                                                             <th scope="col" className="text-445B64">Comment</th>
                                                                             <th scope="col" className="text-445B64">Date & Time</th>
-                                                                            <th scope="col" className="text-445B64">Status</th>
+                                                                            
                                                                             <th scope="col" className="text-445B64 text-center">Actions</th>
                                                                         </tr>
                                                                     </thead>
@@ -493,8 +517,8 @@ const UserInformation = () => {
                                                                                 <td>{cheque?.checkType}</td>
                                                                                 <td>$ {cheque?.amount}</td>
                                                                                 <td>{cheque?.comment?.length > 10 ? cheque?.comment.substring(0, 10) + '...' : cheque?.comment}</td>
-                                                                                <td>{new Date(cheque?.date).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</td>
-                                                                                <td className="text-01A99A">{cheque?.status}</td>
+                                                                                <td>{cheque?.date}</td>
+                                                                                
                                                                                 <td>
                                                                                     <div className="d-flex justify-content-center">
                                                                                         <Link to={`/cd-admin/cheque-details/${cheque?._id}`} className="btn border-0">
@@ -544,6 +568,7 @@ const UserInformation = () => {
                                             </div>
                                         </div>
                                     </div>
+
                                     {showModal && (
                                         <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
                                             <div className="modal-dialog modal-xl modal-dialog-scrollable" role="document">
@@ -556,125 +581,233 @@ const UserInformation = () => {
                                                     </div>
 
                                                     <div className="modal-body">
-                                                        <form>
-                                                            <div className="row g-3">
-                                                                {/* License Image Upload */}
+                                                        <div className="card-body">
+                                                            <div className="row g-3 new-check-form">
                                                                 <div className="col-md-6">
-                                                                    <label className="form-label">License Front & Back</label>
-                                                                    <div className="d-flex gap-3">
-                                                                        <div className="form-control inputFile p-4 text-center position-relative d-flex justify-content-center align-items-center">
-                                                                            <input type="file" onChange={handleSubmitLicense} className="position-absolute w-100 h-100 top-0 start-0" style={{ opacity: 0, cursor: 'pointer' }} />
-                                                                            <div>
-                                                                                <i className="fa-solid fa-arrow-up-from-bracket fs-4 text-info" />
-                                                                                <p className="mb-0">Upload Front</p>
+                                                                    <label className="form-label text-445B64">Check Image</label>
+
+                                                                    <div className="d-flex gap-2 gap-lg-3">
+                                                                        <div className="form-control inputFile p-3 p-lg-4 text-center position-relative d-flex justify-content-center align-items-center">
+                                                                            <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={checkFrontRef} onChange={handleSubmit} style={{ opacity: 0, cursor: 'pointer' }} />
+                                                                            <div className="">
+                                                                                <i className="fa-solid fa-arrow-up-from-bracket fs-4 text-01A99A"></i>
+                                                                                <div className="text-445B64">Upload/Capture Front </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div className="form-control inputFile p-4 text-center position-relative d-flex justify-content-center align-items-center">
-                                                                            <input type="file" onChange={handleSubmitLicenseback} className="position-absolute w-100 h-100 top-0 start-0" style={{ opacity: 0, cursor: 'pointer' }} />
-                                                                            <div>
-                                                                                <i className="fa-solid fa-arrow-up-from-bracket fs-4 text-info" />
-                                                                                <p className="mb-0">Upload Back</p>
+
+                                                                        <div className="form-control inputFile p-3 p-lg-4 text-center position-relative d-flex justify-content-center align-items-center">
+                                                                            <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={checkBackRef} onChange={handleSubmitback} style={{ opacity: 0, cursor: 'pointer' }} />
+                                                                            <div className="">
+                                                                                <i className="fa-solid fa-arrow-up-from-bracket fs-4 text-01A99A"></i>
+                                                                                <div className="text-445B64">Upload/Capture Back </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="row mt-3">
-                                                                        {licenseData?.imageUrl && (
-                                                                            <div className="col-md-6">
-                                                                                <label className="form-label">Front Image</label>
-                                                                                <img src={licenseData.imageUrl} className="img-fluid rounded border" />
+
+                                                                    <div className="row">
+                                                                        {previewCheckfront && (
+                                                                            <div className='col-lg-6'>
+                                                                                <label className="form-label text-445B64 mb-1 mt-3">Front Image</label>
+                                                                                <div className='position-relative mt-3'>
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 rounded-circle p-1"
+                                                                                        onClick={handleCancelCheckFront}
+                                                                                        style={{ zIndex: 1 }}
+                                                                                    >
+                                                                                        &times;
+                                                                                    </button>
+                                                                                    <img src={previewCheckfront || formData.imageUrl} alt="Profile" loading="lazy" className='w-100 border rounded-4 overflow-hidden' />
+                                                                                </div>
                                                                             </div>
                                                                         )}
-                                                                        {licenseDataback?.imageUrl && (
-                                                                            <div className="col-md-6">
-                                                                                <label className="form-label">Back Image</label>
-                                                                                <img src={licenseDataback.imageUrl} className="img-fluid rounded border" />
+
+
+                                                                        {previewCheckback && (
+                                                                            <div className='col-lg-6'>
+                                                                                <label className="form-label text-445B64 mb-1 mt-3">Back Image</label>
+                                                                                <div className='position-relative mt-3'>
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 rounded-circle p-1"
+                                                                                        onClick={handleCancelCheckBack}
+                                                                                        style={{ zIndex: 1 }}
+                                                                                    >
+                                                                                        &times;
+                                                                                    </button>
+                                                                                    <img src={previewCheckback || formDataback.imageUrl} alt="Profile" loading="lazy" className='w-100 border rounded-4 overflow-hidden' />
+                                                                                </div>
                                                                             </div>
                                                                         )}
                                                                     </div>
                                                                 </div>
 
-                                                                {/* Check Image Upload */}
+
                                                                 <div className="col-md-6">
-                                                                    <label className="form-label">Check Front & Back</label>
-                                                                    <div className="d-flex gap-3">
-                                                                        <div className="form-control inputFile p-4 text-center position-relative d-flex justify-content-center align-items-center">
-                                                                            <input type="file" onChange={handleSubmit} className="position-absolute w-100 h-100 top-0 start-0" style={{ opacity: 0, cursor: 'pointer' }} />
-                                                                            <div>
-                                                                                <i className="fa-solid fa-arrow-up-from-bracket fs-4 text-info" />
-                                                                                <p className="mb-0">Upload Front</p>
+                                                                    <label className="form-label text-445B64">ID Image</label>
+                                                                    <div className="d-flex gap-2 gap-lg-3">
+                                                                        <div className="form-control inputFile p-3 p-lg-4 text-center position-relative d-flex justify-content-center align-items-center">
+                                                                            <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={licenseFrontRef} onChange={handleSubmitLicense} style={{ opacity: 0, cursor: 'pointer' }} />
+                                                                            <div className="">
+                                                                                <i className="fa-solid fa-arrow-up-from-bracket fs-4 text-01A99A"></i>
+                                                                                <div className="text-445B64">Upload/Capture Front </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div className="form-control inputFile p-4 text-center position-relative d-flex justify-content-center align-items-center">
-                                                                            <input type="file" onChange={handleSubmitback} className="position-absolute w-100 h-100 top-0 start-0" style={{ opacity: 0, cursor: 'pointer' }} />
-                                                                            <div>
-                                                                                <i className="fa-solid fa-arrow-up-from-bracket fs-4 text-info" />
-                                                                                <p className="mb-0">Upload Back</p>
+                                                                        <div className="form-control inputFile p-3 p-lg-4 text-center position-relative d-flex justify-content-center align-items-center">
+                                                                            <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={licenseBackRef} onChange={handleSubmitLicenseback} style={{ opacity: 0, cursor: 'pointer' }} />
+                                                                            <div className="">
+                                                                                <i className="fa-solid fa-arrow-up-from-bracket fs-4 text-01A99A"></i>
+                                                                                <div className="text-445B64">Upload/Capture Back  </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="row mt-3">
-                                                                        {formData?.imageUrl && (
-                                                                            <div className="col-md-6">
-                                                                                <label className="form-label">Front Image</label>
-                                                                                <img src={formData.imageUrl} className="img-fluid rounded border" />
+                                                                    <div className="row">
+
+
+                                                                        {previewLicencefront && (
+                                                                            <div className='col-lg-6 '>
+                                                                                <label className="form-label text-445B64 mb-1 mt-3">Front Image</label>
+                                                                                <div className='position-relative mt-3'>
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 rounded-circle p-1"
+                                                                                        onClick={handleCancelLicenseFront}
+                                                                                        style={{ zIndex: 1 }}
+                                                                                    >
+                                                                                        &times;
+                                                                                    </button>
+                                                                                    <img
+                                                                                        src={previewLicencefront || licenseData.imageUrl}
+                                                                                        alt="Front License"
+                                                                                        loading="lazy"
+                                                                                        className='w-100 border rounded-4 overflow-hidden'
+                                                                                    />
+                                                                                </div>
                                                                             </div>
                                                                         )}
-                                                                        {formDataback?.imageUrl && (
-                                                                            <div className="col-md-6">
-                                                                                <label className="form-label">Back Image</label>
-                                                                                <img src={formDataback.imageUrl} className="img-fluid rounded border" />
+
+                                                                        {previewLicenceback && (
+                                                                            <div className='col-lg-6'>
+                                                                                <label className="form-label text-445B64 mb-1 mt-3">Back Image</label>
+                                                                                <div className='position-relative mt-3'>
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 rounded-circle p-1"
+                                                                                        onClick={handleCancelLicenseBack}
+                                                                                        style={{ zIndex: 1 }}
+                                                                                    >
+                                                                                        &times;
+                                                                                    </button>
+                                                                                    <img
+                                                                                        src={previewLicenceback || licenseDataback.imageUrl}
+                                                                                        alt="Back License"
+                                                                                        loading="lazy"
+                                                                                        className='w-100 border rounded-4 overflow-hidden'
+                                                                                    />
+                                                                                </div>
                                                                             </div>
                                                                         )}
+                                                                        <div className="col-lg-6"></div>
                                                                     </div>
                                                                 </div>
 
-                                                                {/* Text Inputs */}
-                                                                <div className="col-md-3">
-                                                                    <label className="form-label">First Name</label>
-                                                                    <input type="text" className="form-control" value={licenseData.customerFirstName || formData.customerFirstName} onChange={(e) => setFormData({ ...formData, customerFirstName: e.target.value })} />
-                                                                </div>
-                                                                <div className="col-md-3">
-                                                                    <label className="form-label">Middle Name</label>
-                                                                    <input type="text" className="form-control" value={licenseData.customerMiddleName || formData.customerMiddleName} onChange={(e) => setFormData({ ...formData, customerMiddleName: e.target.value })} />
-                                                                </div>
-                                                                <div className="col-md-3">
-                                                                    <label className="form-label">Last Name</label>
-                                                                    <input type="text" className="form-control" value={licenseData.customerLastName || formData.customerLastName} onChange={(e) => setFormData({ ...formData, customerLastName: e.target.value })} />
-                                                                </div>
-                                                                <div className="col-md-3">
-                                                                    <label className="form-label">ID Number</label>
-                                                                    <input type="text" className="form-control" value={licenseData.licenseNo || ''} onChange={(e) => setLicenseData({ ...licenseData, licenseNo: e.target.value })} />
-                                                                </div>
-                                                                <div className="col-md-3">
-                                                                    <label className="form-label">Company</label>
-                                                                    <input type="text" className="form-control" value={formData.company || ''} onChange={(e) => setFormData({ ...formData, company: e.target.value })} />
-                                                                </div>
-                                                                <div className="col-md-3">
-                                                                    <label className="form-label">Check Type</label>
-                                                                    <select className="form-select" value={formData.checkType || ''} onChange={(e) => setFormData({ ...formData, checkType: e.target.value })}>
-                                                                        {/* <option value="">Select</option> */}
-                                                                        <option value="Personal">Personal</option>
-                                                                        <option value="Business">Business</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div className="col-md-3">
-                                                                    <label className="form-label">Status</label>
-                                                                    <select className="form-select" value={formData.status || ''} onChange={(e) => setFormData({ ...formData, status: e.target.value })}>
-                                                                        <option value="">Select</option>
-                                                                        <option value="good">Good</option>
-                                                                        <option value="bad">Bad</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div className="col-md-3">
-                                                                    <label className="form-label">Amount</label>
-                                                                    <input type="text" className="form-control" value={formData.amount || ''} onChange={(e) => setFormData({ ...formData, amount: e.target.value })} />
-                                                                </div>
-                                                                <div className="col-12">
-                                                                    <label className="form-label">Comments</label>
-                                                                    <textarea className="form-control" rows="3" value={formData.comment || ''} onChange={(e) => setFormData({ ...formData, comment: e.target.value })}></textarea>
+                                                                <div className="col-lg-12">
+                                                                    <div className="row">
+                                                                        <div className="col-md-9">
+                                                                            <div className="row">
+                                                                                <div className="col-md-4 mb-3">
+                                                                                    <label className="form-label text-445B64">First Name <span className='text-danger'>*</span></label>
+                                                                                    <input
+                                                                                        type="text"
+                                                                                        placeholder='First name'
+                                                                                        className={`form-control ${errors.customerFirstName ? 'border border-danger' : formData.customerFirstName ? 'border border-success' : ''}`}
+                                                                                        value={formData.customerFirstName || ''}
+                                                                                        onChange={(e) => {
+                                                                                            const value = e.target.value;
+                                                                                            setFormData({ ...formData, customerFirstName: value });
+                                                                                            if (value.trim() !== '') {
+                                                                                                setErrors((prev) => ({ ...prev, customerFirstName: null }));
+                                                                                            }
+                                                                                        }}
+                                                                                    />
+                                                                                    {errors.customerFirstName && (
+                                                                                        <div className="text-danger mt-1" style={{ fontSize: '0.6rem' }}>
+                                                                                            "Please fill the customer first name"
+                                                                                        </div>
+                                                                                    )}
+                                                                                </div>
+                                                                                <div className="col-md-4 mb-3">
+                                                                                    <label className="form-label text-445B64">Middle Name</label>
+                                                                                    <input type="text" className="form-control" placeholder='Middle Name' value={formData.customerMiddleName} onChange={(e) => setFormData({ ...formData, customerMiddleName: e.target.value })} />
+                                                                                </div>
+
+                                                                                <div className="col-md-4 mb-3">
+                                                                                    <label className="form-label text-445B64">Last Name <span className='text-danger'>*</span></label>
+                                                                                    <input type="text"
+                                                                                        className={`form-control ${errors.customerLastName ? 'border border-danger' : formData.customerLastName ? 'border border-success' : ''}`} placeholder='Last Name'
+                                                                                        value={formData.customerLastName}
+                                                                                        onChange={(e) => {
+                                                                                            const value = e.target.value;
+                                                                                            setFormData({ ...formData, customerLastName: value });
+                                                                                            if (value.trim() !== '') {
+                                                                                                setErrors((prev) => ({ ...prev, customerLastName: null }));
+                                                                                            }
+                                                                                        }}
+                                                                                    />
+                                                                                    {errors.customerLastName && (
+                                                                                        <div className="text-danger mt-1" style={{ fontSize: '0.6rem' }}>
+                                                                                            "Please fill the customer last name"
+                                                                                        </div>
+                                                                                    )}
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="col-md-3 mb-3">
+                                                                            <label className="form-label text-445B64">ID Number </label>
+                                                                            <input type="text" className="form-control" value={licenseData.licenseNo} onChange={(e) => setLicenseData({ ...licenseData, licenseNo: e.target.value })} />
+                                                                        </div>
+                                                                        <div className="col-md-3 mb-3 ">
+                                                                            <label className="form-label text-445B64">Company</label>
+                                                                            <input className="form-control" value={formData.company || ''} onChange={(e) => setFormData({ ...formData, company: e.target.value })} />
+                                                                        </div>
+                                                                        <div className="col-md-3 mb-3">
+                                                                            <label className="form-label text-445B64"> Check Type </label>
+                                                                            <select className="form-control" value={formData.checkType} onChange={(e) => { const value = e.target.value; setFormData({ ...formData, checkType: value }) }} >
+                                                                                {/* <option value="">Select Check Type</option> */}
+                                                                                <option value="Personal">Personal</option>
+                                                                                <option value="Business">Business</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div className="col-md-3 mb-3">
+                                                                            <label className="form-label text-445B64">Amount <span className='text-danger'>*</span></label>
+                                                                            <input
+                                                                                type="text"
+                                                                                className={`form-control ${errors.amount ? 'border border-danger' : formData.amount ? 'border border-success' : ''}`}
+                                                                                value={formData.amount || ''}
+                                                                                onChange={(e) => {
+                                                                                    const value = e.target.value;
+                                                                                    setFormData({ ...formData, amount: value });
+                                                                                    if (value.trim() !== '') {
+                                                                                        setErrors((prev) => ({ ...prev, amount: null }));
+                                                                                    }
+                                                                                }}
+                                                                            />
+                                                                            {errors.amount && (
+                                                                                <div className="text-danger mt-1" style={{ fontSize: '0.6rem' }}>
+                                                                                    "Please fill the amount"
+                                                                                </div>
+                                                                            )}
+                                                                        </div>
+                                                                        <div className="col-md-3 mb-3 ">
+                                                                            <label className="form-label text-445B64">Comment</label>
+                                                                            <input className="form-control" value={formData.comment || ''} onChange={(e) => setFormData({ ...formData, comment: e.target.value })} />
+                                                                        </div>
+                                                                    </div>
+
                                                                 </div>
                                                             </div>
-                                                        </form>
+                                                        </div>
                                                     </div>
 
                                                     <div className="modal-footer">
