@@ -64,7 +64,7 @@ const SignIn = () => {
 
         toast.success('Signed in successfully.');
         setTimeout(() => {
-          navigate('/dashboard');
+          navigate('/checks');
         }, 2000);
       } else {
         toast.error("Sign-in failed. Please try again.");

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
 import axios from 'axios'
-
+import moment from 'moment';
 import { Link, useNavigate } from 'react-router-dom';
 const token = localStorage.getItem('token')
 const URL = process.env.REACT_APP_URL;
@@ -151,6 +151,7 @@ const MyTicket = () => {
                                                                     <th className='border-bottom'>Subject</th>
                                                                     <th className='border-bottom'>Category</th>
                                                                     <th className='border-bottom'>Descrition</th>
+                                                                    <th className='border-bottom'>Created</th>
                                                                     <th className='border-bottom'>Status</th>
                                                                 </tr>
                                                             </thead>
@@ -166,6 +167,7 @@ const MyTicket = () => {
                                                                             </td>
                                                                             <td>{ticket.category.length > 40 ? ticket.category.substring(0, 40) + '...' : ticket.category}</td>
                                                                             <td>{ticket.description.length > 40 ? ticket.description.substring(0, 40) + '...' : ticket.description}</td>
+                                                                            <td>{moment(ticket?.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
                                                                             <td><span className={getStatusClass(ticket.status)}>{ticket.status}</span></td>
                                                                         </tr>
 
