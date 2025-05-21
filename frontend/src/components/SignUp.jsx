@@ -56,7 +56,7 @@ const SignUp = () => {
         errors.email = 'Invalid email address format.';
       }
     }
-    
+
     if (mobile.trim() === '') {
       errors.mobile = 'Mobile number is required.';
     } else {
@@ -119,18 +119,26 @@ const SignUp = () => {
         headers: { 'Content-Type': 'application/json' }
       });
 
-      if (response.status === 201) {
-        toast.success('Code has been sent to your email. Please verify to continue.');
+      if (response.status === 201 || response.status === 200) {
+        const message = response.status === 201
+          ? 'Code has been sent to your email. Please verify to continue.'
+          : 'A new code has been sent. Please verify to complete registration.';
+
+        toast.success(message);
         localStorage.setItem("email", formData.email);
-        navigate('/verify-otp');
-      } else if (response.status === 200) {
-        toast.success("A new code has been sent. Please verify to complete registration.");
-        localStorage.setItem("email", formData.email);
-        navigate('/verify-otp');
+
+        // Delay navigation so the toast is visible
+        setTimeout(() => {
+          navigate('/verify-otp');
+        }, 1000);
       } else if (response.status === 409) {
         toast.error("This email is already registered and verified. Please log in.");
-        navigate('/'); // Redirect to login instead of OTP
+
+        setTimeout(() => {
+          navigate('/');
+        }, 1000);
       }
+
     } catch (error) {
       if (error.response && error.response.status === 500) {
         toast.error('Something went wrong. Please try again later.');
@@ -205,7 +213,7 @@ const SignUp = () => {
                   ) : (
                     "Sign Up"
                   )}</button>
-                  <h6 className="text-center text-445B64 mb-3">Don't have an account? <Link to='/' className='text-00C7BE text-decoration-none'> Sign in</Link></h6>
+                  <h6 className="text-center text-445B64 mb-3">Already have an account? <Link to='/' className='text-00C7BE text-decoration-none'> Sign in</Link></h6>
                 </div>
               </div>
             </div>

@@ -116,7 +116,8 @@ const Otp = () => {
                                         <img src={signLogo} alt="" className="sign-logo" />
                                     </div>
                                     <h3 className="fw-semibold">Welcome!</h3>
-                                    <h6 className="mb-4 text-445B64">Please enter code to verify</h6>
+                                    <h6 className="mb-4 text-445B64">Please enter the code sent to your email address</h6>
+
                                     <div className="text-center mb-3 text-danger">
                                         {/* Code expires in {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')} */}
                                     </div>

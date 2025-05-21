@@ -351,7 +351,17 @@ const MobileAddCheck = () => {
                                 <div className="card-body bg-transparent px-0">
                                     <div className="mb-4">
                                         <div className="form-control inputFile p-4 mb-3 text-center position-relative d-flex justify-content-center align-items-center">
-                                            <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={checkFrontRef} onChange={handleSubmit} style={{ opacity: 0, cursor: 'pointer' }} />
+                                            <input
+                                                className="position-absolute top-0 start-0 w-100 h-100"
+                                                type="file"
+                                                id="formFile"
+                                                ref={checkFrontRef}
+                                                onChange={handleSubmit}
+                                                accept="image/*"
+                                                capture="environment"
+                                                style={{ opacity: 0, cursor: 'pointer' }}
+                                            />
+
                                             {/* image box */}
 
 
@@ -439,7 +449,17 @@ const MobileAddCheck = () => {
 
                                     <div className="">
                                         <div className="form-control inputFile p-4 mb-3 text-center position-relative d-flex justify-content-center align-items-center">
-                                            <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={checkBackRef} onChange={handleSubmitback} style={{ opacity: 0, cursor: 'pointer' }} />
+                                            <input
+                                                className="position-absolute top-0 start-0 w-100 h-100"
+                                                type="file"
+                                                id="formFile"
+                                                ref={checkBackRef}
+                                                onChange={handleSubmitback}
+                                                accept="image/*"
+                                                capture="environment"
+                                                style={{ opacity: 0, cursor: 'pointer' }}
+                                            />
+
 
                                             {previewCheckback && (
                                                 <>
@@ -554,7 +574,17 @@ const MobileAddCheck = () => {
                                 <div className="card-body bg-transparent px-0">
                                     <div className="mb-4">
                                         <div className="form-control inputFile p-4 mb-3 text-center position-relative d-flex justify-content-center align-items-center">
-                                            <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={licenseFrontRef} onChange={handleSubmitLicense} style={{ opacity: 0, cursor: 'pointer' }} />
+                                            <input
+                                                className="position-absolute top-0 start-0 w-100 h-100"
+                                                type="file"
+                                                id="formFile"
+                                                ref={licenseFrontRef}
+                                                onChange={handleSubmitLicense}
+                                                accept="image/*"
+                                                capture="environment"
+                                                style={{ opacity: 0, cursor: 'pointer' }}
+                                            />
+
 
 
                                             {previewLicencefront && (
@@ -637,7 +667,17 @@ const MobileAddCheck = () => {
                                     </div>
                                     <div className="">
                                         <div className="form-control inputFile p-4 mb-3 text-center position-relative d-flex justify-content-center align-items-center">
-                                            <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={licenseBackRef} onChange={handleSubmitLicenseback} style={{ opacity: 0, cursor: 'pointer' }} />
+                                            <input
+                                                className="position-absolute top-0 start-0 w-100 h-100"
+                                                type="file"
+                                                id="formFile"
+                                                ref={licenseBackRef}
+                                                onChange={handleSubmitLicenseback}
+                                                accept="image/*"
+                                                capture="environment"
+                                                style={{ opacity: 0, cursor: 'pointer' }}
+                                            />
+
 
 
                                             {previewLicenceback && (
