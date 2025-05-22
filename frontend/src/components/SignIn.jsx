@@ -78,8 +78,8 @@ const SignIn = () => {
         toast.error("Sign-in failed. Please try again.");
       }
     } catch (error) {
-      console.log("Sign-in error:", error);
-      toast.error(error.response?.data?.message || 'User not registered. Please try again.');
+      // console.log("Sign-in error:", error);
+      toast.error('User not found. Please check your email address or sign up.');
     } finally {
       setLoading(false);
     }
@@ -182,7 +182,7 @@ const SignIn = () => {
                         {formErrors.email && <small className="text-danger">{formErrors.email}</small>}
                       </div>
 
-                      <div className=" mb-3">
+                      <div className="mb-3 position-relative">
                         <div className="input-group">
                           <input
                             className="form-control mb-1 rounded-3"
@@ -193,7 +193,7 @@ const SignIn = () => {
                             onChange={handleChange}
                             placeholder="Your password"
                           />
-                          <span className="input-group-text" style={{ cursor: 'pointer' }} onClick={() => setshowPassword(!showPassword)}>
+                          <span className="position-absolute top-0 end-0" style={{ cursor: 'pointer', margin: '14px', zIndex: 11 }} onClick={() => setshowPassword(!showPassword)}>
                             <EyeIcon visible={showPassword} />
                           </span>
                         </div>
@@ -230,7 +230,7 @@ const SignIn = () => {
             </div>
             <div className="position-absolute bottom-0 start-0 w-100">
               <h6 className="text-445B64 text-center">
-                <Link to="/terms&conditions" className='text-445B64 text-decoration-none'>Terms and Conditions</Link>
+                <Link to="/terms&conditions" className='text-445B64 text-decoration-none'>Terms & Conditions</Link>
                 <span className="mx-2">•</span>
                 <Link to="/privacy-policy" className='text-445B64 text-decoration-none'>Privacy Policy</Link>
               </h6>
