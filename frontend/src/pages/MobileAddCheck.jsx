@@ -960,8 +960,8 @@ const MobileAddCheck = () => {
                             </div >
                             <div className="card bg-transparent w-100 border-0">
                                 <div className="card-body bg-transparent" style={{ padding: '12px 0' }}>
-                                    <button type="submit" className='theme-btn w-100' onClick={handleSave}>Submit</button>
-                                    <button type="submit" className='theme-btn w-100' onClick={handleCancel}>Cancel</button>
+                                    <button type="submit" className='theme-btn w-100 mb-3' onClick={handleSave}>Submit</button>
+                                    <button type="submit" className='cancel-btn w-100' onClick={handleCancel}>Cancel</button>
                                 </div>
                             </div>
                         </div >

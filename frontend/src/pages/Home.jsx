@@ -4,9 +4,6 @@ import Sidebar from '../components/Sidebar';
 import { useState } from 'react';
 import axios from 'axios';
 
-
-
-
 const url = process.env.REACT_APP_URL;
 const token = localStorage.getItem('token')
 
@@ -40,17 +37,14 @@ const Home = () => {
      
       <div className="container-fluid ">
         <Header />
-        <div className=" d-lg-block">
+        <div className="">
           <div className="row mh-100vh">
-            <div className="col-lg-3 col-xl-2  d-lg-block position-relative">
+            <div className="col-lg-3 col-xl-2 d-none d-lg-block position-relative">
               <Sidebar />
             </div>
             <div className="col-lg-9 col-xl-10 bg-F6F6F6">
               <div className="main-content">
                 <div className="container-fluid p-3 px-2">
-
-
-
                   {/* Status Cards */}
                   <div className="row mb-2">
                     <div className="col-md-6 col-xl-4 mb-3">
@@ -122,27 +116,14 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-
-
                   {/* New Check Form */}
-
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div >
-
       {/* image-preview-Modal */}
-
-
-
-     
-
-
-
-
-
     </>
   )
 }

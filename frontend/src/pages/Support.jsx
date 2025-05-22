@@ -199,7 +199,6 @@ const Support = () => {
                                                                 </div>
 
                                                                 <div className="col-12 d-flex gap-3">
-
                                                                     <div className="form-control inputFile p-4 text-center position-relative d-flex justify-content-center align-items-center">
                                                                         <input
                                                                             className="position-absolute top-0 start-0 w-100 h-100"
@@ -223,7 +222,6 @@ const Support = () => {
                                                                 }
                                                             </div>
                                                         </div>
-
                                                         <div className="col-lg-6">
                                                             <div className="row h-100">
                                                                 <div className="col-12 mb-3 pb-3">
@@ -234,9 +232,9 @@ const Support = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="col-lg-4 me-auto mt-0 text-center">
-                                                            <button className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100" onClick={addTicket}>Save</button>
-                                                            <button className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100" onClick={handleCancel}>Cancel</button>
+                                                        <div className="col-lg-4 me-auto mt-0 text-center d-flex">
+                                                            <button className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100 me-3" onClick={addTicket}>Save</button>
+                                                            <button className="btn cancel-btn px-5 py-2 rounded-3 mt-3 w-100 " onClick={handleCancel}>Cancel</button>
                                                         </div>
                                                     </div>
                                                 </div>
