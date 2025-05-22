@@ -228,9 +228,9 @@ const Support = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="col-lg-4 me-auto mt-0 text-center">
-                                                            <button className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100" onClick={addTicket}>Save</button>
-                                                            <button className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100" onClick={handleCancel}>Cancel</button>
+                                                        <div className="col-lg-4 me-auto mt-0 text-center d-flex">
+                                                            <button className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100 me-3" onClick={addTicket}>Save</button>
+                                                            <button className="btn cancel-btn px-5 py-2 rounded-3 mt-3 w-100 " onClick={handleCancel}>Cancel</button>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -607,8 +607,8 @@ const AddCheck = () => {
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-4 me-auto mt-0 text-center d-flex">
-                                                        <button className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100" onClick={handleSave}>Save</button>
-                                                        <button className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100" onClick={handleCancel}>Cancel</button>
+                                                        <button className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100 me-md-3 mb-3 mb-md-0" onClick={handleSave}>Save</button>
+                                                        <button className="btn cancel-btn px-5 py-2 rounded-3 mt-3 w-100 " onClick={handleCancel}>Cancel</button>
                                                     </div>
 
                                                 </div>
