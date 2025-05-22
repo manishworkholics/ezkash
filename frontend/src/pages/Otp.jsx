@@ -69,9 +69,9 @@ const Otp = () => {
                 email,
                 otp: enteredOtp
             });
-            if (res.data.message === "OTP verified. Registration complete.") {
+            if (res.data.message === "Code verified. Registration complete.") {
                 setTimeout(() => {
-                    toast.success("OTP Verified Successfully!")
+                    toast.success("Code Verified Successfully!")
                 }, 1000);
                 setTimeout(() => {
                     navigate('/email-verification-successfully');
@@ -79,7 +79,7 @@ const Otp = () => {
             }
         } catch (err) {
             setTimeout(() => {
-                toast.error("OTP verification failed. Please enter the correct code.")
+                toast.error("Code verification failed. Please enter the correct code.")
             }, 1000);
         } finally {
             setLoading(false)
@@ -102,19 +102,19 @@ const Otp = () => {
             });
             if (res.status === 200) {
                 setTimeout(() => {
-                    toast.success("OTP has been resent successfully.")
+                    toast.success("Code has been resent successfully.")
                     setTimeLeft(300);
                     setOtp(new Array(6).fill(""));
                 }, 1000);
             } else {
                 setTimeout(() => {
-                    toast.success("There was a problem resending the OTP. Please try again.")
+                    toast.success("There was a problem resending the Code. Please try again.")
                 }, 1000);
             }
         } catch (error) {
-            console.error("Error resending OTP:", error);
+            console.error("Error resending Code:", error);
             setTimeout(() => {
-                toast.error("Failed to resend OTP. Please try again.")
+                toast.error("Failed to resend Code. Please try again.")
             }, 1000);
         } finally {
             setLoadingResent(false);
