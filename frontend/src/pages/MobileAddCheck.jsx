@@ -16,6 +16,11 @@ const MobileAddCheck = () => {
     const [fileName, setFileName] = useState('');
     const [fileSize, setFileSize] = useState('');
 
+    const [loadingFront, setLoadingFront] = useState(false);
+    const [loadingBack, setLoadingBack] = useState(false);
+    const [loadingLicenseFront, setLoadingLicenseFront] = useState(false);
+    const [loadingLicenseBack, setLoadingLicenseBack] = useState(false);
+
     const [previewCheckfront, setPreviewCheckfront] = useState(null);
     const [previewCheckback, setPreviewCheckback] = useState(null);
     const [previewLicencefront, setPreviewLicencefront] = useState(null);
@@ -87,11 +92,6 @@ const MobileAddCheck = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-
-    const [loadingFront, setLoadingFront] = useState(false);
-    const [loadingBack, setLoadingBack] = useState(false);
-    const [loadingLicenseFront, setLoadingLicenseFront] = useState(false);
-    const [loadingLicenseBack, setLoadingLicenseBack] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -351,7 +351,7 @@ const MobileAddCheck = () => {
             });
 
             if (response.status === 201) {
-                alert('Check added successfully!');
+                toast.success('Check added successfully!');
 
                 // Reset all form states after success
                 setFormData({
@@ -817,7 +817,7 @@ const MobileAddCheck = () => {
                                         disabled={loadingLicenseFront || loadingLicenseBack}
                                     >
                                         {(loadingLicenseFront || loadingLicenseBack) ? 'Loading...' : 'Next'}
-                                       
+
                                     </button>
                                 </div>
                             </div>
