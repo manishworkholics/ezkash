@@ -242,7 +242,7 @@ const SignUp = () => {
 
                   {/* Confirm Password */}
                   <div className="mb-3 position-relative">
-                    <input className="form-control rounded-3" type={showPassword ? 'text' : 'password'} id='confirmPassword' name='confirmPassword' value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" aria-label="example" required />
+                    <input className="form-control rounded-3" type={showPassword ? 'text' : 'password'} id='confirmPassword' name='confirmPassword' value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm your password" aria-label="example" required />
                     <span className="position-absolute top-0 end-0" style={{ cursor: 'pointer', margin:'14px' }} onClick={() => setshowPassword(!showPassword)}>
                       <EyeIcon visible={showPassword} />
                     </span>
