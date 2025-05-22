@@ -55,9 +55,20 @@ const SignIn = () => {
       });
 
       if (response.status >= 200 && response.status < 300) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("role", response.data.role);
-        localStorage.setItem("userId", response.data.userId);
+        try {
+          // Try to use localStorage
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("role", response.data.role);
+          localStorage.setItem("userId", response.data.userId);
+          document.cookie = `userId=${response.data.userId}; path=/; max-age=86400`; // 1 day
+        } catch (err) {
+
+          // Fallback to sessionStorage
+          sessionStorage.setItem("token", response.data.token);
+          sessionStorage.setItem("role", response.data.role);
+          sessionStorage.setItem("userId", response.data.userId);
+        }
+
 
         toast.success('Signed in successfully.');
         setTimeout(() => {
