@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
-import { Link ,useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ExportModal from '../components/ExportModal';
 
@@ -9,7 +9,7 @@ const token = localStorage.getItem('token');
 const URL = process.env.REACT_APP_URL;
 
 const Report = () => {
-    const navigate = useNavigate();
+    
     const [report, setReport] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [sortField, setSortField] = useState('');
@@ -96,9 +96,7 @@ const Report = () => {
         );
     };
 
-    const handleBack = () => {
-        navigate(-1)
-    }
+   
 
 
     return (
@@ -160,12 +158,7 @@ const Report = () => {
                                                                 <ExportModal data={report} show={showModal} onClose={() => setShowModal(false)} />
                                                             </div>
 
-                                                            <div className="d-flex justify-content-end">
-                                                                <button onClick={handleBack} className="btn btn-sm rounded-2 btn-secondary text-white">
-                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
-                                                                    Back
-                                                                </button>
-                                                            </div>
+                                                           
                                                         </div>
                                                     </div>
                                                 </div>

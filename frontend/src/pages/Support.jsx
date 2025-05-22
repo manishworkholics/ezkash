@@ -109,8 +109,10 @@ const Support = () => {
         }
     };
 
-    const handleBack = () => {
-        navigate(-1)
+    const handleCancel = () => {
+        setData({ subject: '', category: '', description: '', checkImg: '', vendorId: '' });
+        setFormData({ imageUrl: '' });
+        setErrors({});
     }
 
     return (
@@ -152,12 +154,7 @@ const Support = () => {
                                                             </div>
                                                         </div>
 
-                                                        <div className="d-flex justify-content-end">
-                                                            <button onClick={handleBack} className="btn btn-sm rounded-2 btn-secondary text-white">
-                                                                <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
-                                                                Back
-                                                            </button>
-                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -233,6 +230,7 @@ const Support = () => {
                                                         </div>
                                                         <div className="col-lg-4 me-auto mt-0 text-center">
                                                             <button className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100" onClick={addTicket}>Save</button>
+                                                            <button className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100" onClick={handleCancel}>Cancel</button>
                                                         </div>
                                                     </div>
                                                 </div>
