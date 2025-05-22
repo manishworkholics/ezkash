@@ -87,7 +87,7 @@ const SignIn = () => {
     try {
       const response = await axios.post(`${URL}/auth/forget-password`, { email: forgotEmail });
       if (response.status >= 200 && response.status < 300) {
-        toast.success('code sent to your email.');
+        toast.success('Verification code sent to your email');
         localStorage.setItem("resetEmail", forgotEmail);
         setTimeout(() => {
           navigate('/forget-password-verification');
@@ -96,8 +96,8 @@ const SignIn = () => {
         toast.error('Failed to send code.');
       }
     } catch (error) {
-      console.error('code send error:', error);
-      toast.error(error.response?.data?.message || 'Error sending code.');
+      console.error('Code sending error:', error);
+      toast.error(error.response?.data?.message || 'An error occurred while sending the code');
     } finally {
       setLoading(false);
     }
@@ -122,7 +122,7 @@ const SignIn = () => {
                         <img src={signLogo} alt="" className="sign-logo" />
                       </div>
                       <h3 className="fw-semibold">Forgot password</h3>
-                      <h6 className="mb-4 text-445B64">Enter your email to receive the code</h6>
+                      <h6 className="mb-4 text-445B64">Enter your email to receive a verification code</h6>
                       <input
                         className="form-control mb-3 rounded-3"
                         type="email"
@@ -139,7 +139,7 @@ const SignIn = () => {
                           onClick={() => setShowForgotPassword(false)}
                           style={{ cursor: 'pointer' }}
                         >
-                          Back to sign in
+                          Back to Sign In
                         </span>
                       </h6>
                     </>
@@ -158,7 +158,7 @@ const SignIn = () => {
                           id="email"
                           value={formData.email}
                           onChange={handleChange}
-                          placeholder="Your email address"
+                          placeholder="Enter your email address"
                         />
                         {formErrors.email && <small className="text-danger">{formErrors.email}</small>}
                       </div>
@@ -170,7 +170,7 @@ const SignIn = () => {
                           id="password"
                           value={formData.password}
                           onChange={handleChange}
-                          placeholder="Your password"
+                          placeholder="Enter your password"
                         />
                         {formErrors.password && <small className="text-danger">{formErrors.password}</small>}
                       </div>
@@ -180,7 +180,7 @@ const SignIn = () => {
                           onClick={() => setShowForgotPassword(true)}
                           style={{ cursor: 'pointer' }}
                         >
-                          Forgot password?
+                          Forgot your password?
                         </span>
                       </h6>
                       <button className="btn w-100 sign-btn mb-3" onClick={handleSubmit}>
@@ -204,7 +204,7 @@ const SignIn = () => {
             </div>
             <div className="position-absolute bottom-0 start-0 w-100">
               <h6 className="text-445B64 text-center">
-                <Link to="/terms&conditions" className='text-445B64 text-decoration-none'>Terms & Conditions</Link>
+                <Link to="/terms&conditions" className='text-445B64 text-decoration-none'>Terms and Conditions</Link>
                 <span className="mx-2">•</span>
                 <Link to="/privacy-policy" className='text-445B64 text-decoration-none'>Privacy Policy</Link>
               </h6>
