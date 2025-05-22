@@ -88,41 +88,35 @@ const MobileAddCheck = () => {
     };
 
 
-    const [loadingFront, setLoadingFront] = useState(false);
-    const [loadingBack, setLoadingBack] = useState(false);
-    const [loadingLicenseFront, setLoadingLicenseFront] = useState(false);
-    const [loadingLicenseBack, setLoadingLicenseBack] = useState(false);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         const file = e.target.files[0];
-        if (!file) {
+        if (file) {
+            // Instant preview
+            const previewUrl = URL.createObjectURL(file);
+            setPreviewCheckfront(previewUrl);
+
+            setFileName(file.name);
+            setFileSize(formatBytes(file.size));
+
+
+
+        } else {
             alert("Please upload a Check image.");
             return;
         }
-        setLoadingFront(true);
-
-        // Instant preview
-        const previewUrl = URL.createObjectURL(file);
-        setPreviewCheckfront(previewUrl);
-
-        setFileName(file.name);
-        setFileSize(formatBytes(file.size));
-
         const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1024,
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
             useWebWorker: true,
         };
-
+        const compressedFile = await imageCompression(file, options);
+        const formData = new FormData();
+        formData.append('image', compressedFile);
         try {
-            const compressedFile = await imageCompression(file, options);
-            const formData = new FormData();
-            formData.append('image', compressedFile);
 
-            const response = await axios.post(`${url}/scan-check`, formData);
+            const response = await axios.post(`${url}/scan-check`, formData)
             toast.success('Check front image upload successfully!');
-
             const result = response.data;
             if (result && result.customerName) {
                 const parsedData = {
@@ -143,44 +137,40 @@ const MobileAddCheck = () => {
             }
         } catch (error) {
             setTimeout(() => {
-                toast.error("Error in image uploading");
-                alert("Error in image uploading");
+                toast.error("Error in image uploading", error);
+                alert("Error in image uploading", error);
             }, 1000);
             console.error('Error during image upload:', error);
-        } finally {
-            setLoadingFront(false);
         }
     };
-
 
     const handleSubmitback = async (e) => {
         e.preventDefault();
         const file = e.target.files[0];
-        if (!file) {
+        if (file) {
+
+            // Instant preview
+            const previewUrl = URL.createObjectURL(file);
+            setPreviewCheckback(previewUrl);
+
+            setFileName(file.name);
+            setFileSize(formatBytes(file.size));
+
+        } else {
             alert("Please upload a Check image.");
             return;
         }
-        setLoadingBack(true);
-
-        // Instant preview
-        const previewUrl = URL.createObjectURL(file);
-        setPreviewCheckback(previewUrl);
-
-        setFileName(file.name);
-        setFileSize(formatBytes(file.size));
-
         const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1024,
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
             useWebWorker: true,
         };
-
+        const compressedFile = await imageCompression(file, options);
+        const formData = new FormData();
+        formData.append('image', compressedFile);
         try {
-            const compressedFile = await imageCompression(file, options);
-            const formData = new FormData();
-            formData.append('image', compressedFile);
 
-            const response = await axios.post(`${url}/upload-image`, formData);
+            const response = await axios.post(`${url}/upload-image`, formData)
             toast.success('Check Back image upload successfully!');
 
             const result = response.data;
@@ -192,44 +182,39 @@ const MobileAddCheck = () => {
             }
         } catch (error) {
             setTimeout(() => {
-                toast.error("Error in image uploading");
-                alert("Error in image uploading");
+                toast.error("Error in image uploading", error);
+                alert("Error in image uploading", error);
             }, 1000);
             console.error('Error during image upload:', error);
-        } finally {
-            setLoadingBack(false);
         }
     };
-
 
     const handleSubmitLicense = async (e) => {
         e.preventDefault();
         const file = e.target.files[0];
-        if (!file) {
+        if (file) {
+            // Instant preview
+            const previewUrl = URL.createObjectURL(file);
+            setPreviewLicencefront(previewUrl);
+
+            setFileName(file.name);
+            setFileSize(formatBytes(file.size));
+
+        } else {
             alert("Please upload a ID image.");
             return;
         }
-        setLoadingLicenseFront(true);
-
-        // Instant preview
-        const previewUrl = URL.createObjectURL(file);
-        setPreviewLicencefront(previewUrl);
-
-        setFileName(file.name);
-        setFileSize(formatBytes(file.size));
-
         const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1024,
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
             useWebWorker: true,
         };
-
+        const compressedFile = await imageCompression(file, options);
+        const formData = new FormData();
+        formData.append('image', compressedFile);
         try {
-            const compressedFile = await imageCompression(file, options);
-            const formData = new FormData();
-            formData.append('image', compressedFile);
 
-            const response = await axios.post(`${url}/scan-license`, formData);
+            const response = await axios.post(`${url}/scan-license`, formData)
             toast.success('ID Front image upload successfully!');
 
             const result = response.data;
@@ -249,43 +234,38 @@ const MobileAddCheck = () => {
                 setLicenseData(parsedData);
             }
         } catch (error) {
-            toast.error("Error in image uploading");
-            alert("Error in image uploading");
+            toast.error("Error in image uploading", error);
+            alert("Error in image uploading", error);
             console.error('Error during image upload:', error);
-        } finally {
-            setLoadingLicenseFront(false);
         }
     };
-
 
     const handleSubmitLicenseback = async (e) => {
         e.preventDefault();
         const file = e.target.files[0];
-        if (!file) {
+        if (file) {
+            // Instant preview
+            const previewUrl = URL.createObjectURL(file);
+            setPreviewLicenceback(previewUrl);
+
+            setFileName(file.name);
+            setFileSize(formatBytes(file.size));
+
+        } else {
             alert("Please upload a ID image.");
             return;
         }
-        setLoadingLicenseBack(true);
-
-        // Instant preview
-        const previewUrl = URL.createObjectURL(file);
-        setPreviewLicenceback(previewUrl);
-
-        setFileName(file.name);
-        setFileSize(formatBytes(file.size));
-
         const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1024,
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
             useWebWorker: true,
         };
-
+        const compressedFile = await imageCompression(file, options);
+        const formData = new FormData();
+        formData.append('image', compressedFile);
         try {
-            const compressedFile = await imageCompression(file, options);
-            const formData = new FormData();
-            formData.append('image', compressedFile);
 
-            const response = await axios.post(`${url}/upload-image`, formData);
+            const response = await axios.post(`${url}/upload-image`, formData)
             toast.success('ID Back image upload successfully!');
 
             const result = response.data;
@@ -296,11 +276,9 @@ const MobileAddCheck = () => {
                 setLicenseDataback(parsedData);
             }
         } catch (error) {
-            toast.error("Error in image uploading");
-            alert("Error in image uploading");
+            toast.error("Error in image uploading", error);
+            alert("Error in image uploading", error);
             console.error('Error during image upload:', error);
-        } finally {
-            setLoadingLicenseBack(false);
         }
     };
 
@@ -432,7 +410,16 @@ const MobileAddCheck = () => {
                                 <div className="card-body bg-transparent px-0">
                                     <div className="mb-4">
                                         <div className="form-control inputFile p-4 mb-3 text-center position-relative d-flex justify-content-center align-items-center">
+                                            {/* <input
+                                                className="position-absolute top-0 start-0 w-100 h-100"
+                                                type="file"
+                                                id="formFile"
+                                                ref={checkFrontRef}
+                                                onChange={handleSubmit}
+                                                accept="image/*"
 
+                                                style={{ opacity: 0, cursor: 'pointer' }}
+                                            /> */}
                                             <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={checkFrontRef} onChange={handleSubmit} style={{ opacity: 0, cursor: 'pointer' }} />
                                             {/* image box */}
 
@@ -521,7 +508,16 @@ const MobileAddCheck = () => {
 
                                     <div className="">
                                         <div className="form-control inputFile p-4 mb-3 text-center position-relative d-flex justify-content-center align-items-center">
+                                            {/* <input
+                                                className="position-absolute top-0 start-0 w-100 h-100"
+                                                type="file"
+                                                id="formFile"
+                                                ref={checkBackRef}
+                                                onChange={handleSubmitback}
+                                                accept="image/*"
 
+                                                style={{ opacity: 0, cursor: 'pointer' }}
+                                            /> */}
 
                                             <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={checkBackRef} onChange={handleSubmitback} style={{ opacity: 0, cursor: 'pointer' }} />
                                             {previewCheckback && (
@@ -608,16 +604,9 @@ const MobileAddCheck = () => {
                             </div>
                             <div className="card bg-transparent w-100 border-0">
                                 <div className="card-body" style={{ padding: '12px 0' }}>
-                                    <button
-                                        className='theme-btn w-100'
-                                        onClick={nextStep}
-                                        disabled={loadingFront || loadingBack}  // disable when either loading
-                                    >
-                                        {(loadingFront || loadingBack) ? 'Loading...' : 'Next'}
-                                    </button>
+                                    <button className='theme-btn w-100' onClick={nextStep}>Next</button>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 )}
@@ -640,7 +629,16 @@ const MobileAddCheck = () => {
                                 <div className="card-body bg-transparent px-0">
                                     <div className="mb-4">
                                         <div className="form-control inputFile p-4 mb-3 text-center position-relative d-flex justify-content-center align-items-center">
+                                            {/* <input
+                                                className="position-absolute top-0 start-0 w-100 h-100"
+                                                type="file"
+                                                id="formFile"
+                                                ref={licenseFrontRef}
+                                                onChange={handleSubmitLicense}
+                                                accept="image/*"
 
+                                                style={{ opacity: 0, cursor: 'pointer' }}
+                                            /> */}
                                             <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={licenseFrontRef} onChange={handleSubmitLicense} style={{ opacity: 0, cursor: 'pointer' }} />
 
 
@@ -724,7 +722,16 @@ const MobileAddCheck = () => {
                                     </div>
                                     <div className="">
                                         <div className="form-control inputFile p-4 mb-3 text-center position-relative d-flex justify-content-center align-items-center">
+                                            {/* <input
+                                                className="position-absolute top-0 start-0 w-100 h-100"
+                                                type="file"
+                                                id="formFile"
+                                                ref={licenseBackRef}
+                                                onChange={handleSubmitLicenseback}
+                                                accept="image/*"
 
+                                                style={{ opacity: 0, cursor: 'pointer' }}
+                                            /> */}
 
                                             <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={licenseBackRef} onChange={handleSubmitLicenseback} style={{ opacity: 0, cursor: 'pointer' }} />
 
@@ -811,17 +818,9 @@ const MobileAddCheck = () => {
                             </div>
                             <div className="card bg-transparent w-100 border-0">
                                 <div className="card-body bg-transparent" style={{ padding: '12px 0' }}>
-                                    <button
-                                        className="theme-btn w-100"
-                                        onClick={nextStep}
-                                        disabled={loadingLicenseFront || loadingLicenseBack}
-                                    >
-                                        {(loadingLicenseFront || loadingLicenseBack) ? 'Loading...' : 'Next'}
-                                       
-                                    </button>
+                                    <button className='theme-btn w-100' onClick={nextStep}>Next</button>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 )}
@@ -861,7 +860,9 @@ const MobileAddCheck = () => {
                                                     }
                                                 }}
                                             />
-
+                                            {/* <label className="floating-label">
+                                                First Name <span className="required">*</span>
+                                            </label> */}
                                             {errors.customerFirstName && (
                                                 <div className="text-danger mt-1" style={{ fontSize: '0.6rem' }}>
                                                     "Please fill the customer first name"
@@ -872,7 +873,9 @@ const MobileAddCheck = () => {
                                         <div className="col-12 mb-3 input-wrapper">
                                             <label className="form-label text-445B64">Middle Name </label>
                                             <input type="text" className="form-control" placeholder='Middle Name' value={formData.customerMiddleName} onChange={(e) => setFormData({ ...formData, customerMiddleName: e.target.value })} />
-
+                                            {/* <label className="floating-label">
+                                                Middle Name
+                                            </label> */}
                                         </div>
                                         <div className="col-12 mb-3 input-wrapper">
                                             <label className="form-label text-445B64">Last Name <span className='text-danger'>*</span></label>
@@ -887,7 +890,9 @@ const MobileAddCheck = () => {
                                                     }
                                                 }}
                                             />
-
+                                            {/* <label className="floating-label">
+                                                Last Name <span className="required">*</span>
+                                            </label> */}
                                             {errors.customerLastName && (
                                                 <div className="text-danger mt-1" style={{ fontSize: '0.6rem' }}>
                                                     "Please fill the customer last name"
@@ -897,7 +902,9 @@ const MobileAddCheck = () => {
                                         <div className="col-12 mb-3 input-wrapper">
                                             <label className="form-label text-445B64">ID Number </label>
                                             <input type="text" className="form-control" placeholder='ID Number' value={licenseData.licenseNo} onChange={(e) => setLicenseData({ ...licenseData, licenseNo: e.target.value })} />
-
+                                            {/* <label className="floating-label">
+                                                ID Number
+                                            </label> */}
                                         </div>
                                         <div className="col-12 mb-3 input-wrapper">
                                             <label className="form-label text-445B64">Company</label>
@@ -911,7 +918,9 @@ const MobileAddCheck = () => {
                                                     setFormData({ ...formData, company: value });
                                                 }}
                                             />
-
+                                            {/* <label className="floating-label">
+                                                Company
+                                            </label> */}
                                         </div>
                                         <div className="col-12 mb-3 position-relative">
                                             <label className="form-label text-445B64"> Check Type </label>
@@ -939,7 +948,9 @@ const MobileAddCheck = () => {
                                                     }
                                                 }}
                                             />
-
+                                            {/* <label className="floating-label">
+                                                Amount <span className="required">*</span>
+                                            </label> */}
                                             {errors.amount && (
                                                 <div className="text-danger mt-1" style={{ fontSize: '0.6rem' }}>
                                                     "Please fill the amount"

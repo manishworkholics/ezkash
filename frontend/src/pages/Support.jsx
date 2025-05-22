@@ -177,7 +177,7 @@ const Support = () => {
 
 
                                                                 </div>
-                                                                <div className="col-md-6 mb-3">
+                                                                <div className="col-md-6 mb-3 position-relative">
                                                                     <label className="form-label text-445B64">
                                                                         Category <span className="text-danger">*</span>
                                                                     </label>
@@ -195,6 +195,9 @@ const Support = () => {
                                                                         <option value="Other">Other</option>
 
                                                                     </select>
+                                                                    <svg style={{ position: 'absolute', top: '45px', right: '24px' }} xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 12 11" fill="none">
+                                                                        <path d="M4.869 10.1308C4.811 10.0743 4.563 9.86094 4.359 9.6622C3.076 8.49708 0.976 5.45762 0.335 3.86678C0.232 3.62518 0.014 3.01437 0 2.68802C0 2.3753 0.072 2.0772 0.218 1.79274C0.422 1.43814 0.743 1.15368 1.122 0.997808C1.385 0.897467 2.172 0.741598 2.186 0.741598C3.047 0.585728 4.446 0.5 5.992 0.5C7.465 0.5 8.807 0.585728 9.681 0.713346C9.695 0.727959 10.673 0.883829 11.008 1.05431C11.62 1.36702 12 1.97784 12 2.63151V2.68802C11.985 3.11374 11.605 4.00901 11.591 4.00901C10.949 5.51413 8.952 8.48344 7.625 9.67681C7.625 9.67681 7.284 10.0129 7.071 10.159C6.765 10.387 6.386 10.5 6.007 10.5C5.584 10.5 5.19 10.3724 4.869 10.1308Z" fill="#4E4E4E" />
+                                                                    </svg>
                                                                     {errors.category && <small className="text-danger">{errors.category}</small>}
                                                                 </div>
 
