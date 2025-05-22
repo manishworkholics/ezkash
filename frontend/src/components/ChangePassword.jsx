@@ -5,8 +5,9 @@ import axios from 'axios';
 
 import { useNavigate } from 'react-router-dom';
 const url = process.env.REACT_APP_URL;
+const userid = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
 
-const userId = localStorage.getItem('userId')
+const userId = localStorage.getItem('userId') || sessionStorage.getItem("userId");
 
 const ChangePassword = () => {
     const navigate = useNavigate()
@@ -23,7 +24,7 @@ const ChangePassword = () => {
         e.preventDefault();
         try {
             const response = await axios.post(`${url}/auth/change-password`, {
-                id: userId,
+                id: userId || userid,
                 oldPassword: oldPassword,
                 newPassword: newPassword
             });

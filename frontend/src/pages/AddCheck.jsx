@@ -9,14 +9,14 @@ import imageCompression from 'browser-image-compression';
 import { Link } from 'react-router-dom';
 import RecentCheck from '../components/RecentCheck';
 const url = process.env.REACT_APP_URL;
-const token = localStorage.getItem('token')
+const token = localStorage.getItem('token') || sessionStorage.getItem('token')
 
 const AddCheck = () => {
     const licenseFrontRef = useRef(null);
     const licenseBackRef = useRef(null);
     const checkFrontRef = useRef(null);
     const checkBackRef = useRef(null);
-    const venderId = localStorage.getItem("userId");
+    const venderId = localStorage.getItem("userId") || sessionStorage.getItem("userId");
 
 
     const [previewCheckfront, setPreviewCheckfront] = useState(null);
