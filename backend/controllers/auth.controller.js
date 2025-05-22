@@ -209,8 +209,8 @@ exports.changePassword = async (req, res) => {
     try {
         const { id, oldPassword, newPassword } = req.body;
 
-        if (!id || !oldPassword || !newPassword) {
-            return res.status(400).json({ message: 'ID, old password, and new password are required' });
+        if (!oldPassword || !newPassword) {
+            return res.status(400).json({ message: 'old password, and new password are required' });
         }
 
         if (oldPassword === newPassword) {
