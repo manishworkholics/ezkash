@@ -17,9 +17,11 @@ const VerifyEmailSuccess = () => {
                             <div className="col-lg-8 col-xl-7 col-xxl-6 mx-auto d-flex justify-content-center align-items-center">
                                 <div className="w-100 text-center">
                                     <img src={emailVerified} alt="" className="mb-3" style={{ width: '70px' }} />
-                                    <h5 className="text-center fw-semibold">Account verified</h5>
-                                    <h6 className="mb-4 text-445B64 fs-14 text-center">Congratulations! your email account <br />
-                                        <span className="fw-bolder text-0D161A">{email}</span> has been verified.</h6>
+                                    <h5 className="text-center fw-semibold">Account Verified!</h5>
+                                    <h6 className="mb-4 text-445B64 fs-14 text-center">
+                                        Congratulations! Your email <br />
+                                        <span className="fw-bolder text-0D161A">{email}</span> has been successfully verified.
+                                    </h6>
                                     <Link to='/' className="btn w-100 sign-btn mb-3">Continue to your account</Link>
                                 </div>
                             </div>

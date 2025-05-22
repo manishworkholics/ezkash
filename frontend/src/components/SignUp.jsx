@@ -37,7 +37,7 @@ const SignUp = () => {
   const validateForm = () => {
     const { firstname, lastname, email, mobile, password, confirmPassword } = formData;
     const passwordRules = {
-      minLength: password.length >= 12,
+      minLength: password.length >= 8,
       hasUpperCase: /[A-Z]/.test(password),
       hasLowerCase: /[a-z]/.test(password),
       hasNumber: /[0-9]/.test(password),
@@ -180,11 +180,11 @@ const SignUp = () => {
                   <div className="text-center mb-5">
                     <img src={signLogo} alt="" className="sign-logo" />
                   </div>
-                  <h3 className="fw-semibold">Register now</h3>
-                  <h6 className="mb-4 text-445B64">Please enter your details to sign up</h6>
+                  <h3 className="fw-semibold">Register Now</h3>
+                  <h6 className="mb-4 text-445B64">Please enter your details to create an account.</h6>
                   {/* Business */}
                   <div className="mb-3">
-                    <input className="form-control rounded-3" type="text" id='bussiness' name='bussiness' value={formData.bussiness} onChange={handleChange} placeholder="Business name (optional)" aria-label="example" required />
+                    <input className="form-control rounded-3" type="text" id='bussiness' name='bussiness' value={formData.bussiness} onChange={handleChange} placeholder="Business name (optional)" aria-label="example" />
                   </div>
                   {/* first name */}
                   <div className="mb-3">
@@ -193,7 +193,7 @@ const SignUp = () => {
                   </div>
                   {/* Middle name */}
                   <div className="mb-3">
-                    <input className="form-control rounded-3" type="text" id='middlename' name='middlename' value={formData.middlename} onChange={handleChange} placeholder="Middle name (optional)" aria-label="example" required />
+                    <input className="form-control rounded-3" type="text" id='middlename' name='middlename' value={formData.middlename} onChange={handleChange} placeholder="Middle name (optional)" aria-label="example" />
                   </div>
                   {/* last name */}
                   <div className="mb-3">
@@ -207,11 +207,11 @@ const SignUp = () => {
                   </div>
                   {/* mobile */}
                   <div className="mb-3">
-                    <input className="form-control rounded-3" type="number" id='mobile' name='mobile' value={formData.mobile} onChange={handleChange} placeholder="Your Phone number" aria-label="example" required />
+                    <input className="form-control rounded-3" type="number" id='mobile' name='mobile' value={formData.mobile} onChange={handleChange} placeholder="Your phone number" aria-label="example" required />
                     {formErrors.mobile && <small className="text-danger">{formErrors.mobile}</small>}
                   </div>
                   {/* Password */}
-                  <div className="mb-3">
+                  <div className="mb-3 position-relative">
                     <input
                       className="form-control rounded-3"
                       type={showConfirmPassword ? 'text' : 'password'}
@@ -223,26 +223,27 @@ const SignUp = () => {
                       aria-label="example"
                       required
                     />
-                    <span className="input-group-text" style={{ cursor: 'pointer' }} onClick={() => setshowConfirmPassword(!showConfirmPassword)}>
+                    <span className="position-absolute top-0 end-0" style={{ cursor: 'pointer', margin:'14px' }} onClick={() => setshowConfirmPassword(!showConfirmPassword)}>
                       <EyeIcon visible={showConfirmPassword} />
                     </span>
                     {/* {formErrors.password && (
                       <small className="text-danger">{formErrors.password}</small>
                     )} */}
 
-                    <div className="small d-flex flex-wrap gap-2 mt-2">
-                      <span className={passwordValidations.minLength ? "text-success" : "text-danger"}>Min 8 chars</span>
-                      <span className={passwordValidations.hasUpperCase ? "text-success" : "text-danger"}>Uppercase</span>
-                      <span className={passwordValidations.hasLowerCase ? "text-success" : "text-danger"}>Lowercase</span>
-                      <span className={passwordValidations.hasSpecialChar ? "text-success" : "text-danger"}>Special char</span>
-                      <span className={passwordValidations.hasNumber ? "text-success" : "text-danger"}>Number</span>
+                    <div className="small  mt-2">
+                      Your password must include
+                      <span className={passwordValidations.minLength ? "text-success ms-1" : "text-danger ms-1"}>at least 8 characters</span>,
+                      <span className={passwordValidations.hasUpperCase ? "text-success ms-1" : "text-danger ms-1"}>an uppercase letter</span>,
+                      <span className={passwordValidations.hasLowerCase ? "text-success ms-1" : "text-danger ms-1"}>a lowercase letter</span>,
+                      <span className={passwordValidations.hasNumber ? "text-success ms-1" : "text-danger ms-1"}>a number</span>, and
+                      <span className={passwordValidations.hasSpecialChar ? "text-success ms-1" : "text-danger ms-1"}>a special character</span>.
                     </div>
                   </div>
 
                   {/* Confirm Password */}
-                  <div className="mb-3">
-                    <input className="form-control rounded-3" type={showPassword ? 'text' : 'password'} id='confirmPassword' name='confirmPassword' value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" aria-label="example" required />
-                    <span className="input-group-text" style={{ cursor: 'pointer' }} onClick={() => setshowPassword(!showPassword)}>
+                  <div className="mb-3 position-relative">
+                    <input className="form-control rounded-3" type={showPassword ? 'text' : 'password'} id='confirmPassword' name='confirmPassword' value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm your password" aria-label="example" required />
+                    <span className="position-absolute top-0 end-0" style={{ cursor: 'pointer', margin:'14px' }} onClick={() => setshowPassword(!showPassword)}>
                       <EyeIcon visible={showPassword} />
                     </span>
                     {formErrors.confirmPassword && <small className="text-danger">{formErrors.confirmPassword}</small>}
