@@ -1,8 +1,7 @@
 import { useState, useRef } from 'react';
 import axios from 'axios';
 import { toast } from "react-toastify";
-import uploadPng from '../assets/images/upload-png.png'
-import fillForm from '../assets/images/fillForm.png'
+
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -63,7 +62,7 @@ const MobileAddCheck = () => {
 
     const [errors, setErrors] = useState({});
 
-    const requiredFields = ['customerFirstName', 'amount'];
+    const requiredFields = ['customerFirstName', 'customerLastName', 'amount'];
 
     const validateForm = () => {
         const newErrors = {};
@@ -73,6 +72,8 @@ const MobileAddCheck = () => {
             if (!value || value.trim() === '') {
                 if (field === 'customerFirstName') {
                     newErrors.customerFirstName = 'Please fill this field';
+                } else if (field === 'customerLastName') {
+                    newErrors.customerLastName = 'Please enter customerLastName';
                 } else if (field === 'amount') {
                     newErrors.amount = 'Please enter amount';
                 } else {
@@ -360,6 +361,36 @@ const MobileAddCheck = () => {
         }
     };
 
+    const handleCancel = () => {
+        // Reset all form states after success
+        setFormData({
+            imageUrl: '',
+            customerFirstName: '',
+            customerLastName: '',
+            customerMiddleName: '',
+            company: '',
+            checkType: 'Personal',
+            amount: '',
+            status: '',
+            extractedText: '',
+            comment: ''
+        });
+
+        setLicenseData({
+            imageUrl: '',
+            licenseNo: ''
+        });
+
+        setPreviewCheckfront(null)
+        setPreviewCheckback(null)
+
+        setPreviewLicencefront(null)
+        setPreviewLicenceback(null)
+
+        setFormDataback({ imageUrl: '' });
+        setLicenseDataback({ imageUrl: '' });
+    }
+
     return (
         <>
             <div className="form-container">
@@ -566,11 +597,7 @@ const MobileAddCheck = () => {
                                             </div>
                                         )}
 
-                                        {/* {formData?.imageUrl ? (<></>) : ( */}
-                                        <div className="text-center">
-                                            <img src={uploadPng} alt="" className="w-50" />
-                                        </div>
-                                        {/* )} */}
+
                                     </div>
                                 </div>
                             </div>
@@ -784,11 +811,7 @@ const MobileAddCheck = () => {
                                                 </div>
                                             </div>
                                         )}
-                                        {/* {licenseData?.imageUrl ? (<></>) : ( */}
-                                        <div className="text-center">
-                                            <img src={uploadPng} alt="" className="w-50" />
-                                        </div>
-                                        {/* )} */}
+
                                     </div>
                                 </div>
                             </div>
@@ -848,10 +871,25 @@ const MobileAddCheck = () => {
                                             </label>
                                         </div>
                                         <div className="col-12 mb-3 input-wrapper">
-                                            <input type="text" className="form-control" placeholder='' value={formData.customerLastName} onChange={(e) => setFormData({ ...formData, customerLastName: e.target.value })} />
+                                            <input type="text"
+                                                className={`form-control ${errors.customerLastName ? 'border border-danger' : formData.customerLastName ? 'border border-success' : ''}`} placeholder=''
+                                                value={formData.customerLastName}
+                                                onChange={(e) => {
+                                                    const value = e.target.value;
+                                                    setFormData({ ...formData, customerLastName: value });
+                                                    if (value.trim() !== '') {
+                                                        setErrors((prev) => ({ ...prev, customerLastName: null }));
+                                                    }
+                                                }}
+                                            />
                                             <label className="floating-label">
-                                                Last Name
+                                                Last Name <span className="required">*</span>
                                             </label>
+                                            {errors.customerLastName && (
+                                                <div className="text-danger mt-1" style={{ fontSize: '0.6rem' }}>
+                                                    "Please fill the customer last name"
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="col-12 mb-3 input-wrapper">
                                             {/* <label className="form-label text-445B64">ID Number </label> */}
@@ -915,15 +953,14 @@ const MobileAddCheck = () => {
                                             {/* <label className="form-label text-445B64">Comment</label> */}
                                             <textarea className="form-control" placeholder='Comment' value={formData.comment || ''} onChange={(e) => setFormData({ ...formData, comment: e.target.value })} />
                                         </div>
-                                        <div className="text-center">
-                                            <img src={fillForm} alt="" className="w-75" />
-                                        </div>
+
                                     </div>
                                 </div >
                             </div >
                             <div className="card bg-transparent w-100 border-0">
                                 <div className="card-body bg-transparent" style={{ padding: '12px 0' }}>
                                     <button type="submit" className='theme-btn w-100' onClick={handleSave}>Submit</button>
+                                    <button type="submit" className='theme-btn w-100' onClick={handleCancel}>Cancel</button>
                                 </div>
                             </div>
                         </div >

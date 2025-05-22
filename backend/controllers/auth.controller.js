@@ -1,7 +1,7 @@
 const User = require('../model/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const sendMail = require('../utils/sendMail');
+const { sendMail, resendOtpMail, forgotPasswordMail } = require('../utils/sendMail');
 require('dotenv').config();
 
 
@@ -30,7 +30,7 @@ exports.registerVendor = async (req, res) => {
             await userExist.save();
 
             // Send response first
-            res.status(200).json({ message: 'New OTP sent. Please verify to complete registration.', otp });
+            res.status(200).json({ message: 'New OTP sent. Please verify to complete registration.' });
 
             // Send OTP email asynchronously
             sendMail(email, otp).catch(err => console.error("Failed to send OTP:", err));
@@ -52,7 +52,7 @@ exports.registerVendor = async (req, res) => {
         await newUser.save();
 
         // Send response first
-        res.status(201).json({ message: 'OTP sent to email. Please verify.', otp });
+        res.status(201).json({ message: 'OTP sent to email. Please verify.' });
 
         // Send OTP email asynchronously
         sendMail(email, otp).catch(err => console.error("Failed to send OTP:", err));
@@ -127,8 +127,8 @@ exports.resendOtp = async (req, res) => {
     // Send OTP via email
     try {
         // Send OTP email asynchronously
-        sendMail(email, otp).catch(err => console.error("Failed to send OTP:", err));
-        res.json({ message: 'OTP resent successfully', otp });
+        resendOtpMail(email, otp).catch(err => console.error("Failed to send OTP:", err));
+        res.json({ message: 'OTP resent successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Failed to send OTP', error: error.message });
     }
@@ -162,8 +162,8 @@ exports.forgotPassword = async (req, res) => {
 
     try {
         // Send OTP email asynchronously
-        sendMail(email, otp).catch(err => console.error("Failed to send OTP:", err));
-        res.json({ message: 'OTP sent to email', otp });
+        forgotPasswordMail(email, otp).catch(err => console.error("Failed to send OTP:", err));
+        res.json({ message: 'OTP sent to email' });
     } catch (error) {
         res.status(500).json({ message: 'Failed to send OTP', error: error.message });
     }

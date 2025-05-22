@@ -5,7 +5,7 @@ import { useState, useRef } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import imageCompression from 'browser-image-compression';
 import { Link } from 'react-router-dom';
 import RecentCheck from '../components/RecentCheck';
 const url = process.env.REACT_APP_URL;
@@ -43,7 +43,7 @@ const AddCheck = () => {
     const [errors, setErrors] = useState({});
 
 
-    const requiredFields = ['customerFirstName','customerLastName', 'amount'];
+    const requiredFields = ['customerFirstName', 'customerLastName', 'amount'];
 
     const validateForm = () => {
         const newErrors = {};
@@ -78,8 +78,14 @@ const AddCheck = () => {
         // Instant preview
         const previewUrl = URL.createObjectURL(file);
         setPreviewCheckfront(previewUrl);
+        const options = {
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
+            useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', compressedFile);
         try {
 
             const response = await axios.post(`${url}/scan-check`, formData)
@@ -120,8 +126,14 @@ const AddCheck = () => {
         // Instant preview
         const previewUrl = URL.createObjectURL(file);
         setPreviewCheckback(previewUrl);
+        const options = {
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
+            useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', compressedFile);
         try {
 
             const response = await axios.post(`${url}/upload-image`, formData)
@@ -152,8 +164,14 @@ const AddCheck = () => {
         // Instant preview
         const previewUrl = URL.createObjectURL(file);
         setPreviewLicencefront(previewUrl);
+        const options = {
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
+            useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', compressedFile);
         try {
 
             const response = await axios.post(`${url}/scan-license`, formData)
@@ -191,8 +209,14 @@ const AddCheck = () => {
         // Instant preview
         const previewUrl = URL.createObjectURL(file);
         setPreviewLicenceback(previewUrl);
+        const options = {
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
+            useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', compressedFile);
         try {
 
             const response = await axios.post(`${url}/upload-image`, formData)
@@ -300,6 +324,35 @@ const AddCheck = () => {
     };
 
 
+    const handleCancel = () => {
+        // Reset all form states after success
+        setFormData({
+            imageUrl: '',
+            customerFirstName: '',
+            customerLastName: '',
+            customerMiddleName: '',
+            company: '',
+            checkType: 'Personal',
+            amount: '',
+            status: '',
+            extractedText: '',
+            comment: ''
+        });
+
+        setLicenseData({
+            imageUrl: '',
+            licenseNo: ''
+        });
+
+        setPreviewCheckfront(null)
+        setPreviewCheckback(null)
+
+        setPreviewLicencefront(null)
+        setPreviewLicenceback(null)
+
+        setFormDataback({ imageUrl: '' });
+        setLicenseDataback({ imageUrl: '' });
+    }
 
 
     return (
@@ -553,9 +606,11 @@ const AddCheck = () => {
                                                             <input className="form-control" value={formData.comment || ''} onChange={(e) => setFormData({ ...formData, comment: e.target.value })} />
                                                         </div>
                                                     </div>
-                                                    <div className="col-lg-4 me-auto mt-0 text-center">
+                                                    <div className="col-lg-4 me-auto mt-0 text-center d-flex">
                                                         <button className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100" onClick={handleSave}>Save</button>
+                                                        <button className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100" onClick={handleCancel}>Cancel</button>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
