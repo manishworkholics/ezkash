@@ -49,7 +49,7 @@ const Header = () => {
         <>
             <div className="header w-100">
                 <nav className="navbar navbar-expand-lg bg-body-white shadow-sm px-3 w-100">
-                    
+
                     <div className="d-flex align-items-center">
                         <Link className="navbar-brand d-flex align-items-center" to='/dashboard'>
                             <img src={logo} alt="" className="" />
@@ -89,16 +89,17 @@ const Header = () => {
 
             <div className="offcanvas offcanvas-start w-100 w-md-50 MobSidebarBg " data-bs-scroll="true" tabIndex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
                 <div className="offcanvas-header border-0">
-                    <div className="navbar-brand">
-                        {/* <img src={logo} alt="" className="me-2" /> */}
-                    </div>
+                    <div className="navbar-brand"></div>
+
                     <button type="button" className="border-0 ms-auto bg-transparent" data-bs-dismiss="offcanvas" aria-label="Close">
                         <i class="fa-solid fa-x text-white fs-2 mb-0 fw-normal"></i>
                     </button>
+
                 </div>
                 <div className="offcanvas-body">
                     <div className="d-flex flex-column px-1 w-100">
                         <ul className="nav nav-pills flex-column mb-auto gap-2">
+
                             <li>
                                 <div className="mb-2">
                                     <img src={profileImg} alt="" className="" />
@@ -106,8 +107,9 @@ const Header = () => {
                                 <h5 className="text-white mb-1">{userData?.firstname} {userData?.lastname}</h5>
                                 <h6 className="text-white fw-normal">{userData?.email}</h6>
                             </li>
+
                             <li>
-                                <NavLink to="/checks" className="nav-link">
+                                <NavLink to="/checks" className="nav-link" >
                                     <div className="sidebar-icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16" fill="none">
                                             <path d="M9.16667 12.1667H3.33333V10.5H9.16667M11.6667 8.83333H3.33333V7.16667H11.6667M11.6667 5.5H3.33333V3.83333H11.6667M13.3333 0.5H1.66667C0.741667 0.5 0 1.24167 0 2.16667V13.8333C0 14.2754 0.175595 14.6993 0.488155 15.0118C0.800716 15.3244 1.22464 15.5 1.66667 15.5H13.3333C13.7754 15.5 14.1993 15.3244 14.5118 15.0118C14.8244 14.6993 15 14.2754 15 13.8333V2.16667C15 1.72464 14.8244 1.30072 14.5118 0.988155C14.1993 0.675595 13.7754 0.5 13.3333 0.5Z" fill="#ffffff" />
@@ -116,6 +118,7 @@ const Header = () => {
                                     <span className="">Checks</span>
                                 </NavLink>
                             </li>
+
                             <li>
                                 <NavLink to="/dashboard" className="nav-link">
                                     <div className="sidebar-icon">
@@ -138,6 +141,7 @@ const Header = () => {
                                     <span className="">Report</span>
                                 </NavLink>
                             </li>
+
                             <li>
                                 <NavLink to="/profile" className="nav-link">
                                     <div className="sidebar-icon">
@@ -148,6 +152,7 @@ const Header = () => {
                                     <span className="">Profile</span>
                                 </NavLink>
                             </li>
+
                             <li>
                                 <NavLink to='/support' className="nav-link">
                                     <div className="sidebar-icon">
@@ -158,6 +163,7 @@ const Header = () => {
                                     <span className="">Help</span>
                                 </NavLink>
                             </li>
+
                             <li>
                                 <button className="nav-link w-100" onClick={handleLogout}>
                                     <div className="sidebar-icon">
@@ -166,21 +172,9 @@ const Header = () => {
                                     <span className="">Logout</span>
                                 </button>
                             </li>
+
                         </ul>
-                        {/* <div className="position-relative">
-                            <div className="position-absolute bottom-0 left-0 w-100 mb-3" style={{ paddingRight: '7px' }}>
-                                <div className="card sidebarSupport border-0" style={{ borderRadius: '24px' }}>
-                                    <div className="card-body bg-transparent p-xxl-3">
-                                        <img src={supportIconImg} alt="" className='mb-4' />
-                                        <h6 className="text-white fw-semibold ">Need help?</h6>
-                                        <h6 className="text-white fw-normal mb-3 fs-13">Please check our docs</h6>
-                                        <NavLink to='/support' className="btn fs-13 fw-semibold border-0 py-2 text-00C7BE bg-white w-100" style={{ borderRadius: '12px' }}>
-                                            <span className="">Go To Help Center</span>
-                                        </NavLink>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
+
                     </div>
                 </div>
             </div>

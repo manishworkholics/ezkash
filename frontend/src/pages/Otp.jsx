@@ -29,15 +29,36 @@ const Otp = () => {
     }, [timeLeft, navigate]);
 
     const handleChange = (element, index) => {
-        if (isNaN(element.value)) return;
+        const value = element.value;
+        if (!/^\d*$/.test(value)) return; // Only allow digits
+
         let newOtp = [...otp];
-        newOtp[index] = element.value;
+        newOtp[index] = value;
         setOtp(newOtp);
 
-        if (element.nextSibling && element.value) {
+        // Move to next input
+        if (value && element.nextSibling) {
             element.nextSibling.focus();
         }
     };
+
+    const handleKeyDown = (e, index) => {
+        if (e.key === "Backspace") {
+            if (otp[index] === "") {
+                if (index > 0) {
+                    const prevInput = e.target.previousSibling;
+                    if (prevInput) {
+                        prevInput.focus();
+                    }
+                }
+            }
+
+            let newOtp = [...otp];
+            newOtp[index] = "";
+            setOtp(newOtp);
+        }
+    };
+
 
     const handleVerify = async (e) => {
         e.preventDefault();
@@ -103,7 +124,7 @@ const Otp = () => {
 
     return (
         <>
-           
+
             <div className="container-fluid sign-page bg-EEEEEE">
                 <div className="row sign-main-container">
                     {/* <div className="col-lg-6 sign-left-bg h-100 justify-content-center d-none d-lg-flex align-items-center">
@@ -132,9 +153,11 @@ const Otp = () => {
                                                     maxLength="1"
                                                     value={otp[index]}
                                                     onChange={e => handleChange(e.target, index)}
+                                                    onKeyDown={e => handleKeyDown(e, index)}
                                                     onFocus={e => e.target.select()}
                                                 />
                                             ))}
+
                                         </div>
                                         <button type="submit" className="btn w-100 sign-btn mb-3">  {loading ? (
                                             <>

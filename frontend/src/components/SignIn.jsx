@@ -1,36 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 // import logoLeft from '../assets/images/logoLeft.png';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-
-import signLogo from '../assets/images/signLogo.png'
+import signLogo from "../assets/images/signLogo.png";
 
 const URL = process.env.REACT_APP_URL;
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [showPassword, setshowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [forgotEmail, setForgotEmail] = useState('');
+  const [forgotEmail, setForgotEmail] = useState("");
 
   const validateForm = () => {
     const { email, password } = formData;
     let errors = {};
-    if (email.trim() === '') {
-      errors.email = 'Email is required.';
+    if (email.trim() === "") {
+      errors.email = "Email is required.";
     } else {
       const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
       if (!emailPattern.test(email)) {
-        errors.email = 'Invalid email address format.';
+        errors.email = "Invalid email address format.";
       }
     }
-    if (password.trim() === '') {
-      errors.password = 'Password is required.';
+    if (password.trim() === "") {
+      errors.password = "Password is required.";
     }
     return errors;
   };
@@ -43,7 +42,6 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
     const errors = validateForm();
     setFormErrors(errors);
     if (Object.keys(errors).length > 0) return;
@@ -51,7 +49,7 @@ const SignIn = () => {
     setLoading(true);
     try {
       const response = await axios.post(`${URL}/auth/login`, formData, {
-        headers: { 'Content-Type': 'application/json' }
+        headers: { "Content-Type": "application/json" },
       });
 
       if (response.status >= 200 && response.status < 300) {
@@ -62,24 +60,22 @@ const SignIn = () => {
           localStorage.setItem("userId", response.data.userId);
           document.cookie = `userId=${response.data.userId}; path=/; max-age=86400`; // 1 day
         } catch (err) {
-
           // Fallback to sessionStorage
           sessionStorage.setItem("token", response.data.token);
           sessionStorage.setItem("role", response.data.role);
           sessionStorage.setItem("userId", response.data.userId);
         }
 
-
-        toast.success('Signed in successfully.');
+        toast.success("Signed in successfully.");
         setTimeout(() => {
-          navigate('/checks');
+          navigate("/checks");
         }, 2000);
-      } else {
-        toast.error("Sign-in failed. Please try again.");
+      } else if (response.status === 400) {
+        toast.error("Incorrect password");
       }
-    } catch (error) {
-      // console.log("Sign-in error:", error);
-      toast.error('User not found. Please check your email address or sign up.');
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Something went wrong");
+
     } finally {
       setLoading(false);
     }
@@ -88,29 +84,33 @@ const SignIn = () => {
   const handleForgetPassword = async (e) => {
     e.preventDefault();
     if (!forgotEmail.trim()) {
-      toast.error('Please enter your email.');
+      toast.error("Please enter your email.");
       return;
     }
     setLoading(true);
     try {
-      const response = await axios.post(`${URL}/auth/forget-password`, { email: forgotEmail });
+      const response = await axios.post(`${URL}/auth/forget-password`, {
+        email: forgotEmail,
+      });
       if (response.status >= 200 && response.status < 300) {
-        toast.success('Verification code sent to your email');
+        toast.success("Verification code sent to your email");
         localStorage.setItem("resetEmail", forgotEmail);
         setTimeout(() => {
-          navigate('/forget-password-verification');
+          navigate("/forget-password-verification");
         }, 2000);
       } else {
-        toast.error('Failed to send code.');
+        toast.error("Failed to send code.");
       }
     } catch (error) {
-      console.error('Code sending error:', error);
-      toast.error(error.response?.data?.message || 'An error occurred while sending the code');
+      console.error("Code sending error:", error);
+      toast.error(
+        error.response?.data?.message ||
+        "An error occurred while sending the code"
+      );
     } finally {
       setLoading(false);
     }
   };
-
 
   const EyeIcon = ({ visible }) => (
     <>
@@ -124,7 +124,6 @@ const SignIn = () => {
 
   return (
     <>
-
       <div className="container-fluid sign-page bg-EEEEEE">
         <div className="row sign-main-container">
           {/* <div className="col-lg-6 sign-left-bg h-100 justify-content-center d-none d-lg-flex align-items-center">
@@ -141,7 +140,9 @@ const SignIn = () => {
                         <img src={signLogo} alt="" className="sign-logo" />
                       </div>
                       <h3 className="fw-semibold">Forgot password</h3>
-                      <h6 className="mb-4 text-445B64">Enter your email to receive a verification code</h6>
+                      <h6 className="mb-4 text-445B64">
+                        Enter your email to receive a verification code
+                      </h6>
                       <input
                         className="form-control mb-3 rounded-3"
                         type="email"
@@ -149,14 +150,17 @@ const SignIn = () => {
                         onChange={(e) => setForgotEmail(e.target.value)}
                         placeholder="Enter your email"
                       />
-                      <button className="btn w-100 sign-btn mb-3" onClick={handleForgetPassword}>
-                        {loading ? 'Sending Code...' : 'Send Code'}
+                      <button
+                        className="btn w-100 sign-btn mb-3"
+                        onClick={handleForgetPassword}
+                      >
+                        {loading ? "Sending Code..." : "Send Code"}
                       </button>
                       <h6 className="text-center text-445B64">
                         <span
                           className="text-00C7BE text-decoration-none"
                           onClick={() => setShowForgotPassword(false)}
-                          style={{ cursor: 'pointer' }}
+                          style={{ cursor: "pointer" }}
                         >
                           Back to Sign In
                         </span>
@@ -168,7 +172,9 @@ const SignIn = () => {
                         <img src={signLogo} alt="" className="sign-logo" />
                       </div>
                       <h3 className="fw-semibold">Welcome!</h3>
-                      <h6 className="mb-4 text-445B64">Enter your email and password to sign in</h6>
+                      <h6 className="mb-4 text-445B64">
+                        Enter your email and password to sign in
+                      </h6>
                       <div className=" mb-3">
                         <input
                           className="form-control rounded-3"
@@ -179,40 +185,63 @@ const SignIn = () => {
                           onChange={handleChange}
                           placeholder="Enter your email address"
                         />
-                        {formErrors.email && <small className="text-danger">{formErrors.email}</small>}
+                        {formErrors.email && (
+                          <small className="text-danger">
+                            {formErrors.email}
+                          </small>
+                        )}
                       </div>
 
                       <div className="mb-3 position-relative">
                         <div className="input-group">
                           <input
                             className="form-control mb-1 rounded-3"
-                            type={showPassword ? 'text' : 'password'}
+                            type={showPassword ? "text" : "password"}
                             name="password"
                             id="password"
                             value={formData.password}
                             onChange={handleChange}
                             placeholder="Your password"
                           />
-                          <span className="position-absolute top-0 end-0" style={{ cursor: 'pointer', margin: '14px', zIndex: 11 }} onClick={() => setshowPassword(!showPassword)}>
+                          <span
+                            className="position-absolute top-0 end-0"
+                            style={{
+                              cursor: "pointer",
+                              margin: "14px",
+                              zIndex: 11,
+                            }}
+                            onClick={() => setshowPassword(!showPassword)}
+                          >
                             <EyeIcon visible={showPassword} />
                           </span>
                         </div>
-                        {formErrors.password && <small className="text-danger">{formErrors.password}</small>}
+                        {formErrors.password && (
+                          <small className="text-danger">
+                            {formErrors.password}
+                          </small>
+                        )}
                       </div>
 
                       <h6 className="text-end text-445B64 mb-4">
                         <span
                           className="text-00C7BE text-decoration-none"
                           onClick={() => setShowForgotPassword(true)}
-                          style={{ cursor: 'pointer' }}
+                          style={{ cursor: "pointer" }}
                         >
                           Forgot your password?
                         </span>
                       </h6>
-                      <button className="btn w-100 sign-btn mb-3" onClick={handleSubmit}>
+                      <button
+                        className="btn w-100 sign-btn mb-3"
+                        onClick={handleSubmit}
+                      >
                         {loading ? (
                           <>
-                            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            <span
+                              className="spinner-border spinner-border-sm me-2"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
                             Signing in...
                           </>
                         ) : (
@@ -221,7 +250,13 @@ const SignIn = () => {
                       </button>
                       <h6 className="text-center text-445B64">
                         Don't have an account?
-                        <Link to="/sign-up" className="text-00C7BE text-decoration-none"> Sign up</Link>
+                        <Link
+                          to="/sign-up"
+                          className="text-00C7BE text-decoration-none"
+                        >
+                          {" "}
+                          Sign up
+                        </Link>
                       </h6>
                     </>
                   )}
@@ -230,9 +265,19 @@ const SignIn = () => {
             </div>
             <div className="position-absolute bottom-0 start-0 w-100">
               <h6 className="text-445B64 text-center">
-                <Link to="/terms&conditions" className='text-445B64 text-decoration-none'>Terms & Conditions</Link>
+                <Link
+                  to="/terms&conditions"
+                  className="text-445B64 text-decoration-none"
+                >
+                  Terms & Conditions
+                </Link>
                 <span className="mx-2">•</span>
-                <Link to="/privacy-policy" className='text-445B64 text-decoration-none'>Privacy Policy</Link>
+                <Link
+                  to="/privacy-policy"
+                  className="text-445B64 text-decoration-none"
+                >
+                  Privacy Policy
+                </Link>
               </h6>
             </div>
           </div>

@@ -592,7 +592,7 @@ const AddCheck = () => {
                                                         <div className="col-md-3 mb-3">
                                                             <label className="form-label text-445B64"> Check Type </label>
                                                             <select className="form-control" value={formData.checkType} onChange={(e) => { const value = e.target.value; setFormData({ ...formData, checkType: value }) }} >
-                                                                {/* <option value="">Select Check Type</option> */}
+                                                               
                                                                 <option value="Personal">Personal</option>
                                                                 <option value="Business">Business</option>
                                                             </select>

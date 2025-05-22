@@ -134,6 +134,7 @@ const Report = () => {
                                                         <button onClick={() => setShowModal(true)} style={{ background: '#008CFF' }} className='btn border-0 rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0'>
                                                             Export Report
                                                         </button>
+                                                        <ExportModal data={report} show={showModal} onClose={() => setShowModal(false)} />
                                                     </div>
 
                                                     <div className="col-12 col-md-9 col-lg-9">
