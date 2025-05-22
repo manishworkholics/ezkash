@@ -108,9 +108,7 @@ const Checks = () => {
     });
 
 
-    const handleBack = () => {
-        navigate(-1)
-    }
+   
     return (
         <>
             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
@@ -178,12 +176,7 @@ const Checks = () => {
                                                                         <i className="fa fa-plus me-2"></i>Add Check
                                                                     </button>
 
-                                                                    <div className="d-flex justify-content-end">
-                                                                        <button onClick={handleBack} className="btn btn-sm rounded-2 btn-secondary text-white">
-                                                                            <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
-                                                                            Back
-                                                                        </button>
-                                                                    </div>
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
