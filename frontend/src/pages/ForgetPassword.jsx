@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 // import logoLeft from '../assets/images/logoLeft.png';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const URL = process.env.REACT_APP_URL;
 
@@ -114,19 +115,8 @@ const ForgetPassword = () => {
         <>
             <div className="container-fluid sign-page bg-EEEEEE">
                 <div className="row sign-main-container">
-                    <ToastContainer position="top-right"
-                        autoClose={3000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                    />
-                    {/* <div className="col-lg-6 sign-left-bg h-100 d-flex justify-content-center align-items-center">
-                        <img src={logoLeft} alt="" />
-                    </div> */}
+                   
+                  
                     <div className="col-lg-6 mx-auto sign-right-bg h-100 position-relative pt-4 pb-5">
                         <div className="row h-100 w-100">
                             <div className="col-lg-8 col-xl-7 col-xxl-6 mx-auto d-block d-md-flex justify-content-center align-items-center">

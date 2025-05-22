@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import { toast } from "react-toastify";
 import axios from 'axios';
 import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+
 const URL = process.env.REACT_APP_URL;
 const token = localStorage.getItem('token')
 
@@ -98,7 +99,10 @@ const Support = () => {
             );
 
             if (response.status === 201) {
-                toast.success('Ticket raised successfully!');
+                setTimeout(() => {
+                    toast.success('Ticket raised successfully!');
+                }, 1000);
+
                 setData({ subject: '', category: '', description: '', checkImg: '', vendorId: '' });
                 setFormData({ imageUrl: '' });
                 setErrors({});
@@ -118,7 +122,7 @@ const Support = () => {
     return (
         <>
             <div className="container-fluid">
-                <ToastContainer position='top-right' autoClose={3000} />
+
                 <Header />
                 <div className="">
                     <div className="row mh-100vh">

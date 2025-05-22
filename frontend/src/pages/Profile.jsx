@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
+import { toast } from "react-toastify";
 import axios from 'axios';
 import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import {  useNavigate } from 'react-router-dom';
+
+
+import { useNavigate } from 'react-router-dom';
 import ChangePassword from '../components/ChangePassword';
 const URL = process.env.REACT_APP_URL;
 const token = localStorage.getItem('token')
@@ -49,7 +50,7 @@ const Profile = () => {
     return (
         <>
             <div className="container-fluid">
-                <ToastContainer position='top-right' autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+
                 <Header />
                 <div className="">
                     <div className="row mh-100vh">

@@ -1,10 +1,10 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
 import { useState, useRef } from 'react';
 import axios from 'axios';
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import imageCompression from 'browser-image-compression';
 import { Link } from 'react-router-dom';
 import RecentCheck from '../components/RecentCheck';
@@ -89,7 +89,7 @@ const AddCheck = () => {
         try {
 
             const response = await axios.post(`${url}/scan-check`, formData)
-            toast.success('Check front image upload successfully!');
+
             const result = response.data;
             if (result && result.customerName) {
                 const parsedData = {
@@ -107,10 +107,14 @@ const AddCheck = () => {
                     extractedText: result.extractedText || ''
                 };
                 setFormData(parsedData);
+                toast.success('Check front image upload successfully!');
+            } else {
+                toast.error('Failed to upload image!');
             }
+
         } catch (error) {
             setTimeout(() => {
-                toast.error("Error in image uploading", error);
+                toast.error("Error in image uploading");
             }, 1000);
             console.error('Error during image upload:', error);
         }
@@ -137,7 +141,7 @@ const AddCheck = () => {
         try {
 
             const response = await axios.post(`${url}/upload-image`, formData)
-            toast.success('Check Back image upload successfully!');
+
 
             const result = response.data;
             if (result) {
@@ -145,10 +149,14 @@ const AddCheck = () => {
                     imageUrl: result.data.imageUrl || '',
                 };
                 setFormDataback(parsedData);
+                toast.success('Check Back image upload successfully!');
+            } else {
+                toast.error('Failed to upload image!');
             }
+
         } catch (error) {
             setTimeout(() => {
-                toast.error("Error in image uploading", error);
+                toast.error("Error in image uploading");
             }, 1000);
             console.error('Error during image upload:', error);
         }
@@ -175,7 +183,7 @@ const AddCheck = () => {
         try {
 
             const response = await axios.post(`${url}/scan-license`, formData)
-            toast.success('ID Front image upload successfully!');
+
 
             const result = response.data;
             if (result) {
@@ -192,9 +200,13 @@ const AddCheck = () => {
                     expiryDate: result?.expiryDate || '',
                 };
                 setLicenseData(parsedData);
+                toast.success('ID Front image upload successfully!');
+            } else {
+                toast.error('Failed to upload image!');
             }
+
         } catch (error) {
-            toast.error("Error in image uploading", error);
+            toast.error("Error in image uploading");
             console.error('Error during image upload:', error);
         }
     };
@@ -220,7 +232,7 @@ const AddCheck = () => {
         try {
 
             const response = await axios.post(`${url}/upload-image`, formData)
-            toast.success('ID Back image upload successfully!');
+
 
             const result = response.data;
             if (result) {
@@ -228,9 +240,13 @@ const AddCheck = () => {
                     imageUrl: result?.data?.imageUrl || '',
                 };
                 setLicenseDataback(parsedData);
+                toast.success('ID Back image upload successfully!');
+            } else {
+                toast.error('Failed to upload image!');
             }
+
         } catch (error) {
-            toast.error("Error in image uploading", error);
+            toast.error("Error in image uploading");
             console.error('Error during image upload:', error);
         }
     };
@@ -357,7 +373,7 @@ const AddCheck = () => {
 
     return (
         <>
-            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+
             <div className="container-fluid ">
                 <Header />
                 <div className="d-none d-lg-block">
