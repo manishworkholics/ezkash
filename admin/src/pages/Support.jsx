@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
+import { useNavigate } from "react-router"
 import axios from 'axios';
 import moment from 'moment';
 const URL = process.env.REACT_APP_URL;
 
 const Support = () => {
 
-
+    const navigate = useNavigate();
     const [ticket, setTicket] = useState()
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(false);
@@ -36,6 +37,9 @@ const Support = () => {
         getAllTickets();
     }, [])
 
+    const handleBack = () => {
+        navigate(-1)
+    }
 
     return (
         <>
@@ -69,7 +73,7 @@ const Support = () => {
                                                         </div>
                                                         <div className="col-4 col-lg-6 d-flex justify-content-end align-items-center">
                                                             <div className="d-flex justify-content-end">
-                                                                <button className="btn btn-sm rounded-2 btn-secondary text-white">
+                                                                <button className="btn btn-sm rounded-2 btn-secondary text-white" onClick={handleBack}>
                                                                     <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
                                                                     Back
                                                                 </button>

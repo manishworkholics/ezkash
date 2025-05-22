@@ -20,7 +20,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/cd-admin/" element={<SignIn />} />
+          <Route path="/cd-admin" element={<SignIn />} />
           <Route path="/cd-admin/sign-up" element={<SignUp />} />
           <Route path="/cd-admin/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
           <Route path="/cd-admin/user-list" element={<ProtectedRoute element={<UserList />} />} />
