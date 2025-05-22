@@ -107,6 +107,10 @@ const Checks = () => {
         return 0;
     });
 
+
+    const handleBack = () => {
+        navigate(-1)
+    }
     return (
         <>
             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
@@ -173,6 +177,13 @@ const Checks = () => {
                                                                     >
                                                                         <i className="fa fa-plus me-2"></i>Add Check
                                                                     </button>
+
+                                                                    <div className="d-flex justify-content-end">
+                                                                        <button onClick={handleBack} className="btn btn-sm rounded-2 btn-secondary text-white">
+                                                                            <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
+                                                                            Back
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -234,11 +245,11 @@ const Checks = () => {
                                                                             Customer Status
                                                                         </div>
                                                                     </th>
-                                                                    <th onClick={() => handleSort('status')} style={{ cursor: 'pointer' }}>
+                                                                    {/* <th onClick={() => handleSort('status')} style={{ cursor: 'pointer' }}>
                                                                         <div className="d-flex align-items-center">
                                                                             Status {getSortIcon('status')}
                                                                         </div>
-                                                                    </th>
+                                                                    </th> */}
 
                                                                     <th className='text-center'>Actions</th>
                                                                 </tr>
@@ -256,7 +267,7 @@ const Checks = () => {
                                                                             <td>{item?.comment?.length > 10 ? item?.comment.substring(0, 10) + '...' : item?.comment}</td>
                                                                             <td>{item?.date}</td>
                                                                             <td>{item?.customerStatus}</td>
-                                                                            <td>{item?.status}</td>
+                                                                            {/* <td>{item?.status}</td> */}
                                                                             <td className='text-center'>
                                                                                 <div className="d-flex justify-content-center">
                                                                                     <Link to={`/check-details/${item?._id}`} className="btn">

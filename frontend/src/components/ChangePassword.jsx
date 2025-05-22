@@ -129,10 +129,19 @@ const ChangePassword = () => {
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
-                        <span className="input-group-text" style={{ cursor: 'pointer' }} onClick={() => setShowConfirm(!showConfirm)}>
+                        <span
+                            className="input-group-text"
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => setShowConfirm(!showConfirm)}
+                        >
                             <EyeIcon visible={showConfirm} />
                         </span>
                     </div>
+
+                    {/* Error message if passwords don't match */}
+                    {confirmPassword && newPassword !== confirmPassword && (
+                        <small className="text-danger">Passwords do not match</small>
+                    )}
                 </div>
 
                 {/* Change Password Button */}
@@ -144,6 +153,7 @@ const ChangePassword = () => {
                 >
                     Change Password
                 </button>
+
 
 
 

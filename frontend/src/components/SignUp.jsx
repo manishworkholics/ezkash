@@ -19,26 +19,27 @@ const SignUp = () => {
     password: '',
     confirmPassword: '',
   })
-  // const [setPasswordValidations] = useState({
-  //   minLength: false,
-  //   hasUpperCase: false,
-  //   hasLowerCase: false,
-  //   hasNumber: false,
-  //   hasSpecialChar: false,
-  // });
+
+  const [passwordValidations, setPasswordValidations] = useState({
+    minLength: false,
+    hasUpperCase: false,
+    hasLowerCase: false,
+    hasNumber: false,
+    hasSpecialChar: false,
+  });
   const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
 
   const validateForm = () => {
     const { firstname, lastname, email, mobile, password, confirmPassword } = formData;
-    // const passwordRules = {
-    //   minLength: password.length >= 12,
-    //   hasUpperCase: /[A-Z]/.test(password),
-    //   hasLowerCase: /[a-z]/.test(password),
-    //   hasNumber: /[0-9]/.test(password),
-    //   hasSpecialChar: /[^A-Za-z0-9]/.test(password),
-    // };
+    const passwordRules = {
+      minLength: password.length >= 12,
+      hasUpperCase: /[A-Z]/.test(password),
+      hasLowerCase: /[a-z]/.test(password),
+      hasNumber: /[0-9]/.test(password),
+      hasSpecialChar: /[^A-Za-z0-9]/.test(password),
+    };
     let errors = {};
 
     if (firstname.trim() === '') {
@@ -68,9 +69,9 @@ const SignUp = () => {
         errors.mobile = 'Invalid mobile number.';
       }
     }
-    // if (!passwordRules.hasUpperCase || !passwordRules.hasLowerCase || !passwordRules.hasNumber || !passwordRules.hasSpecialChar) {
-    //   errors.password = "Password must include uppercase, lowercase, a number, and a special character.";
-    // }
+    if (!passwordRules.hasUpperCase || !passwordRules.hasLowerCase || !passwordRules.hasNumber || !passwordRules.hasSpecialChar) {
+      errors.password = "Password must include uppercase, lowercase, a number, and a special character.";
+    }
 
     if (password.trim() === '') {
       errors.password = 'Password is required.';
@@ -91,16 +92,16 @@ const SignUp = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value })
 
-    // if (name === 'password') {
-    //   const pwd = value;
-    //   setPasswordValidations({
-    //     minLength: pwd.length >= 8,
-    //     hasUpperCase: /[A-Z]/.test(pwd),
-    //     hasLowerCase: /[a-z]/.test(pwd),
-    //     hasNumber: /[0-9]/.test(pwd),
-    //     hasSpecialChar: /[^A-Za-z0-9]/.test(pwd),
-    //   });
-    // }
+    if (name === 'password') {
+      const pwd = value;
+      setPasswordValidations({
+        minLength: pwd.length >= 8,
+        hasUpperCase: /[A-Z]/.test(pwd),
+        hasLowerCase: /[a-z]/.test(pwd),
+        hasNumber: /[0-9]/.test(pwd),
+        hasSpecialChar: /[^A-Za-z0-9]/.test(pwd),
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -197,9 +198,30 @@ const SignUp = () => {
                   </div>
                   {/* Password */}
                   <div className="mb-3">
-                    <input className="form-control rounded-3" type="password" id='password' name='password' value={formData.password} onChange={handleChange} placeholder="Password" aria-label="example" required />
-                    {formErrors.password && <small className="text-danger">{formErrors.password}</small>}
+                    <input
+                      className="form-control rounded-3"
+                      type="password"
+                      id="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      placeholder="Password"
+                      aria-label="example"
+                      required
+                    />
+                    {/* {formErrors.password && (
+                      <small className="text-danger">{formErrors.password}</small>
+                    )} */}
+
+                    <div className="small d-flex flex-wrap gap-2 mt-2">
+                      <span className={passwordValidations.minLength ? "text-success" : "text-danger"}>Min 8 chars</span>
+                      <span className={passwordValidations.hasUpperCase ? "text-success" : "text-danger"}>Uppercase</span>
+                      <span className={passwordValidations.hasLowerCase ? "text-success" : "text-danger"}>Lowercase</span>
+                      <span className={passwordValidations.hasSpecialChar ? "text-success" : "text-danger"}>Special char</span>
+                      <span className={passwordValidations.hasNumber ? "text-success" : "text-danger"}>Number</span>
+                    </div>
                   </div>
+
                   {/* Confirm Password */}
                   <div className="mb-3">
                     <input className="form-control rounded-3" type="password" id='confirmPassword' name='confirmPassword' value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" aria-label="example" required />

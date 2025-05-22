@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // import logoLeft from '../assets/images/logoLeft.png';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,11 +8,23 @@ import 'react-toastify/dist/ReactToastify.css';
 const URL = process.env.REACT_APP_URL;
 
 const ForgetPassword = () => {
+
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         newPassword: ''
     });
+
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordValidation, setPasswordValidation] = useState({
+        minLength: false,
+        upperCase: false,
+        lowerCase: false,
+        number: false,
+        specialChar: false,
+    });
+
+
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
 
@@ -36,7 +48,19 @@ const ForgetPassword = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+
+        if (name === 'newPassword') {
+            const validations = {
+                minLength: value.length >= 8,
+                upperCase: /[A-Z]/.test(value),
+                lowerCase: /[a-z]/.test(value),
+                number: /\d/.test(value),
+                specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(value),
+            };
+            setPasswordValidation(validations);
+        }
     };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -134,9 +158,39 @@ const ForgetPassword = () => {
                                         required
                                     />
                                     {formErrors.newPassword && <small className="text-danger">{formErrors.newPassword}</small>}
+                                    <ul className="ttext-success small ps-4 mb-3">
+                                        <li className={passwordValidation.minLength ? "text-success" : "text-danger"}>Minimum characters 8</li>
+                                        <li className={passwordValidation.upperCase ? "text-success" : "text-danger"}>One uppercase character</li>
+                                        <li className={passwordValidation.lowerCase ? "text-success" : "text-danger"}>One lowercase character</li>
+                                        <li className={passwordValidation.specialChar ? "text-success" : "text-danger"}>One special character</li>
+                                        <li className={passwordValidation.number ? "text-success" : "text-danger"}>One number</li>
+                                    </ul>
+
+
+                                    <input
+                                        className="form-control mb-2 rounded-3"
+                                        type="password"
+                                        name="confirmPassword"
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        placeholder="Confirm Password"
+                                        required
+                                    />
+                                    {confirmPassword && formData.newPassword !== confirmPassword && (
+                                        <small className="text-danger">Passwords do not match</small>
+                                    )}
+
+
+
                                     <button
                                         className="btn w-100 sign-btn mb-3"
                                         onClick={handleSubmit}
+                                        disabled={
+                                            !Object.values(passwordValidation).every(Boolean) ||
+                                            formData.newPassword !== confirmPassword ||
+                                            loading
+                                        }
+
                                     >
                                         {loading ? (
                                             <>
@@ -147,6 +201,7 @@ const ForgetPassword = () => {
                                             "Set Password"
                                         )}
                                     </button>
+
                                     <h6 className="text-center text-445B64">
                                         <Link to='/' className='text-00C7BE text-decoration-none'>
                                             <i className="fa-solid fa-chevron-left me-2"></i>
