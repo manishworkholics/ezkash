@@ -15,7 +15,7 @@ const Otp = () => {
     const email = localStorage.getItem("email");
     const [loading, setLoading] = useState(false);
     const [loadingResent, setLoadingResent] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(120);
+    const [timeLeft, setTimeLeft] = useState(600);
 
     useEffect(() => {
         if (timeLeft <= 0) {

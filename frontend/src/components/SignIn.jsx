@@ -14,7 +14,7 @@ const SignIn = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
-
+  const [showPassword, setshowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [forgotEmail, setForgotEmail] = useState('');
 
@@ -42,11 +42,7 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = formData;
-    if (!email.trim() || !password.trim()) {
-      toast.error('Please fill in all required fields.');
-      return;
-    }
+
 
     const errors = validateForm();
     setFormErrors(errors);
@@ -104,9 +100,20 @@ const SignIn = () => {
     }
   };
 
+
+  const EyeIcon = ({ visible }) => (
+    <>
+      {visible ? (
+        <i className="fa-solid fa-eye"></i>
+      ) : (
+        <i className="fa-solid fa-eye-slash"></i>
+      )}
+    </>
+  );
+
   return (
     <>
-     
+
       <div className="container-fluid sign-page bg-EEEEEE">
         <div className="row sign-main-container">
           {/* <div className="col-lg-6 sign-left-bg h-100 justify-content-center d-none d-lg-flex align-items-center">
@@ -163,18 +170,25 @@ const SignIn = () => {
                         />
                         {formErrors.email && <small className="text-danger">{formErrors.email}</small>}
                       </div>
-                      <div className=" mb-3">
-                        <input
-                          className="form-control mb-1 rounded-3"
-                          type="password"
-                          name="password"
-                          id="password"
-                          value={formData.password}
-                          onChange={handleChange}
-                          placeholder="Enter your password"
-                        />
+
+                      <div className="mb-3 position-relative">
+                        <div className="input-group">
+                          <input
+                            className="form-control mb-1 rounded-3"
+                            type={showPassword ? 'text' : 'password'}
+                            name="password"
+                            id="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            placeholder="Your password"
+                          />
+                          <span className="position-absolute top-0 end-0" style={{ cursor: 'pointer', margin: '14px', zIndex: 11 }} onClick={() => setshowPassword(!showPassword)}>
+                            <EyeIcon visible={showPassword} />
+                          </span>
+                        </div>
                         {formErrors.password && <small className="text-danger">{formErrors.password}</small>}
                       </div>
+
                       <h6 className="text-end text-445B64 mb-4">
                         <span
                           className="text-00C7BE text-decoration-none"
