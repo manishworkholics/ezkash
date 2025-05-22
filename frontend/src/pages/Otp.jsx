@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from "react-toastify";
 // import logoLeft from '../assets/images/logoLeft.png';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+
 import signLogo from '../assets/images/signLogo.png'
 import { Link } from 'react-router-dom';
 const URL = process.env.REACT_APP_URL;
@@ -102,7 +103,7 @@ const Otp = () => {
 
     return (
         <>
-            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+           
             <div className="container-fluid sign-page bg-EEEEEE">
                 <div className="row sign-main-container">
                     {/* <div className="col-lg-6 sign-left-bg h-100 justify-content-center d-none d-lg-flex align-items-center">

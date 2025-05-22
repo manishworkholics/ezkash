@@ -3,8 +3,8 @@ import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
 import { useState } from 'react';
 import axios from 'axios';
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+
 
 
 const url = process.env.REACT_APP_URL;
@@ -37,7 +37,7 @@ const Home = () => {
 
   return (
     <>
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+     
       <div className="container-fluid ">
         <Header />
         <div className=" d-lg-block">

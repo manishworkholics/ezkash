@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 // import logoLeft from '../assets/images/logoLeft.png';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
+
 import signLogo from '../assets/images/signLogo.png'
 
 const URL = process.env.REACT_APP_URL;
@@ -40,11 +41,9 @@ const ForgetPasswordVerification = () => {
 
   return (
     <div className="container-fluid sign-page bg-EEEEEE">
-      <ToastContainer />
+   
       <div className="row sign-main-container">
-        {/* <div className="col-lg-6 sign-left-bg d-flex align-items-center justify-content-center">
-          <img src={logoLeft} alt="Logo" />
-        </div> */}
+     
         <div className="col-lg-6 mx-auto sign-right-bg h-100 position-relative pt-4 pb-5">
           <div className="row h-100 w-100">
             <div className="col-lg-8 col-xl-7 col-xxl-6 mx-auto d-flex justify-content-center align-items-center">

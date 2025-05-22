@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 // import logoLeft from '../assets/images/logoLeft.png';
 import emailVerifyExpired from '../assets/images/emailVerifyExpired.png';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
+
 import { Link } from 'react-router-dom';
-import 'react-toastify/dist/ReactToastify.css';
+
 
 const URL = process.env.REACT_APP_URL;
 
@@ -41,7 +42,7 @@ const VerifyEmailExpired = () => {
 
     return (
         <div className="container-fluid sign-page bg-EEEEEE">
-            <ToastContainer position="top-right" autoClose={3000} />
+
             <div className="row sign-main-container">
                 {/* <div className="col-lg-6 sign-left-bg h-100 justify-content-center d-none d-lg-flex align-items-center">
                     <img src={logoLeft} alt="" className="" />

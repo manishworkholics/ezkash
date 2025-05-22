@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from "react-toastify";
 import axios from 'axios';
 import logo from '../assets/images/EzKash.png'
 // import supportIconImg from '../assets/images/supportIconImg.png';
 import { NavLink, Link, useNavigate } from 'react-router-dom'
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+
 import profileImg from '../assets/images/userImg.png'
 const URL = process.env.REACT_APP_URL;
 const token = localStorage.getItem('token')
@@ -47,7 +48,7 @@ const Header = () => {
         <>
             <div className="header w-100">
                 <nav className="navbar navbar-expand-lg bg-body-white shadow-sm px-3 w-100">
-                    <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+                    
                     <div className="d-flex align-items-center">
                         <Link className="navbar-brand d-flex align-items-center" to='/dashboard'>
                             <img src={logo} alt="" className="" />

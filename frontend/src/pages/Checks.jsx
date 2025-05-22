@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import RecentCheck from '../components/RecentCheck';
 const token = localStorage.getItem('token');
 const URL = process.env.REACT_APP_URL;
@@ -111,7 +111,7 @@ const Checks = () => {
    
     return (
         <>
-            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+           
             <div className="container-fluid ">
                 <Header />
                 <div className="d-none d-lg-block">
