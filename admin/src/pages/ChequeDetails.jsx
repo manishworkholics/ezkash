@@ -109,12 +109,12 @@ const ChequeDetails = () => {
                                                                         <h6 className="text-445B64R fs-14 mb-1">Date & Time</h6>
                                                                         <h6 className="text-0D161A fs-14 fw-medium mb-0">
                                                                             {chequeDetails?.date}
-                                                                               
+
                                                                         </h6>
 
                                                                     </div>
                                                                 </div>
-                                                              
+
                                                             </div>
                                                             <div className="d-block d-lg-flex gap-5">
                                                                 <div className="mb-3 w-100">

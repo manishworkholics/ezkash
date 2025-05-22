@@ -54,6 +54,7 @@ const AllCheques = () => {
         return (
             (index + 1).toString().includes(search) ||
             item.customerFirstName?.toLowerCase().includes(search) ||
+            item.customerMiddleName?.toLowerCase().includes(search) ||
             item.customerLastName?.toLowerCase().includes(search) ||
             item.company?.toLowerCase().includes(search) ||
             item.licenseNo?.toString().toLowerCase().includes(search) ||
@@ -152,7 +153,7 @@ const AllCheques = () => {
                                                                                 .map((cheque, index) => (
                                                                                     <tr key={cheque._id}>
                                                                                         <td>{indexOfFirstRow + index + 1}</td>
-                                                                                        <td>{cheque?.customerFirstName}</td>
+                                                                                        <td>{cheque?.customerFirstName} {cheque?.customerMiddleName} {cheque?.customerLastName}</td>
                                                                                         <td>{cheque?.company}</td>
                                                                                         <td>{cheque?.licenseNo}</td>
                                                                                         <td>{cheque?.checkType}</td>

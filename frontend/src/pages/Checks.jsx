@@ -82,6 +82,8 @@ const Checks = () => {
         return (
             (index + 1).toString().includes(search) ||
             item.customerFirstName?.toLowerCase().includes(search) ||
+            item.customerMiddleName?.toLowerCase().includes(search) ||
+            item.customerLastName?.toLowerCase().includes(search) ||
             item.company?.toLowerCase().includes(search) ||
             item.licenseNo?.toLowerCase().includes(search) ||
             item.checkType?.toLowerCase().includes(search) ||
@@ -108,10 +110,10 @@ const Checks = () => {
     });
 
 
-   
+
     return (
         <>
-           
+
             <div className="container-fluid ">
                 <Header />
                 <div className="d-none d-lg-block">
@@ -176,7 +178,7 @@ const Checks = () => {
                                                                         <i className="fa fa-plus me-2"></i>Add Check
                                                                     </button>
 
-                                                                    
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -252,7 +254,7 @@ const Checks = () => {
                                                                     showAll ? sortedData : sortedData.slice(0, 5)).map((item, index) => (
                                                                         <tr key={item?._id}>
                                                                             <td>{index + 1}</td>
-                                                                            <td>{item?.customerFirstName}</td>
+                                                                            <td>{item?.customerFirstName} {item?.customerMiddleName} {item?.customerLastName}</td>
                                                                             <td>$ {item?.amount}</td>
                                                                             <td>{item?.licenseNo}</td>
                                                                             <td>{item?.company}</td>

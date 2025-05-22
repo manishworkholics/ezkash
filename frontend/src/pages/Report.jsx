@@ -9,7 +9,7 @@ const token = localStorage.getItem('token');
 const URL = process.env.REACT_APP_URL;
 
 const Report = () => {
-    
+
     const [report, setReport] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [sortField, setSortField] = useState('');
@@ -42,6 +42,8 @@ const Report = () => {
         return (
             (index + 1).toString().includes(search) ||
             item.customerFirstName?.toLowerCase().includes(search) ||
+            item.customerMiddleName?.toLowerCase().includes(search) ||
+            item.customerLastName?.toLowerCase().includes(search) ||
             item.company?.toLowerCase().includes(search) ||
             item.licenseNo?.toLowerCase().includes(search) ||
             item.checkType?.toLowerCase().includes(search) ||
@@ -96,7 +98,7 @@ const Report = () => {
         );
     };
 
-   
+
 
 
     return (
@@ -158,7 +160,7 @@ const Report = () => {
                                                                 <ExportModal data={report} show={showModal} onClose={() => setShowModal(false)} />
                                                             </div>
 
-                                                           
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -234,7 +236,7 @@ const Report = () => {
                                                                     {sortedReport.map((val, index) => (
                                                                         <tr key={val._id}>
                                                                             <td>{index + 1}</td>
-                                                                            <td>{val.customerFirstName}</td>
+                                                                            <td>{val.customerFirstName} {val?.customerMiddleName} {val?.customerLastName}</td>
                                                                             <td>$ {val.amount}</td>
                                                                             <td>{val.licenseNo}</td>
                                                                             <td>{val.company}</td>

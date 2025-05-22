@@ -44,6 +44,8 @@ const Report = () => {
         return (
             (index + 1).toString().includes(search) ||
             item.customerFirstName?.toLowerCase().includes(search) ||
+            item.customerMiddleName?.toLowerCase().includes(search) ||
+            item.customerLastName?.toLowerCase().includes(search) ||
             item.company?.toLowerCase().includes(search) ||
             item.licenseNo?.toLowerCase().includes(search) ||
             item.checkType?.toLowerCase().includes(search) ||
@@ -234,7 +236,7 @@ const Report = () => {
                                                                         {sortedReport.map((val, index) => (
                                                                             <tr key={val._id}>
                                                                                 <td>{index + 1}</td>
-                                                                                <td>{val.customerFirstName}</td>
+                                                                                <td>{val.customerFirstName} {val?.customerMiddleName} {val?.customerLastName}</td>
                                                                                 <td>$ {val.amount}</td>
                                                                                 <td>{val.licenseNo}</td>
                                                                                 <td>{val.company}</td>

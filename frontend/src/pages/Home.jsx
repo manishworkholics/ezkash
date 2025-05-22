@@ -59,7 +59,7 @@ const Home = () => {
                             <div>
                               <h6 className="mb-1 fw-medium text-445B64">Today's Status</h6>
                               <h4 className="mb-0 text-00C7BE fw-bold">
-                                ${parseFloat(status?.day?.totalAmount || 0).toFixed(2)}
+                                $ {parseFloat(status?.day?.totalAmount || 0).toFixed(2)}
                               </h4>
                             </div>
                           </div>
@@ -82,7 +82,7 @@ const Home = () => {
                             </div>
                             <div>
                               <h6 className="mb-1 fw-medium text-445B64">Weekly Status</h6>
-                              <h4 className="mb-0 text-00C7BE fw-bold">${parseFloat(status?.week?.totalAmount || 0).toFixed(2)}</h4>
+                              <h4 className="mb-0 text-00C7BE fw-bold">$ {parseFloat(status?.week?.totalAmount || 0).toFixed(2)}</h4>
                             </div>
                           </div>
                           <div className="d-flex justify-content-between small">
@@ -104,7 +104,7 @@ const Home = () => {
                             </div>
                             <div>
                               <h6 className="mb-1 fw-medium text-445B64">Monthly Status</h6>
-                              <h4 className="mb-0 text-00C7BE fw-bold">${parseFloat(status?.month?.totalAmount || 0).toFixed(2)}</h4>
+                              <h4 className="mb-0 text-00C7BE fw-bold">$ {parseFloat(status?.month?.totalAmount || 0).toFixed(2)}</h4>
                             </div>
                           </div>
                           <div className="d-flex justify-content-between small">

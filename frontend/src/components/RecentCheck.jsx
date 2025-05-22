@@ -56,6 +56,7 @@ const RecentCheck = () => {
         return (
             (index + 1).toString().includes(search) ||
             item.customerFirstName?.toLowerCase().includes(search) ||
+            item.customerMiddleName?.toLowerCase().includes(search) ||
             item.customerLastName?.toLowerCase().includes(search) ||
             item.company?.toLowerCase().includes(search) ||
             item.licenseNo?.toString().toLowerCase().includes(search) ||
@@ -72,7 +73,7 @@ const RecentCheck = () => {
     }, []);
     return (
         <>
-           
+
             <div className="row">
                 <div className="col-12">
                     <div className='d-flex justify-content-between mb-3'>
@@ -118,7 +119,7 @@ const RecentCheck = () => {
                                             filteredChecks.map((item, index) => (
                                                 <tr key={item._id}>
                                                     <td>{index + 1}</td>
-                                                    <td>{item.customerFirstName}</td>
+                                                    <td>{item.customerFirstName} {item.customerMiddleName} {item.customerLastName}</td>
                                                     <td>$ {item.amount}</td>
                                                     <td>{item.licenseNo}</td>
                                                     <td>{item.company}</td>
