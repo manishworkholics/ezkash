@@ -9,6 +9,8 @@ import axios from 'axios';
 const URL = process.env.REACT_APP_URL;
 
 const SignUp = () => {
+  const [showPassword, setshowPassword] = useState(false);
+  const [showConfirmPassword, setshowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     bussiness: '',
@@ -152,9 +154,20 @@ const SignUp = () => {
     }
   };
 
+
+  const EyeIcon = ({ visible }) => (
+    <>
+      {visible ? (
+        <i className="fa-solid fa-eye"></i>
+      ) : (
+        <i className="fa-solid fa-eye-slash"></i>
+      )}
+    </>
+  );
+
   return (
     <>
-      
+
       <div className="container-fluid sign-page bg-EEEEEE">
         <div className="row sign-main-container">
           {/* <div className="col-lg-6 sign-left-bg justify-content-center d-none d-lg-flex align-items-center">
@@ -201,7 +214,7 @@ const SignUp = () => {
                   <div className="mb-3">
                     <input
                       className="form-control rounded-3"
-                      type="password"
+                      type={showConfirmPassword ? 'text' : 'password'}
                       id="password"
                       name="password"
                       value={formData.password}
@@ -210,6 +223,9 @@ const SignUp = () => {
                       aria-label="example"
                       required
                     />
+                    <span className="input-group-text" style={{ cursor: 'pointer' }} onClick={() => setshowConfirmPassword(!showConfirmPassword)}>
+                      <EyeIcon visible={showConfirmPassword} />
+                    </span>
                     {/* {formErrors.password && (
                       <small className="text-danger">{formErrors.password}</small>
                     )} */}
@@ -225,7 +241,10 @@ const SignUp = () => {
 
                   {/* Confirm Password */}
                   <div className="mb-3">
-                    <input className="form-control rounded-3" type="password" id='confirmPassword' name='confirmPassword' value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" aria-label="example" required />
+                    <input className="form-control rounded-3" type={showPassword ? 'text' : 'password'} id='confirmPassword' name='confirmPassword' value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" aria-label="example" required />
+                    <span className="input-group-text" style={{ cursor: 'pointer' }} onClick={() => setshowPassword(!showPassword)}>
+                      <EyeIcon visible={showPassword} />
+                    </span>
                     {formErrors.confirmPassword && <small className="text-danger">{formErrors.confirmPassword}</small>}
                   </div>
                   <button type="button" className="btn w-100 sign-btn mb-3" onClick={handleSubmit}>  {loading ? (
