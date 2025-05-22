@@ -58,7 +58,7 @@ const Otp = () => {
             }
         } catch (err) {
             setTimeout(() => {
-                toast.error("OTP Verified Failed. Please enter the correct  OTP!")
+                toast.error("OTP verification failed. Please enter the correct code.")
             }, 1000);
         } finally {
             setLoading(false)
@@ -81,13 +81,13 @@ const Otp = () => {
             });
             if (res.status === 200) {
                 setTimeout(() => {
-                    toast.success("otp resent !")
+                    toast.success("OTP has been resent successfully.")
                     setTimeLeft(300);
                     setOtp(new Array(6).fill(""));
                 }, 1000);
             } else {
                 setTimeout(() => {
-                    toast.success("There is some issue in otp the resent!")
+                    toast.success("There was a problem resending the OTP. Please try again.")
                 }, 1000);
             }
         } catch (error) {
@@ -116,8 +116,8 @@ const Otp = () => {
                                     <div className="text-center mb-5">
                                         <img src={signLogo} alt="" className="sign-logo" />
                                     </div>
-                                    <h3 className="fw-semibold">Welcome!</h3>
-                                    <h6 className="mb-4 text-445B64">Enter the 6-digit code we just sent to your email</h6>
+                                    <h3 className="fw-semibold">Email Verification</h3>
+                                    <h6 className="mb-4 text-445B64">Enter the 6-digit code sent to your email address.</h6>
 
                                     <div className="text-center mb-3 text-danger">
                                         {/* Code expires in {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')} */}
@@ -139,7 +139,7 @@ const Otp = () => {
                                         <button type="submit" className="btn w-100 sign-btn mb-3">  {loading ? (
                                             <>
                                                 <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                                Verify Code
+                                                Verifying...
                                             </>
                                         ) : (
                                             "Verify"

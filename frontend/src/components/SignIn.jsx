@@ -71,8 +71,8 @@ const SignIn = () => {
         toast.error("Sign-in failed. Please try again.");
       }
     } catch (error) {
-      console.log("Sign-in error:", error);
-      toast.error(error.response?.data?.message || 'User not registered. Please try again.');
+      // console.log("Sign-in error:", error);
+      toast.error('User not found. Please check your email address or sign up.');
     } finally {
       setLoading(false);
     }
@@ -205,7 +205,7 @@ const SignIn = () => {
             </div>
             <div className="position-absolute bottom-0 start-0 w-100">
               <h6 className="text-445B64 text-center">
-                <Link to="/terms&conditions" className='text-445B64 text-decoration-none'>Terms and Conditions</Link>
+                <Link to="/terms&conditions" className='text-445B64 text-decoration-none'>Terms & Conditions</Link>
                 <span className="mx-2">•</span>
                 <Link to="/privacy-policy" className='text-445B64 text-decoration-none'>Privacy Policy</Link>
               </h6>
