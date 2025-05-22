@@ -6,6 +6,7 @@ import fillForm from '../assets/images/fillForm.png'
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import imageCompression from 'browser-image-compression';
 const url = process.env.REACT_APP_URL;
 const token = localStorage.getItem('token')
 
@@ -96,12 +97,20 @@ const MobileAddCheck = () => {
             setFileName(file.name);
             setFileSize(formatBytes(file.size));
 
+
+
         } else {
             alert("Please upload a Check image.");
             return;
         }
+        const options = {
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
+            useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', compressedFile);
         try {
 
             const response = await axios.post(`${url}/scan-check`, formData)
@@ -127,7 +136,7 @@ const MobileAddCheck = () => {
         } catch (error) {
             setTimeout(() => {
                 toast.error("Error in image uploading", error);
-                alert("Error in image uploading");
+                alert("Error in image uploading", error);
             }, 1000);
             console.error('Error during image upload:', error);
         }
@@ -149,8 +158,14 @@ const MobileAddCheck = () => {
             alert("Please upload a Check image.");
             return;
         }
+        const options = {
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
+            useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', compressedFile);
         try {
 
             const response = await axios.post(`${url}/upload-image`, formData)
@@ -166,7 +181,7 @@ const MobileAddCheck = () => {
         } catch (error) {
             setTimeout(() => {
                 toast.error("Error in image uploading", error);
-                alert("Error in image uploading");
+                alert("Error in image uploading", error);
             }, 1000);
             console.error('Error during image upload:', error);
         }
@@ -187,8 +202,14 @@ const MobileAddCheck = () => {
             alert("Please upload a ID image.");
             return;
         }
+        const options = {
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
+            useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', compressedFile);
         try {
 
             const response = await axios.post(`${url}/scan-license`, formData)
@@ -212,7 +233,7 @@ const MobileAddCheck = () => {
             }
         } catch (error) {
             toast.error("Error in image uploading", error);
-            alert("Error in image uploading");
+            alert("Error in image uploading", error);
             console.error('Error during image upload:', error);
         }
     };
@@ -232,8 +253,14 @@ const MobileAddCheck = () => {
             alert("Please upload a ID image.");
             return;
         }
+        const options = {
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
+            useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', compressedFile);
         try {
 
             const response = await axios.post(`${url}/upload-image`, formData)
@@ -248,7 +275,7 @@ const MobileAddCheck = () => {
             }
         } catch (error) {
             toast.error("Error in image uploading", error);
-            alert("Error in image uploading");
+            alert("Error in image uploading", error);
             console.error('Error during image upload:', error);
         }
     };
@@ -351,6 +378,16 @@ const MobileAddCheck = () => {
                                 <div className="card-body bg-transparent px-0">
                                     <div className="mb-4">
                                         <div className="form-control inputFile p-4 mb-3 text-center position-relative d-flex justify-content-center align-items-center">
+                                            {/* <input
+                                                className="position-absolute top-0 start-0 w-100 h-100"
+                                                type="file"
+                                                id="formFile"
+                                                ref={checkFrontRef}
+                                                onChange={handleSubmit}
+                                                accept="image/*"
+
+                                                style={{ opacity: 0, cursor: 'pointer' }}
+                                            /> */}
                                             <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={checkFrontRef} onChange={handleSubmit} style={{ opacity: 0, cursor: 'pointer' }} />
                                             {/* image box */}
 
@@ -439,8 +476,18 @@ const MobileAddCheck = () => {
 
                                     <div className="">
                                         <div className="form-control inputFile p-4 mb-3 text-center position-relative d-flex justify-content-center align-items-center">
-                                            <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={checkBackRef} onChange={handleSubmitback} style={{ opacity: 0, cursor: 'pointer' }} />
+                                            {/* <input
+                                                className="position-absolute top-0 start-0 w-100 h-100"
+                                                type="file"
+                                                id="formFile"
+                                                ref={checkBackRef}
+                                                onChange={handleSubmitback}
+                                                accept="image/*"
 
+                                                style={{ opacity: 0, cursor: 'pointer' }}
+                                            /> */}
+
+                                            <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={checkBackRef} onChange={handleSubmitback} style={{ opacity: 0, cursor: 'pointer' }} />
                                             {previewCheckback && (
                                                 <>
                                                     <div
@@ -554,6 +601,16 @@ const MobileAddCheck = () => {
                                 <div className="card-body bg-transparent px-0">
                                     <div className="mb-4">
                                         <div className="form-control inputFile p-4 mb-3 text-center position-relative d-flex justify-content-center align-items-center">
+                                            {/* <input
+                                                className="position-absolute top-0 start-0 w-100 h-100"
+                                                type="file"
+                                                id="formFile"
+                                                ref={licenseFrontRef}
+                                                onChange={handleSubmitLicense}
+                                                accept="image/*"
+
+                                                style={{ opacity: 0, cursor: 'pointer' }}
+                                            /> */}
                                             <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={licenseFrontRef} onChange={handleSubmitLicense} style={{ opacity: 0, cursor: 'pointer' }} />
 
 
@@ -637,8 +694,18 @@ const MobileAddCheck = () => {
                                     </div>
                                     <div className="">
                                         <div className="form-control inputFile p-4 mb-3 text-center position-relative d-flex justify-content-center align-items-center">
-                                            <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={licenseBackRef} onChange={handleSubmitLicenseback} style={{ opacity: 0, cursor: 'pointer' }} />
+                                            {/* <input
+                                                className="position-absolute top-0 start-0 w-100 h-100"
+                                                type="file"
+                                                id="formFile"
+                                                ref={licenseBackRef}
+                                                onChange={handleSubmitLicenseback}
+                                                accept="image/*"
 
+                                                style={{ opacity: 0, cursor: 'pointer' }}
+                                            /> */}
+
+                                            <input className="position-absolute top-0 start-0 w-100 h-100" type="file" id="formFile" ref={licenseBackRef} onChange={handleSubmitLicenseback} style={{ opacity: 0, cursor: 'pointer' }} />
 
                                             {previewLicenceback && (
                                                 <>

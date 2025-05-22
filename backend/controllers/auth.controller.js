@@ -207,11 +207,10 @@ exports.resetPassword = async (req, res) => {
 
 exports.changePassword = async (req, res) => {
     try {
-        const { id } = req.user; // Assumes JWT middleware attaches user info to req.user
-        const { oldPassword, newPassword } = req.body;
+        const { id, oldPassword, newPassword } = req.body;
 
-        if (!oldPassword || !newPassword) {
-            return res.status(400).json({ message: 'Old and new password are required' });
+        if (!id || !oldPassword || !newPassword) {
+            return res.status(400).json({ message: 'ID, old password, and new password are required' });
         }
 
         if (oldPassword === newPassword) {

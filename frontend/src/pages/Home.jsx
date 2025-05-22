@@ -6,8 +6,7 @@ import axios from 'axios';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { Link } from 'react-router-dom';
-import RecentCheck from '../components/RecentCheck';
+
 const url = process.env.REACT_APP_URL;
 const token = localStorage.getItem('token')
 
@@ -41,9 +40,9 @@ const Home = () => {
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
       <div className="container-fluid ">
         <Header />
-        <div className="d-none d-lg-block">
+        <div className=" d-lg-block">
           <div className="row mh-100vh">
-            <div className="col-lg-3 col-xl-2 d-none d-lg-block position-relative">
+            <div className="col-lg-3 col-xl-2  d-lg-block position-relative">
               <Sidebar />
             </div>
             <div className="col-lg-9 col-xl-10 bg-F6F6F6">
@@ -138,25 +137,7 @@ const Home = () => {
 
 
 
-      {/* Mobile-View Start */}
-      <div className="container-fluid mobile-bg d-block d-lg-none" style={{ minHeight: '100vh' }}>
-        {/* <Header /> */}
-        <div className="row mb-2 pt-5 mt-4 mt-md-5">
-          <div className="col-12 mb-3">
-            <Link to='/upload-check' className="btn mob-addCheck-btn rounded-3 border w-100 text-start d-flex align-items-center">
-              <i class="fa fa-plus text-white"></i>
-              <span className="text-white fw-semibold ms-2 my-1">Add New Check</span>
-            </Link>
-          </div>
-
-        </div>
-        <div className="mb-5">
-          <RecentCheck />
-        </div>
-      </div>
-
-      {/* Mobile-View End */}
-
+     
 
 
 
