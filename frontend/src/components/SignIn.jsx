@@ -16,6 +16,7 @@ const SignIn = () => {
   const [showPassword, setshowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [forgotEmail, setForgotEmail] = useState("");
+  const [passwordvalidation, setPasswordvalidation] = useState('')
 
   const validateForm = () => {
     const { email, password } = formData;
@@ -74,8 +75,7 @@ const SignIn = () => {
         toast.error("Incorrect password");
       }
     } catch (err) {
-      toast.error(err?.response?.data?.message || "Something went wrong");
-
+      setPasswordvalidation(err?.response?.data?.message)
     } finally {
       setLoading(false);
     }
@@ -200,6 +200,7 @@ const SignIn = () => {
                             onChange={handleChange}
                             placeholder="Your password"
                           />
+
                           <span
                             className="position-absolute top-0 end-0"
                             style={{
@@ -215,6 +216,11 @@ const SignIn = () => {
                         {formErrors.password && (
                           <small className="text-danger">
                             {formErrors.password}
+                          </small>
+                        )}
+                        {passwordvalidation && (
+                          <small className="text-danger">
+                            {passwordvalidation}
                           </small>
                         )}
                       </div>
