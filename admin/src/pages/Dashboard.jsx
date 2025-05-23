@@ -161,7 +161,7 @@ const Dashboard = () => {
                                         </div>
                                     </div>
                                     <div className="row mb-2">
-                                        <div className="col-12 col-xl-12 mb-3">
+                                        <div className="col-12 col-lg-6 col-xl-7 col-xxl-8 mb-3">
                                             <div className="card shadow-sm border-0 rounded-4">
                                                 <div className="card-body">
                                                     <div className="row pb-2">
@@ -287,11 +287,21 @@ const Dashboard = () => {
                                                             />
                                                         </div>
                                                     </div>
-                                                    <div className="card shadow-sm border-0 rounded-4">
-                                                        <div className="card-body">
-                                                            <Chart options={options} series={series} type="pie" width="400" className="mt-5" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-12 col-md-8 col-lg-6 col-xl-5 col-xxl-4 mb-3">
+                                            <div className="card shadow-sm border-0 rounded-4">
+                                                <div className="card-body">
+                                                    <div className="row pb-2">
+                                                        <div className="col-4 mt-auto">
+                                                            <h6 className="mb-0 text-445B64">Report</h6>
+                                                        </div>
+                                                        <div className="col-12">
+                                                            <img src={BorderBtm} alt="" className="w-100" />
                                                         </div>
                                                     </div>
+                                                    <Chart options={options} series={series} type="pie" width="400" className="mt-5" />
                                                 </div>
                                             </div>
                                         </div>
