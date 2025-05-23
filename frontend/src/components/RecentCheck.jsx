@@ -17,7 +17,7 @@ const RecentCheck = () => {
     const fetchChecks = async () => {
         try {
             const vendorId = localStorage.getItem('userId');
-            const response = await axios.get(`${URL}/check/getrecent-check-by-venderid/${vendorId}`, {
+            const response = await axios.get(`${URL}/check/get-checkByVenderId/${vendorId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -104,6 +104,7 @@ const RecentCheck = () => {
     useEffect(() => {
         fetchChecks();
     }, []);
+
     return (
         <>
 
@@ -181,12 +182,6 @@ const RecentCheck = () => {
                                                     Customer Status
                                                 </div>
                                             </th>
-                                            {/* <th onClick={() => handleSort('status')} style={{ cursor: 'pointer' }}>
-                                                                                                       <div className="d-flex align-items-center">
-                                                                                                           Status {getSortIcon('status')}
-                                                                                                       </div>
-                                                                                                   </th> */}
-
                                             <th className='text-center'>Actions</th>
                                         </tr>
                                     </thead>
