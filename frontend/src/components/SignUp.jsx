@@ -92,9 +92,9 @@ const SignUp = () => {
     if (password.trim() === '') {
       errors.password = 'Password is required.';
     }
-    if (password.length < 8) {
-      errors.password = "Password must be at least 8 characters long.";
-    }
+    // if (password.length < 8) {
+    //   errors.password = "Password must be at least 8 characters long.";
+    // }
     if (confirmPassword.trim() === '') {
       errors.confirmPassword = "Confirm password is required.";
     }
@@ -221,8 +221,8 @@ const SignUp = () => {
                   {/* mobile */}
                   <div className="mb-3">
                     {/* <input className="form-control rounded-3" type="number" id='mobile' name='mobile' value={formData.mobile} onChange={handleChange} placeholder="Your phone number" aria-label="example" required /> */}
-                  
-                  <input
+
+                    <input
                       className="form-control rounded-3"
                       type="tel"
                       id="mobile"
@@ -235,8 +235,8 @@ const SignUp = () => {
                       aria-label="Phone number"
                       required
                     />
-                  
-                  
+
+
                     {formErrors.mobile && <small className="text-danger">{formErrors.mobile}</small>}
                   </div>
 
@@ -263,7 +263,7 @@ const SignUp = () => {
                     >
                       <EyeIcon visible={showConfirmPassword} />
                     </span>
-
+                    {formErrors.password && <small className="text-danger">{formErrors.password}</small>}
                     {activeField === "password" && (
                       <div className="text-muted small ps-4 mb-4 mt-2">
                         Your password must include

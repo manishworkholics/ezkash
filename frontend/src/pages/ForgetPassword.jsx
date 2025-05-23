@@ -115,8 +115,8 @@ const ForgetPassword = () => {
         <>
             <div className="container-fluid sign-page bg-EEEEEE">
                 <div className="row sign-main-container">
-                   
-                  
+
+
                     <div className="col-lg-6 mx-auto sign-right-bg h-100 position-relative pt-4 pb-5">
                         <div className="row h-100 w-100">
                             <div className="col-lg-8 col-xl-7 col-xxl-6 mx-auto d-block d-md-flex justify-content-center align-items-center">
@@ -149,6 +149,7 @@ const ForgetPassword = () => {
                                     />
                                     {formErrors.newPassword && <small className="text-danger">{formErrors.newPassword}</small>}
                                     <ul className="ttext-success small ps-4 mb-3">
+                                        Your password must include
                                         <li className={passwordValidation.minLength ? "text-success" : "text-danger"}>Minimum characters 8</li>
                                         <li className={passwordValidation.upperCase ? "text-success" : "text-danger"}>One uppercase character</li>
                                         <li className={passwordValidation.lowerCase ? "text-success" : "text-danger"}>One lowercase character</li>

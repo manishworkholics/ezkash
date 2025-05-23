@@ -22,7 +22,7 @@ const ForgetPasswordVerification = () => {
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
     if (!otp.trim()) {
-      toast.error("OTP is required.");
+      toast.error("Code is required.");
       return;
     }
     try {
@@ -35,7 +35,7 @@ const ForgetPasswordVerification = () => {
         navigate('/forget-password');
       }, 2000);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Invalid OTP");
+      toast.error(error.response?.data?.message || "Invalid Code");
     }
   };
 
