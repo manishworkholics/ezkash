@@ -556,106 +556,117 @@ input::placeholder:after {
 
 /* Mobile View - CSS - Start */
 @media only screen and (max-width: 767px) {
-  .mobile-bg {
+  .mobile-background {
     background-image: url('../src/assets/images/mobileBg.png');
     background-position: center;
     background-size: cover;
     background-repeat: repeat-y;
-
-    .inputFile {
-      border: 1px dashed #DFDFDF;
-      background: #FFFFFF;
-      border-radius: 12px;
-      padding: 44px !important;
-    }
-
-    .form-label {
-      font-size: 12px;
-      margin-bottom: 0;
-      color: #292929;
-    }
-
-    .form-control {
-      font-size: 14px;
-      margin-bottom: 0;
-      color: #000000;
-    }
-
-    input::placeholder {
-      color: #000000;
-    }
-
-    textarea::placeholder {
-      color: #000000;
-    }
-
-    .expand-img-icon {
-      position: absolute;
-      right: 10px;
-      bottom: 10px;
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #008cff;
-      color: white;
-      border-radius: 5px;
-    }
-
-    .table {
-      width: max-content;
-      min-width: 100%;
-
-      th {
-        font-size: 13px;
-        color: #445B64;
-        font-weight: 500 !important;
-      }
-
-      td {
-        font-size: 14px;
-        color: #0D161A;
-        font-weight: 500 !important;
-        border: #F0F5F6;
-      }
-
-      tr:nth-child(odd) {
-        background-color: #FAFAFA !important;
-      }
-    }
-
-    .input-wrapper {
-      position: relative;
-      margin-bottom: 1rem;
-    }
-
-    .floating-label {
-      position: absolute;
-      top: 50%;
-      left: 20px;
-      transform: translateY(-50%);
-      color: #000000;
-      pointer-events: none;
-      transition: all 0.2s ease;
-      font-size: 14px;
-      background: white;
-      padding: 0 4px;
-    }
-
-    .floating-label .required {
-      color: red;
-    }
-
-    .input-wrapper input:focus+.floating-label,
-    .input-wrapper input:not(:placeholder-shown)+.floating-label {
-      top: -8px;
-      left: 8px;
-      font-size: 0.75rem;
-      display: none;
-    }
-
   }
+}
+
+.mobile-bg {
+  background-image: url('../src/assets/images/mobileBg.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: repeat-y;
+
+  .inputFile {
+    border: 1px dashed #DFDFDF;
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 44px !important;
+  }
+
+  .form-label {
+    font-size: 12px;
+    margin-bottom: 0;
+    color: #292929;
+  }
+
+  .form-control {
+    font-size: 14px;
+    margin-bottom: 0;
+    color: #000000;
+  }
+
+  input::placeholder {
+    color: #000000;
+  }
+
+  textarea::placeholder {
+    color: #000000;
+  }
+
+  .expand-img-icon {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #008cff;
+    color: white;
+    border-radius: 5px;
+  }
+
+  .table {
+    width: max-content;
+    min-width: 100%;
+
+    th {
+      font-size: 13px;
+      color: #445B64;
+      font-weight: 500 !important;
+
+      span {
+        font-size: 10px;
+      }
+    }
+
+    td {
+      font-size: 14px;
+      color: #0D161A;
+      font-weight: 500 !important;
+      border: #F0F5F6;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #FAFAFA !important;
+    }
+  }
+
+  .input-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .floating-label {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    color: #000000;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    background: white;
+    padding: 0 4px;
+  }
+
+  .floating-label .required {
+    color: red;
+  }
+
+  .input-wrapper input:focus+.floating-label,
+  .input-wrapper input:not(:placeholder-shown)+.floating-label {
+    top: -8px;
+    left: 8px;
+    font-size: 0.75rem;
+    display: none;
+  }
+
 }
 
 .mob-addCheck-btn {
