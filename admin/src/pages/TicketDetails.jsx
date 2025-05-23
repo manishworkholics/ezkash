@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar';
 import { useNavigate, useParams } from "react-router"
 import axios from 'axios';
 import moment from 'moment';
+import profileImg from '../assets/images/userImg.png'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -195,12 +196,18 @@ const TicketDetails = () => {
                                                                 </tr>
                                                                 <tr>
                                                                     <td className='text-445B64-img w-60px border-0' style={{ verticalAlign: 'top' }}>Description</td>
-                                                                    <td><span className="text-445B64-img border-0 me-2"></span>{ticketDetails?.description}</td>
+                                                                    <td>
+                                                                        <span className="text-445B64-img border-0 "></span>
+                                                                        <span dangerouslySetInnerHTML={{ __html: ticketDetails?.description }} />
+                                                                    </td>
+
+
                                                                 </tr>
-                                                                <tr>
+                                                                {ticketDetails?.checkImg? <tr>
                                                                     <td className='text-445B64-img w-60px border-0'>Image</td>
                                                                     <td><img src={ticketDetails?.checkImg} style={{ height: 100, width: 100 }} alt="" /></td>
-                                                                </tr>
+                                                                </tr>:""}
+                                                               
 
                                                                 <tr>
                                                                     <td className='text-445B64-img w-60px border-0'>Status</td>
@@ -317,8 +324,12 @@ const TicketDetails = () => {
                                                                         <div>
                                                                             <div className="d-flex justify-content-between mb-3">
                                                                                 <h6 className='text-dark fw-bolder'>
-                                                                                    <img src='' alt="" className="shadow-sm border border-light rounded-circle me-2" style={{ width: '40px' }} />
-                                                                                    {val?.senderId?.role == null ? 'Admin' : val?.senderId?.role}</h6>
+                                                                                    <img src={profileImg} alt="" className="shadow-sm border border-light rounded-circle me-2" style={{ width: '40px' }} />
+                                                                                    {val?.senderId?.role == null
+                                                                                        ? 'Admin'
+                                                                                        : `${val?.senderId?.firstname || ''} ${val?.senderId?.middlename || ''} ${val?.senderId?.lastname || ''}`
+                                                                                    }
+                                                                                </h6>
                                                                                 <h6 className='text-secondary fs-14'> {moment(val?.createdAt).format("MMM DD, YYYY hh:mm A")}</h6>
                                                                             </div>
                                                                             <div className="card rounded-4 border-0 bg-F0F5F6">

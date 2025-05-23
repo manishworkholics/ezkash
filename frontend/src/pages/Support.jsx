@@ -4,7 +4,8 @@ import axios from 'axios';
 import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router-dom';
-
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const URL = process.env.REACT_APP_URL;
 const token = localStorage.getItem('token')
@@ -106,6 +107,7 @@ const Support = () => {
                 setData({ subject: '', category: '', description: '', checkImg: '', vendorId: '' });
                 setFormData({ imageUrl: '' });
                 setErrors({});
+                navigate(-1);
             }
         } catch (error) {
             console.error(error);
@@ -117,6 +119,10 @@ const Support = () => {
         setData({ subject: '', category: '', description: '', checkImg: '', vendorId: '' });
         setFormData({ imageUrl: '' });
         setErrors({});
+    }
+
+    const handleBack = () => {
+        navigate(-1);
     }
 
     return (
@@ -152,8 +158,9 @@ const Support = () => {
                                                         </div>
                                                         <div className="col-6 col-lg-6">
                                                             <div className="d-flex justify-content-end">
-                                                                <button style={{ background: '#008CFF' }} className='btn border-0 rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0' onClick={() => navigate('/my-ticket')}>
-                                                                    My Tickets
+                                                                <button className="btn btn-sm rounded-2 btn-secondary text-white" onClick={handleBack}>
+                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
+                                                                    Back
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -229,7 +236,15 @@ const Support = () => {
                                                             <div className="row h-100">
                                                                 <div className="col-12 mb-3 pb-3">
                                                                     <label className="form-label text-445B64">Description <span className='text-danger'>*</span></label>
-                                                                    <textarea className="form-control h-100" name='description' value={data.description} onChange={handleChange} defaultValue="Description" />
+                                                                    <CKEditor
+                                                                        editor={ClassicEditor}
+                                                                        data={data.description}
+                                                                        onChange={(event, editor) => {
+                                                                            const description = editor.getData();
+                                                                            setData(prev => ({ ...prev, description }));
+                                                                        }}
+                                                                    />
+                                                                    
                                                                     {errors.description && <small className="text-danger">{errors.description}</small>}
 
                                                                 </div>

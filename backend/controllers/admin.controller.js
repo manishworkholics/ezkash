@@ -115,9 +115,9 @@ exports.dashboardDetail = async (req, res) => {
             moment(c.createdAt).isBetween(startOfToday, endOfToday, null, "[]")
         ).length;
 
-        // Good & Bad
-        const goodCheck = checks.filter((c) => c.status === "good").length;
-        const badCheck = checks.filter((c) => c.status === "bad").length;
+        // Stats
+        const newcustomer = checks.filter((c) => c.customerStatus === "new customer").length;
+        const verifiedcustomer = checks.filter((c) => c.customerStatus === "verified customer").length;
 
         // Amounts
         const todayChecks = checks.filter((c) =>
@@ -137,9 +137,9 @@ exports.dashboardDetail = async (req, res) => {
 
         // Pie chart for check status
         const checkStatus = [
-            { label: "Good Checks", value: goodCheck },
-            { label: "Bad Checks", value: badCheck },
-            { label: "New Check", value: newCheck }
+            { label: "New Customer", value: newcustomer },
+            { label: "Verified Customer", value: verifiedcustomer },
+
         ];
 
         // 1. Daily (today's checks per hour, 0 to 23)
@@ -173,8 +173,8 @@ exports.dashboardDetail = async (req, res) => {
         res.status(200).json({
             totalVendor,
             newCheck,
-            goodCheck,
-            badCheck,
+            newcustomer,
+            verifiedcustomer,
             todayStatus,
             weeklyStatus,
             monthlyStatus,

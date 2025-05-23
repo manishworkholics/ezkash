@@ -20,9 +20,7 @@ const MyTicket = () => {
         );
     };
 
-    const handleBack = () => {
-        navigate(-1);
-    }
+
 
     const fetchTickets = async () => {
         try {
@@ -94,9 +92,9 @@ const MyTicket = () => {
                                                         </div>
                                                         <div className="col-6 col-lg-6">
                                                             <div className="d-flex justify-content-end">
-                                                                <button className="btn btn-sm rounded-2 btn-secondary text-white" onClick={handleBack}>
-                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
-                                                                    Back
+
+                                                                <button style={{ background: '#008CFF' }} className='btn border-0 rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0' onClick={() => navigate('/support')}>
+                                                                    New Ticket
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -148,6 +146,7 @@ const MyTicket = () => {
                                                             <thead>
                                                                 <tr>
                                                                     <th className='border-bottom'>#</th>
+                                                                    <th className='border-bottom'>Ticket ID</th>
                                                                     <th className='border-bottom'>Subject</th>
                                                                     <th className='border-bottom'>Category</th>
                                                                     <th className='border-bottom'>Descrition</th>
@@ -160,13 +159,22 @@ const MyTicket = () => {
                                                                     <React.Fragment key={index}>
                                                                         <tr className="">
                                                                             <td>{index + 1}</td>
+                                                                            <td><Link to={`/chat/${ticket._id}`} className='text-capitalize'>#{ticket?._id.slice(-5)}</Link></td>
                                                                             <td>
-                                                                                <Link to={`/chat/${ticket._id}`} className='text-capitalize'>
-                                                                                    {ticket.subject.length > 40 ? ticket.subject.substring(0, 40) + '...' : ticket.subject}
-                                                                                </Link>
+
+                                                                                {ticket.subject.length > 40 ? ticket.subject.substring(0, 40) + '...' : ticket.subject}
+
                                                                             </td>
                                                                             <td>{ticket.category.length > 40 ? ticket.category.substring(0, 40) + '...' : ticket.category}</td>
-                                                                            <td>{ticket.description.length > 40 ? ticket.description.substring(0, 40) + '...' : ticket.description}</td>
+                                                                            <td
+                                                                                dangerouslySetInnerHTML={{
+                                                                                    __html:
+                                                                                        ticket.description.length > 40
+                                                                                            ? ticket.description.substring(0, 40) + '...'
+                                                                                            : ticket.description,
+                                                                                }}
+                                                                            />
+
                                                                             <td>{moment(ticket?.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
                                                                             <td><span className={getStatusClass(ticket.status)}> {ticket.status.toUpperCase()}</span></td>
                                                                         </tr>
