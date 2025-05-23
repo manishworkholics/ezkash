@@ -5,7 +5,7 @@ const Ticket = require('../model/ticket.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const moment = require("moment");
-const sendMail = require('../utils/sendMail');
+
 require('dotenv').config();
 
 exports.adminRegister = async (req, res) => {

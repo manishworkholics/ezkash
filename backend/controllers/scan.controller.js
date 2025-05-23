@@ -155,7 +155,9 @@ exports.scanLicense = async (req, res) => {
     });
 
     const extractedText = result.textAnnotations?.[0]?.description || '';
-    console.log('Extracted Text:', extractedText);
+    if (!extractedText) {
+      return res.status(400).json({ error: 'No text extracted from image' });
+    }
 
     // Regex patterns for data fields
     const nameMatch = extractedText.match(/(?:1\s+)?SAMPLE\s+([A-Z]+\s+[A-Z]+)/i);
@@ -198,7 +200,8 @@ exports.scanLicense = async (req, res) => {
       height: heightMatch?.[1] || '',
       address: addressMatch?.[0] || '',
       issuedDate: issuedMatch?.[1] || '',
-      expiryDate: expiresMatch?.[1] || ''
+      expiryDate: expiresMatch?.[1] || '',
+      extractedText
     };
 
     res.json(parsedLicense);
@@ -251,7 +254,7 @@ exports.uploadImage = async (req, res) => {
 
   } catch (error) {
     console.error('Error uploading image to S3:', error);
-    res.status(500).json({ success: false, message: 'Failed to upload image' });
+    res.status(500).json({ error: error.message });
   }
 };
 

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
-// import logoLeft from '../assets/images/logoLeft.png';
+
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -126,9 +126,6 @@ const SignIn = () => {
     <>
       <div className="container-fluid sign-page bg-EEEEEE">
         <div className="row sign-main-container">
-          {/* <div className="col-lg-6 sign-left-bg h-100 justify-content-center d-none d-lg-flex align-items-center">
-            <img src={logoLeft} alt="logo" />
-          </div> */}
 
           <div className="col-lg-6 mx-auto sign-right-bg h-100 position-relative pt-4 pb-5">
             <div className="row h-100 w-100">

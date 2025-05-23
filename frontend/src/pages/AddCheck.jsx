@@ -6,12 +6,14 @@ import { useState, useRef } from 'react';
 import axios from 'axios';
 
 import imageCompression from 'browser-image-compression';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import RecentCheck from '../components/RecentCheck';
 const url = process.env.REACT_APP_URL;
 const token = localStorage.getItem('token') || sessionStorage.getItem('token')
 
 const AddCheck = () => {
+    const navigate = useNavigate();
+
     const licenseFrontRef = useRef(null);
     const licenseBackRef = useRef(null);
     const checkFrontRef = useRef(null);
@@ -107,14 +109,14 @@ const AddCheck = () => {
                     extractedText: result.extractedText || ''
                 };
                 setFormData(parsedData);
-                toast.success('Check front image upload successfully!');
+                toast.success('Image upload successfully!');
             } else {
                 toast.error('Failed to upload image!');
             }
 
         } catch (error) {
             setTimeout(() => {
-                toast.error("Error in image uploading");
+                toast.error(error?.response?.data?.error || "Something went wrong");
             }, 1000);
             console.error('Error during image upload:', error);
         }
@@ -149,14 +151,14 @@ const AddCheck = () => {
                     imageUrl: result.data.imageUrl || '',
                 };
                 setFormDataback(parsedData);
-                toast.success('Check Back image upload successfully!');
+                toast.success('Image upload successfully!');
             } else {
                 toast.error('Failed to upload image!');
             }
 
         } catch (error) {
             setTimeout(() => {
-                toast.error("Error in image uploading");
+                toast.error(error?.response?.data?.error || "Something went wrong");
             }, 1000);
             console.error('Error during image upload:', error);
         }
@@ -200,13 +202,13 @@ const AddCheck = () => {
                     expiryDate: result?.expiryDate || '',
                 };
                 setLicenseData(parsedData);
-                toast.success('ID Front image upload successfully!');
+                toast.success('Image upload successfully!');
             } else {
                 toast.error('Failed to upload image!');
             }
 
         } catch (error) {
-            toast.error("Error in image uploading");
+            toast.error(error?.response?.data?.error || "Something went wrong");
             console.error('Error during image upload:', error);
         }
     };
@@ -240,13 +242,13 @@ const AddCheck = () => {
                     imageUrl: result?.data?.imageUrl || '',
                 };
                 setLicenseDataback(parsedData);
-                toast.success('ID Back image upload successfully!');
+                toast.success('Image upload successfully!');
             } else {
                 toast.error('Failed to upload image!');
             }
 
         } catch (error) {
-            toast.error("Error in image uploading");
+            toast.error(error?.response?.data?.error || "Something went wrong");
             console.error('Error during image upload:', error);
         }
     };
@@ -330,6 +332,8 @@ const AddCheck = () => {
 
                 setFormDataback({ imageUrl: '' });
                 setLicenseDataback({ imageUrl: '' });
+
+                navigate(-1)
             }
 
 
@@ -592,7 +596,7 @@ const AddCheck = () => {
                                                         <div className="col-md-3 mb-3">
                                                             <label className="form-label text-445B64"> Check Type </label>
                                                             <select className="form-control" value={formData.checkType} onChange={(e) => { const value = e.target.value; setFormData({ ...formData, checkType: value }) }} >
-                                                               
+
                                                                 <option value="Personal">Personal</option>
                                                                 <option value="Business">Business</option>
                                                             </select>

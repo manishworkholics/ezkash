@@ -96,7 +96,6 @@ const ChangePassword = () => {
                     <div className="input-group">
                         <input
                             type={showNew ? 'text' : 'password'}
-                            // className={`form-control ${isPasswordValid ? '' : 'border border-danger'}`}
                             className={`form-control border `}
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}

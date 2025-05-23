@@ -121,7 +121,7 @@ const MobileAddCheck = () => {
             formData.append('image', compressedFile);
 
             const response = await axios.post(`${url}/scan-check`, formData);
-            toast.success('Check front image upload successfully!');
+
 
             const result = response.data;
             if (result && result.customerName) {
@@ -140,11 +140,13 @@ const MobileAddCheck = () => {
                     extractedText: result.extractedText || ''
                 };
                 setFormData(parsedData);
+                toast.success('Image upload successfully!');
+            } else {
+                toast.error('Failed to upload image!');
             }
         } catch (error) {
             setTimeout(() => {
-                toast.error("Error in image uploading");
-                alert("Error in image uploading");
+                toast.error(error?.response?.data?.error || "Something went wrong");
             }, 1000);
             console.error('Error during image upload:', error);
         } finally {
@@ -181,7 +183,7 @@ const MobileAddCheck = () => {
             formData.append('image', compressedFile);
 
             const response = await axios.post(`${url}/upload-image`, formData);
-            toast.success('Check Back image upload successfully!');
+
 
             const result = response.data;
             if (result) {
@@ -189,11 +191,13 @@ const MobileAddCheck = () => {
                     imageUrl: result.data.imageUrl || '',
                 };
                 setFormDataback(parsedData);
+                toast.success('Image upload successfully!');
+            } else {
+                toast.error('Failed to upload image!');
             }
         } catch (error) {
             setTimeout(() => {
-                toast.error("Error in image uploading");
-                alert("Error in image uploading");
+                toast.error(error?.response?.data?.error || "Something went wrong");
             }, 1000);
             console.error('Error during image upload:', error);
         } finally {
@@ -230,7 +234,7 @@ const MobileAddCheck = () => {
             formData.append('image', compressedFile);
 
             const response = await axios.post(`${url}/scan-license`, formData);
-            toast.success('ID Front image upload successfully!');
+
 
             const result = response.data;
             if (result) {
@@ -247,10 +251,12 @@ const MobileAddCheck = () => {
                     expiryDate: result?.expiryDate || '',
                 };
                 setLicenseData(parsedData);
+                toast.success('Image upload successfully!');
+            } else {
+                toast.error('Failed to upload image!');
             }
         } catch (error) {
-            toast.error("Error in image uploading");
-            alert("Error in image uploading");
+            toast.error(error?.response?.data?.error || "Something went wrong");
             console.error('Error during image upload:', error);
         } finally {
             setLoadingLicenseFront(false);
@@ -286,7 +292,7 @@ const MobileAddCheck = () => {
             formData.append('image', compressedFile);
 
             const response = await axios.post(`${url}/upload-image`, formData);
-            toast.success('ID Back image upload successfully!');
+
 
             const result = response.data;
             if (result) {
@@ -294,10 +300,10 @@ const MobileAddCheck = () => {
                     imageUrl: result?.data?.imageUrl || '',
                 };
                 setLicenseDataback(parsedData);
+                toast.success('Image upload successfully!');
             }
         } catch (error) {
-            toast.error("Error in image uploading");
-            alert("Error in image uploading");
+            toast.error(error?.response?.data?.error || "Something went wrong");
             console.error('Error during image upload:', error);
         } finally {
             setLoadingLicenseBack(false);
@@ -497,6 +503,7 @@ const MobileAddCheck = () => {
                                                 <div className="text-445B64 fw-semibold mt-3">Upload or Capture Front Image </div>
                                             </div>
                                         </div>
+
                                         {formData?.imageUrl && (
                                             <div className="card bg-transparent">
                                                 <div className="card-body bg-transparent p-2">
@@ -517,6 +524,7 @@ const MobileAddCheck = () => {
                                                 </div>
                                             </div>
                                         )}
+
                                     </div>
 
                                     <div className="">

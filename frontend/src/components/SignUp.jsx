@@ -11,6 +11,7 @@ const URL = process.env.REACT_APP_URL;
 const SignUp = () => {
   const [showPassword, setshowPassword] = useState(false);
   const [showConfirmPassword, setshowConfirmPassword] = useState(false);
+  const [activeField, setActiveField] = useState("");
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -62,17 +63,28 @@ const SignUp = () => {
       }
     }
 
+    // if (mobile.trim() === '') {
+    //   errors.mobile = 'Mobile number is required.';
+    // } else {
+    //   const mobilePattern = /^\+?[1-9]\d{1,14}$/;
+
+    //   const sanitizedMobile = mobile.replace(/[\s\-()]/g, '');
+
+    //   if (!mobilePattern.test(sanitizedMobile)) {
+    //     errors.mobile = 'Invalid mobile number.';
+    //   }
+    // }
+
     if (mobile.trim() === '') {
       errors.mobile = 'Mobile number is required.';
     } else {
-      const mobilePattern = /^\+?[1-9]\d{1,14}$/;
+      const usPhonePattern = /^\(\d{3}\) \d{3}-\d{4}$/;
 
-      const sanitizedMobile = mobile.replace(/[\s\-()]/g, '');
-
-      if (!mobilePattern.test(sanitizedMobile)) {
-        errors.mobile = 'Invalid mobile number.';
+      if (!usPhonePattern.test(mobile)) {
+        errors.mobile = 'Invalid phone number. Use the format: (area code) XXX-XXXX';
       }
     }
+
     if (!passwordRules.hasUpperCase || !passwordRules.hasLowerCase || !passwordRules.hasNumber || !passwordRules.hasSpecialChar) {
       errors.password = "Password must include uppercase, lowercase, a number, and a special character.";
     }
@@ -208,9 +220,26 @@ const SignUp = () => {
                   </div>
                   {/* mobile */}
                   <div className="mb-3">
-                    <input className="form-control rounded-3" type="number" id='mobile' name='mobile' value={formData.mobile} onChange={handleChange} placeholder="Your phone number" aria-label="example" required />
+                    {/* <input className="form-control rounded-3" type="number" id='mobile' name='mobile' value={formData.mobile} onChange={handleChange} placeholder="Your phone number" aria-label="example" required /> */}
+                  
+                  <input
+                      className="form-control rounded-3"
+                      type="tel"
+                      id="mobile"
+                      name="mobile"
+                      value={formData.mobile}
+                      onChange={handleChange}
+                      placeholder="Phone number"
+                      pattern="^\(\d{3}\) \d{3}-\d{4}$"
+                      title="Format must be (123) 456-7890"
+                      aria-label="Phone number"
+                      required
+                    />
+                  
+                  
                     {formErrors.mobile && <small className="text-danger">{formErrors.mobile}</small>}
                   </div>
+
                   {/* Password */}
                   <div className="mb-3 position-relative">
                     <input
@@ -219,36 +248,60 @@ const SignUp = () => {
                       id="password"
                       name="password"
                       value={formData.password}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        handleChange(e);
+                        setActiveField("password");
+                      }}
                       placeholder="Password"
                       aria-label="example"
                       required
                     />
-                    <span className="position-absolute top-0 end-0" style={{ cursor: 'pointer', margin: '14px' }} onClick={() => setshowConfirmPassword(!showConfirmPassword)}>
+                    <span
+                      className="position-absolute top-0 end-0"
+                      style={{ cursor: 'pointer', margin: '14px' }}
+                      onClick={() => setshowConfirmPassword(!showConfirmPassword)}
+                    >
                       <EyeIcon visible={showConfirmPassword} />
                     </span>
-                    {/* {formErrors.password && (
-                      <small className="text-danger">{formErrors.password}</small>
-                    )} */}
 
-                    <div className="small  mt-2">
-                      Your password must include
-                      <span className={passwordValidations.minLength ? "text-success ms-1" : "text-danger ms-1"}>at least 8 characters</span>,
-                      <span className={passwordValidations.hasUpperCase ? "text-success ms-1" : "text-danger ms-1"}>an uppercase letter</span>,
-                      <span className={passwordValidations.hasLowerCase ? "text-success ms-1" : "text-danger ms-1"}>a lowercase letter</span>,
-                      <span className={passwordValidations.hasNumber ? "text-success ms-1" : "text-danger ms-1"}>a number</span>, and
-                      <span className={passwordValidations.hasSpecialChar ? "text-success ms-1" : "text-danger ms-1"}>a special character</span>.
-                    </div>
+                    {activeField === "password" && (
+                      <div className="text-muted small ps-4 mb-4 mt-2">
+                        Your password must include
+                        <li className={passwordValidations.minLength ? "text-success ms-1" : "text-danger ms-1"}>at least 8 characters</li>
+                        <li className={passwordValidations.hasUpperCase ? "text-success ms-1" : "text-danger ms-1"}>an uppercase letter</li>
+                        <li className={passwordValidations.hasLowerCase ? "text-success ms-1" : "text-danger ms-1"}>a lowercase letter</li>
+                        <li className={passwordValidations.hasNumber ? "text-success ms-1" : "text-danger ms-1"}>a number</li>
+                        <li className={passwordValidations.hasSpecialChar ? "text-success ms-1" : "text-danger ms-1"}>a special character</li>
+                      </div>
+                    )}
                   </div>
 
                   {/* Confirm Password */}
                   <div className="mb-3 position-relative">
-                    <input className="form-control rounded-3" type={showPassword ? 'text' : 'password'} id='confirmPassword' name='confirmPassword' value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm your password" aria-label="example" required />
-                    <span className="position-absolute top-0 end-0" style={{ cursor: 'pointer', margin: '14px' }} onClick={() => setshowPassword(!showPassword)}>
+                    <input
+                      className="form-control rounded-3"
+                      type={showPassword ? 'text' : 'password'}
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={(e) => {
+                        handleChange(e);
+                        setActiveField("confirmPassword");
+                      }}
+                      placeholder="Confirm your password"
+                      aria-label="example"
+                      required
+                    />
+                    <span
+                      className="position-absolute top-0 end-0"
+                      style={{ cursor: 'pointer', margin: '14px' }}
+                      onClick={() => setshowPassword(!showPassword)}
+                    >
                       <EyeIcon visible={showPassword} />
                     </span>
                     {formErrors.confirmPassword && <small className="text-danger">{formErrors.confirmPassword}</small>}
                   </div>
+
 
                   <button type="button" className="btn w-100 sign-btn mb-3" onClick={handleSubmit}>  {loading ? (
                     <>
