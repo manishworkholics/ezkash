@@ -3,35 +3,21 @@ import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 const URL = process.env.REACT_APP_URL;
 
 const UserList = () => {
 
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
     const [showModal, setShowModal] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
-    const [newUser, setNewUser] = useState({
-        firstname: '',
-        lastname: '',
-        mobile: '',
-        email: '',
-        bussiness: '',
-        status: 'active',
-        role: '',
-        otp: ''
-    });
+    const [formData, setformData] = useState({ firstname: '', middlename: '', lastname: '', mobile: '', email: '', password: '', confirmPassword: '', bussiness: '', role: 'vender', otp: '' });
 
-    const rowsPerPage = 10;
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
-    // Pagination logic
-    const indexOfLastRow = currentPage * rowsPerPage;
-    const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-    // const currentRows = users.slice(indexOfFirstRow, indexOfLastRow);
-    const totalPages = Math.ceil(users.length / rowsPerPage);
 
     const fetchUsers = async () => {
         try {
@@ -47,6 +33,119 @@ const UserList = () => {
         }
     }
 
+    useEffect(() => {
+        fetchUsers();
+    }, [])
+
+    const filteredUsers = users.filter((item, index) => {
+        const search = searchTerm.toLowerCase();
+        return (
+            (index + 1).toString().includes(search) ||
+            item.firstname?.toLowerCase().includes(search) ||
+            item.middlename?.toLowerCase().includes(search) ||
+            item.lastname?.toLowerCase().includes(search) ||
+            item.mobile?.toString().toLowerCase().includes(search) ||
+            item.email?.toLowerCase().includes(search) ||
+            item.bussiness?.toLowerCase().includes(search) ||
+            item.role?.toLowerCase().includes(search) ||
+            item.status?.toLowerCase().includes(search)
+
+        )
+    })
+
+    const indexOfLastRow = currentPage * itemsPerPage;
+    const indexOfFirstRow = indexOfLastRow - itemsPerPage;
+    const currentUsers = filteredUsers.slice(indexOfFirstRow, indexOfLastRow);
+    const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+
+    // Add user Logic
+
+
+    const [passwordValidations, setPasswordValidations] = useState({
+        minLength: false,
+        hasUpperCase: false,
+        hasLowerCase: false,
+        hasNumber: false,
+        hasSpecialChar: false,
+    });
+    const [formErrors, setFormErrors] = useState({});
+
+
+
+    const validateForm = () => {
+        const { firstname, lastname, email, mobile, password, confirmPassword } = formData;
+        const passwordRules = {
+            minLength: password.length >= 8,
+            hasUpperCase: /[A-Z]/.test(password),
+            hasLowerCase: /[a-z]/.test(password),
+            hasNumber: /[0-9]/.test(password),
+            hasSpecialChar: /[^A-Za-z0-9]/.test(password),
+        };
+        let errors = {};
+
+        if (firstname.trim() === '') {
+            errors.firstname = 'First name is required.';
+        }
+
+        if (lastname.trim() === '') {
+            errors.lastname = 'Last name is required.';
+        }
+        if (email.trim() === '') {
+            errors.email = 'Email is required.';
+        } else {
+            const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+            if (!emailPattern.test(email)) {
+                errors.email = 'Invalid email address format.';
+            }
+        }
+
+        if (mobile.trim() === '') {
+            errors.mobile = 'Mobile number is required.';
+        } else {
+            const mobilePattern = /^\+?[1-9]\d{1,14}$/;
+
+            const sanitizedMobile = mobile.replace(/[\s\-()]/g, '');
+
+            if (!mobilePattern.test(sanitizedMobile)) {
+                errors.mobile = 'Invalid mobile number.';
+            }
+        }
+        if (!passwordRules.hasUpperCase || !passwordRules.hasLowerCase || !passwordRules.hasNumber || !passwordRules.hasSpecialChar) {
+            errors.password = "Password must include uppercase, lowercase, a number, and a special character.";
+        }
+
+        if (password.trim() === '') {
+            errors.password = 'Password is required.';
+        }
+        if (password.length < 8) {
+            errors.password = "Password must be at least 8 characters long.";
+        }
+        if (confirmPassword.trim() === '') {
+            errors.confirmPassword = "Confirm password is required.";
+        }
+        if (password !== confirmPassword) {
+            errors.confirmPassword = "Passwords do not match.";
+        }
+        return errors;
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setformData({ ...formData, [name]: value })
+
+        if (name === 'password') {
+            const pwd = value;
+            setPasswordValidations({
+                minLength: pwd.length >= 8,
+                hasUpperCase: /[A-Z]/.test(pwd),
+                hasLowerCase: /[a-z]/.test(pwd),
+                hasNumber: /[0-9]/.test(pwd),
+                hasSpecialChar: /[^A-Za-z0-9]/.test(pwd),
+            });
+        }
+    };
+
+
     const handleDeleteUser = async (id) => {
         if (!window.confirm("Are you sure you want to delete this user?")) return;
         try {
@@ -61,54 +160,45 @@ const UserList = () => {
         }
     };
 
-    const handleAddUser = async () => {
+    const handleAddUser = async (e) => {
+        e.preventDefault();
+        const errors = validateForm();
+        setFormErrors(errors);
+        if (Object.keys(errors).length > 0) return;
+
         try {
-            const response = await axios.post(`${URL}/admin/add-user`, newUser);
+            const { confirmPassword, ...dataToSend } = formData;
+
+            const response = await axios.post(`${URL}/admin/add-user`, dataToSend);
             if (response.status >= 200 && response.status < 300) {
                 toast.success("User added successfully!");
                 setShowModal(false);
-                setNewUser({
+                setformData({
                     firstname: '',
+                    middlename: '',
                     lastname: '',
                     mobile: '',
                     email: '',
                     password: '',
+                    confirmPassword: '',
                     bussiness: '',
-                    isActive: '',
                     role: '',
                 });
                 fetchUsers();
+            } else if (response.status === 400) {
+                toast.error("Email already exists");
             }
         } catch (error) {
-            toast.error("Failed to add user: " + error.message);
+            toast.error(error?.response?.data?.message || 'An unexpected error occurred.');
             console.error("Add user error", error);
         }
     };
 
 
-    useEffect(() => {
-        fetchUsers();
-    }, [])
-
-    const filteredUsers = users.filter((item, index) => {
-        const search = searchTerm.toLowerCase();
-        return (
-            (index + 1).toString().includes(search) ||
-            item.firstname?.toLowerCase().includes(search) ||
-            item.lastname?.toLowerCase().includes(search) ||
-            item.mobile?.toString().toLowerCase().includes(search) ||
-            item.email?.toLowerCase().includes(search) ||
-            item.bussiness?.toLowerCase().includes(search) ||
-            item.role?.toLowerCase().includes(search) ||
-            item.status?.toLowerCase().includes(search) ||
-            item.otp?.toString().toLowerCase().includes(search)
-        )
-    })
-
     return (
         <>
             <div className="container-fluid">
-                <ToastContainer position='top-right' autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+              
                 <Header />
                 <div className="">
                     <div className="row mh-100vh">
@@ -123,6 +213,7 @@ const UserList = () => {
                                             <div className="card border-0 rounded-3 mb-1">
                                                 <div className="card-body p-2">
                                                     <div className="row">
+
                                                         <div className="col-6 col-md-3 col-lg-3">
                                                             <div className="d-flex justify-content-between mb-2 mb-md-0">
                                                                 <div className="d-flex align-items-center">
@@ -136,6 +227,7 @@ const UserList = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                         <div className="col-6 d-flex justify-content-end align-items-center d-md-none">
                                                             <button
                                                                 style={{ background: '#008CFF' }}
@@ -145,6 +237,7 @@ const UserList = () => {
                                                                 <i className="fa fa-plus me-2"></i>Add User
                                                             </button>
                                                         </div>
+
                                                         <div className="col-12 col-md-9 col-lg-9">
                                                             <div className="row justify-content-end">
                                                                 <div className="col-md-9">
@@ -169,10 +262,6 @@ const UserList = () => {
                                                                 <table className="table rounded-3">
                                                                     <thead>
                                                                         <tr>
-                                                                            {/* <th scope="col" className="text-center">
-                                                                                <input className="form-check-input table-checkbox"
-                                                                                    type="checkbox" value="" id="flexCheckDefault" />
-                                                                            </th> */}
                                                                             <th scope="col" className="text-445B64">#</th>
                                                                             <th scope="col" className="text-445B64">Name</th>
                                                                             <th scope="col" className="text-445B64">Phone Number</th>
@@ -180,7 +269,6 @@ const UserList = () => {
                                                                             <th scope="col" className="text-445B64">Company Name</th>
                                                                             <th scope="col" className="text-445B64">Status</th>
                                                                             <th scope="col" className="text-445B64">Role</th>
-                                                                            {/* <th scope="col" className="text-445B64">OTP</th> */}
                                                                             <th scope="col" className="text-445B64 text-center">Actions</th>
                                                                         </tr>
                                                                     </thead>
@@ -194,11 +282,8 @@ const UserList = () => {
                                                                                 </td>
                                                                             </tr>
                                                                         ) : filteredUsers.length > 0 ? (
-                                                                            filteredUsers.map((user, index) => (
+                                                                            currentUsers.map((user, index) => (
                                                                                 <tr key={user._id}>
-                                                                                    {/* <td className="text-center">
-                                                                                        <input className="form-check-input table-checkbox" type="checkbox" />
-                                                                                    </td> */}
                                                                                     <td>{indexOfFirstRow + index + 1}</td>
                                                                                     <td>{user?.firstname} {user?.lastname}</td>
                                                                                     <td>{user?.mobile}</td>
@@ -206,7 +291,6 @@ const UserList = () => {
                                                                                     <td>{user?.bussiness}</td>
                                                                                     <td>{user?.isActive ? "active" : "not active"}</td>
                                                                                     <td>{user?.role}</td>
-                                                                                    {/* <td>{user?.otp}</td> */}
                                                                                     <td>
                                                                                         <div className="d-flex justify-content-center">
                                                                                             <Link to={`/cd-admin/user-information/${user._id}`} className="btn border-0">
@@ -237,6 +321,9 @@ const UserList = () => {
                                                     </div>
                                                 </div>
                                             </div>
+
+
+
                                             {/* Pagination Controls */}
                                             <div className="d-block d-lg-flex justify-content-between mt-4 mb-1 pt-2">
                                                 <h6 className="mb-3 mb-lg-0 text-445B64">Showing {indexOfFirstRow + 1} to {Math.min(indexOfLastRow, users.length)} of {users.length} entries</h6>
@@ -265,12 +352,18 @@ const UserList = () => {
                                                     </ul>
                                                 </nav>
                                             </div>
+
+
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
+
                     {showModal && (
                         <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{ background: '#00000096' }}>
                             <div className="modal-dialog modal-lg" role="document">
@@ -280,50 +373,85 @@ const UserList = () => {
                                         <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
                                     </div>
                                     <div className="modal-body">
-                                        <form>
-                                            <div className="row g-3">
-                                                <div className="col-md-6">
-                                                    <label className="form-label">First Name</label>
-                                                    <input type="text" className="form-control" value={newUser.firstname} onChange={e => setNewUser({ ...newUser, firstname: e.target.value })} />
-                                                </div>
-                                                <div className="col-md-6">
-                                                    <label className="form-label">Last Name</label>
-                                                    <input type="text" className="form-control" value={newUser.lastname} onChange={e => setNewUser({ ...newUser, lastname: e.target.value })} />
-                                                </div>
-                                                <div className="col-md-6">
-                                                    <label className="form-label">Phone Number</label>
-                                                    <input type="text" className="form-control" value={newUser.mobile} onChange={e => setNewUser({ ...newUser, mobile: e.target.value })} />
-                                                </div>
-                                                <div className="col-md-6">
-                                                    <label className="form-label">Email Address</label>
-                                                    <input type="email" className="form-control" value={newUser.email} onChange={e => setNewUser({ ...newUser, email: e.target.value })} />
-                                                </div>
-                                                <div className="col-md-6">
-                                                    <label className="form-label">Password</label>
-                                                    <input type="password" className="form-control" value={newUser.password} onChange={e => setNewUser({ ...newUser, password: e.target.value })} />
-                                                </div>
 
-                                                <div className="col-md-6">
-                                                    <label className="form-label">Business</label>
-                                                    <input type="text" className="form-control" value={newUser.bussiness} onChange={e => setNewUser({ ...newUser, bussiness: e.target.value })} />
-                                                </div>
-                                                <div className="col-md-6">
-                                                    <label className="form-label">Role</label>
-                                                    <select className="form-select" value={newUser.role} onChange={e => setNewUser({ ...newUser, role: e.target.value })}>
-                                                        <option value="">Select Role</option>
-                                                        <option value="admin">Admin</option>
-                                                        <option value="vendor">Vendor</option>
-                                                    </select>
-                                                </div>
-                                                <div className="col-md-6">
-                                                    <label className="form-label">Status</label>
-                                                    <select className="form-select" value={newUser.isActive} onChange={e => setNewUser({ ...newUser, isActive: e.target.value })}>
-                                                        <option value="true">Active</option>
-                                                        <option value="false">Inactive</option>
-                                                    </select>
+                                        <div className="row g-3">
+
+                                            <div className="col-md-6">
+                                                <label className="form-label">First Name</label>
+                                                <input type="text" className="form-control" name='firstname' value={formData.firstname} onChange={handleChange} placeholder='First name' />
+                                                {formErrors.firstname && <small className="text-danger">{formErrors.firstname}</small>}
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label className="form-label">Middle Name</label>
+                                                <input type="text" className="form-control" name='middlename' value={formData.middlename} onChange={handleChange} placeholder="Middle name (optional)" />
+
+                                            </div>
+
+                                            <div className="col-md-6">
+                                                <label className="form-label">Last Name</label>
+                                                <input type="text" className="form-control" name='lastname' value={formData.lastname} onChange={handleChange} placeholder="Last name" />
+                                                {formErrors.lastname && <small className="text-danger">{formErrors.lastname}</small>}
+                                            </div>
+
+                                            <div className="col-md-6">
+                                                <label className="form-label">Phone Number</label>
+                                                <input type="text" className="form-control" name='mobile' value={formData.mobile} onChange={handleChange} placeholder=" phone number" />
+                                                {formErrors.mobile && <small className="text-danger">{formErrors.mobile}</small>}
+                                            </div>
+
+                                            <div className="col-md-6">
+                                                <label className="form-label">Email Address</label>
+                                                <input type="email" className="form-control" name='email' value={formData.email} onChange={handleChange} placeholder=" email address" />
+                                                {formErrors.email && <small className="text-danger">{formErrors.email}</small>}
+                                            </div>
+
+                                            <div className="col-md-6">
+                                                <label className="form-label">Business</label>
+                                                <input type="text" className="form-control" name='bussiness' value={formData.bussiness} onChange={handleChange} placeholder="Business name (optional)" />
+                                            </div>
+
+                                            <div className="col-md-6">
+                                                <label className="form-label">Role</label>
+                                                <select className="form-select" value={formData.role} onChange={e => setformData({ ...formData, role: e.target.value })}>
+                                                    <option value="">Select Role</option>
+                                                    <option value="vendor">Vendor</option>
+                                                    <option value="admin">Admin</option>
+
+                                                </select>
+                                            </div>
+
+
+
+                                            <div className="col-md-6">
+                                                <label className="form-label">Password</label>
+                                                <input
+                                                    className="form-control"
+                                                    type="password"
+                                                    name="password"
+                                                    value={formData.password}
+                                                    onChange={handleChange}
+                                                />
+
+                                                <div className="small  mt-2">
+                                                    Your password must include
+                                                    <span className={passwordValidations.minLength ? "text-success ms-1" : "text-danger ms-1"}>at least 8 characters</span>,
+                                                    <span className={passwordValidations.hasUpperCase ? "text-success ms-1" : "text-danger ms-1"}>an uppercase letter</span>,
+                                                    <span className={passwordValidations.hasLowerCase ? "text-success ms-1" : "text-danger ms-1"}>a lowercase letter</span>,
+                                                    <span className={passwordValidations.hasNumber ? "text-success ms-1" : "text-danger ms-1"}>a number</span>, and
+                                                    <span className={passwordValidations.hasSpecialChar ? "text-success ms-1" : "text-danger ms-1"}>a special character</span>.
                                                 </div>
                                             </div>
-                                        </form>
+
+                                            <div className="col-md-6">
+                                                <label className="form-label">Confirm Password</label>
+                                                <input type="password" className="form-control" id='confirmPassword' name='confirmPassword' value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm your password" />
+                                                {formErrors.confirmPassword && <small className="text-danger">{formErrors.confirmPassword}</small>}
+                                            </div>
+
+
+
+                                        </div>
+
                                     </div>
                                     <div className="modal-footer">
                                         <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button>
@@ -333,6 +461,9 @@ const UserList = () => {
                             </div>
                         </div>
                     )}
+
+
+
 
                 </div>
             </div>

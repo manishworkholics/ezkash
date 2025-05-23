@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import logoLeft from '../assets/images/logoLeft.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 import axios from 'axios';
 const URL = process.env.REACT_APP_URL;
 
@@ -124,11 +124,12 @@ const SignUp = () => {
     }
   }
 
+  console.log(formErrors)
   return (
     <>
       <div className="container-fluid sign-page">
         <div className="row sign-main-container">
-          <ToastContainer position='top-right' autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+
           <div className="col-lg-6 sign-left-bg h-100 d-flex justify-content-center align-items-center">
             <img src={logoLeft} alt="" className="" />
           </div>

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
 import axios from 'axios';
@@ -20,7 +20,6 @@ const Report = () => {
 
     const fetchReport = async () => {
         try {
-            const vendorId = localStorage.getItem('userId');
             const response = await axios.get(`${URL}/check/get-checkByVenderId/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -35,7 +34,7 @@ const Report = () => {
     };
 
     useEffect(() => {
-        fetchReport();
+        fetchReport();// eslint-disable-next-line
     }, []);
 
 

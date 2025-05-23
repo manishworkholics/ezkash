@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 // import logoLeft from '../assets/images/logoLeft.png'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 import signLogo from '../assets/images/signLogo.png'
 const URL = process.env.REACT_APP_URL;
 
@@ -87,14 +87,14 @@ const SignIn = () => {
         }
     };
 
+    console.log(formErrors)
+
     return (
         <>
-            <ToastContainer position='top-right' autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+
             <div className="container-fluid sign-page bg-EEEEEE">
                 <div className="row sign-main-container">
-                    {/* <div className="col-lg-6 sign-left-bg h-100 d-none d-lg-flex justify-content-center align-items-center">
-                        <img src={logoLeft} alt="" className="" />
-                    </div> */}
+
                     <div className="col-lg-6 mx-auto sign-right-bg h-100 position-relative pt-4 pb-5">
                         <div className="row h-100 w-100">
                             <div className="col-lg-8 col-xl-7 col-xxl-6 mx-auto d-block d-md-flex justify-content-center align-items-center">
@@ -138,19 +138,11 @@ const SignIn = () => {
                                         </span>
                                     </div>
 
-                                    {/* <h6 className="text-end text-445B64 mb-3">
-                                        <Link to="/cd-admin/" className="text-00C7BE text-decoration-none">
-                                            Forget Password
-                                        </Link>
-                                    </h6> */}
 
                                     <button type="button" className="btn w-100 sign-btn mb-3" onClick={handleSubmit} disabled={loading}>
                                         {loading ? 'Processing...' : 'Sign In'}
                                     </button>
-                                    {/* <h6 className="text-center text-445B64">
-                                        Don't have an account?
-                                        <Link to="/cd-admin/sign-up" className="text-00C7BE text-decoration-none"> Sign up</Link>
-                                    </h6> */}
+
                                 </div>
                             </div>
                         </div>

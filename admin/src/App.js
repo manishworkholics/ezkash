@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import Dashboard from "./pages/Dashboard";
@@ -35,6 +37,18 @@ function App() {
           <Route path="/cd-admin/privacy-policy" element={<ProtectedRoute element={<PrivacyPolicy />} />} />
         </Routes>
       </BrowserRouter>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }

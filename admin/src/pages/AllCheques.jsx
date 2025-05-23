@@ -3,8 +3,8 @@ import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 const URL = process.env.REACT_APP_URL;
 
 const AllCheques = () => {
@@ -12,14 +12,10 @@ const AllCheques = () => {
     const [cheques, setCheques] = useState([]);
     const [loading, setLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
-    const rowsPerPage = 10;
 
-    // Pagination logic
-    const indexOfLastRow = currentPage * rowsPerPage;
-    const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-    // const currentRows = cheques.slice(indexOfFirstRow, indexOfLastRow);
-    const totalPages = Math.ceil(cheques.length / rowsPerPage);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
     const fetchCheques = async () => {
         try {
@@ -65,17 +61,23 @@ const AllCheques = () => {
             item.venderId?.lastname?.toLowerCase().includes(search) ||
             item.date?.toLowerCase().includes(search) ||
             item.status?.toLowerCase().includes(search)
-        );
+        )
     });
 
     useEffect(() => {
         fetchCheques();
     }, [])
 
+
+    const indexOfLastRow = currentPage * itemsPerPage;
+    const indexOfFirstRow = indexOfLastRow - itemsPerPage;
+    const currentCheques = filteredCheques.slice(indexOfFirstRow, indexOfLastRow);
+    const totalPages = Math.ceil(filteredCheques.length / itemsPerPage);
+
     return (
         <>
             <div className="container-fluid">
-                <ToastContainer position='top-right' autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+                
                 <Header />
                 <div className="">
                     <div className="row mh-100vh">
@@ -148,32 +150,30 @@ const AllCheques = () => {
                                                                                 </td>
                                                                             </tr>
                                                                         ) : filteredCheques.length > 0 ? (
-                                                                            filteredCheques
-                                                                                .slice(indexOfFirstRow, indexOfLastRow)
-                                                                                .map((cheque, index) => (
-                                                                                    <tr key={cheque._id}>
-                                                                                        <td>{indexOfFirstRow + index + 1}</td>
-                                                                                        <td>{cheque?.customerFirstName} {cheque?.customerMiddleName} {cheque?.customerLastName}</td>
-                                                                                        <td>{cheque?.company}</td>
-                                                                                        <td>{cheque?.licenseNo}</td>
-                                                                                        <td>{cheque?.checkType}</td>
-                                                                                        <td>$ {cheque?.amount}</td>
-                                                                                        <td>{cheque?.comment?.length > 10 ? cheque?.comment.substring(0, 10) + '...' : cheque?.comment}</td>
-                                                                                        <td>{cheque?.venderId?.firstname} {cheque?.venderId?.lastname} </td>
-                                                                                        <td>{cheque?.date} </td>
+                                                                            currentCheques.map((cheque, index) => (
+                                                                                <tr key={cheque._id}>
+                                                                                    <td>{indexOfFirstRow + index + 1}</td>
+                                                                                    <td>{cheque?.customerFirstName} {cheque?.customerMiddleName} {cheque?.customerLastName}</td>
+                                                                                    <td>{cheque?.company}</td>
+                                                                                    <td>{cheque?.licenseNo}</td>
+                                                                                    <td>{cheque?.checkType}</td>
+                                                                                    <td>$ {cheque?.amount}</td>
+                                                                                    <td>{cheque?.comment?.length > 10 ? cheque?.comment.substring(0, 10) + '...' : cheque?.comment}</td>
+                                                                                    <td>{cheque?.venderId?.firstname} {cheque?.venderId?.lastname} </td>
+                                                                                    <td>{cheque?.date} </td>
 
-                                                                                        <td>
-                                                                                            <div className="d-flex justify-content-center">
-                                                                                                <Link to={`/cd-admin/cheque-details/${cheque?._id}`} className="btn">
-                                                                                                    <i className="fa-solid fa-eye text-445B64"></i>
-                                                                                                </Link>
-                                                                                                <button className="btn" onClick={() => handleDeleteCheque(cheque?._id)}>
-                                                                                                    <i className="fa-solid fa-trash-can text-danger"></i>
-                                                                                                </button>
-                                                                                            </div>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                ))
+                                                                                    <td>
+                                                                                        <div className="d-flex justify-content-center">
+                                                                                            <Link to={`/cd-admin/cheque-details/${cheque?._id}`} className="btn">
+                                                                                                <i className="fa-solid fa-eye text-445B64"></i>
+                                                                                            </Link>
+                                                                                            <button className="btn" onClick={() => handleDeleteCheque(cheque?._id)}>
+                                                                                                <i className="fa-solid fa-trash-can text-danger"></i>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            ))
                                                                         ) : (
                                                                             <tr>
                                                                                 <td colSpan="11" className="text-center">No cheques found.</td>

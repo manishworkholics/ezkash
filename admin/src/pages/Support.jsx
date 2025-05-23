@@ -1,23 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'
 import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
-import { useNavigate } from "react-router"
+
 import axios from 'axios';
 import moment from 'moment';
 const URL = process.env.REACT_APP_URL;
 
 const Support = () => {
 
-    const navigate = useNavigate();
-    const [ticket, setTicket] = useState()
-    const [users, setUsers] = useState([])
+
+    const [ticket, setTicket] = useState([])
     const [loading, setLoading] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+
     const [currentPage, setCurrentPage] = useState(1);
-    const rowsPerPage = 10;
-
-
-
+    const itemsPerPage = 10;
 
     const getAllTickets = async () => {
         try {
@@ -37,9 +35,40 @@ const Support = () => {
         getAllTickets();
     }, [])
 
-    const handleBack = () => {
-        navigate(-1)
-    }
+    const filteredTickets = ticket.filter((item, index) => {
+        const search = searchTerm.toLowerCase();
+        return (
+            (index + 1).toString().includes(search) ||
+            item.subject?.toLowerCase().includes(search) ||
+            item.status?.toLowerCase().includes(search) ||
+            item.createdAt?.toLowerCase().includes(search) ||
+            item._id?.toString().toLowerCase().includes(search)
+        )
+    });
+
+    const indexOfLastRow = currentPage * itemsPerPage;
+    const indexOfFirstRow = indexOfLastRow - itemsPerPage;
+    const currentTickets = filteredTickets.slice(indexOfFirstRow, indexOfLastRow);
+    const totalPages = Math.ceil(filteredTickets.length / itemsPerPage);
+
+    const getStatusClass = (status) => {
+        switch (status) {
+            case 'open':
+                return 'text-info'; // blue-ish
+            case 'in_progress':
+                return 'text-warning'; // orange/yellow
+            case 'resolved':
+                return 'text-success'; // green
+            case 'closed':
+                return 'text-danger'; // red
+            default:
+                return 'text-primary';
+        }
+    };
+
+
+
+
 
     return (
         <>
@@ -71,14 +100,20 @@ const Support = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="col-4 col-lg-6 d-flex justify-content-end align-items-center">
-                                                            <div className="d-flex justify-content-end">
-                                                                <button className="btn btn-sm rounded-2 btn-secondary text-white" onClick={handleBack}>
-                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
-                                                                    Back
-                                                                </button>
+                                                        <div className="col-6">
+                                                            <div className="row">
+                                                                <div className="d-flex">
+                                                                    <div className="position-relative"
+                                                                        style={{ width: "-webkit-fill-available" }}>
+                                                                        <input className="form-control form-control-sm rounded-3 shadow-none bg-F0F5F6" style={{ paddingLeft: "40px" }}
+                                                                            onChange={(e) => setSearchTerm(e.target.value)} type="search" placeholder="Search" aria-label="Search" />
+                                                                        <i className="fa-solid fa-magnifying-glass text-445B64 position-absolute top-0 start-0"
+                                                                            style={{ margin: "8px" }}></i>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -95,29 +130,40 @@ const Support = () => {
                                                                             <th scope="col" className="text-445B64">Subject</th>
                                                                             <th scope="col" className="text-445B64">Status</th>
                                                                             <th scope="col" className="text-445B64">Created</th>
-                                                                            <th scope="col" className="text-445B64">Assigned To</th>
+
                                                                         </tr>
                                                                     </thead>
-                                                                    {ticket?.map((val, index) => {
-                                                                        return (
-                                                                            <>
-                                                                                <tbody key={index}>
-                                                                                    <tr>
-                                                                                        <td scope="row">{index + 1}</td>
-                                                                                        <td>
-                                                                                            <Link to={`/cd-admin/ticket-details/${val?._id}`} className="">
-                                                                                                #{val?._id?.slice(-5)}
-                                                                                            </Link>
-                                                                                        </td>
-                                                                                        <td>{val?.subject?.slice(0, 20)}...</td>
-                                                                                        <td><span className="text-info">{val?.status}</span></td>
-                                                                                        <td>{moment(val?.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
-                                                                                        <td></td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </>
-                                                                        )
-                                                                    })}
+
+                                                                    {loading ? (
+                                                                        <>
+                                                                            <tr>
+                                                                                <td colSpan="11" className="text-center py-5">
+                                                                                    <div className="spinner-border text-primary" role="status">
+                                                                                        <span className="visually-hidden">Loading...</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </>) : (
+                                                                        <>
+                                                                            {currentTickets?.map((val, index) => {
+                                                                                return (
+                                                                                    <>
+                                                                                        <tbody key={index}>
+                                                                                            <tr>
+                                                                                                <td >{index + 1}</td>
+                                                                                                <td><Link to={`/cd-admin/ticket-details/${val?._id}`} className="">  #{val?._id?.slice(-5)} </Link>
+                                                                                                </td>
+                                                                                                <td>{val?.subject?.slice(0, 20)}...</td>
+                                                                                                <td><span className={getStatusClass(val?.status)}>{val?.status}</span></td>
+                                                                                                <td>{moment(val?.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </>
+                                                                                )
+                                                                            })}
+
+                                                                        </>
+                                                                    )}
 
                                                                 </table>
                                                             </div>
@@ -125,9 +171,11 @@ const Support = () => {
                                                     </div>
                                                 </div>
                                             </div>
+
+
                                             {/* Pagination Controls */}
-                                            {/* <div className="d-block d-lg-flex justify-content-between mt-4 mb-1 pt-2">
-                                                <h6 className="mb-3 mb-lg-0 text-445B64">Showing {indexOfFirstRow + 1} to {Math.min(indexOfLastRow, ticket.length)} of {ticket.length} entries</h6>
+                                            <div className="d-bolck d-lg-flex justify-content-between align-items-center mt-4 mb-1 pt-2">
+                                                <h6 className="mb-3 mb-lg-0 text-445B64"> Showing {indexOfFirstRow + 1} to {Math.min(indexOfLastRow, ticket.length)} of {ticket.length} entries</h6>
                                                 <nav>
                                                     <ul className="pagination justify-content-end">
                                                         <li className={`page-item ${currentPage === 1 && 'disabled'}`}>
@@ -152,7 +200,8 @@ const Support = () => {
                                                         </li>
                                                     </ul>
                                                 </nav>
-                                            </div> */}
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>

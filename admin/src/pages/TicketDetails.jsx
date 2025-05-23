@@ -10,46 +10,35 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 const URL = process.env.REACT_APP_URL;
 
 const TicketDetails = () => {
+    const adminId = localStorage.getItem("adminId");
 
     const [ticketDetails, setticketDetails] = useState('');
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
+
     const { id } = useParams()
-    const adminId = localStorage.getItem("adminId");
     const [data, setData] = useState([]);
     const [message, setMessage] = useState('');
     const [image, setImage] = useState('');
     const [previewImage, setPreviewImage] = useState('');
 
 
-
-
-
-
     const fetchticketDetails = async () => {
         try {
-            setLoading(true);
             const response = await axios.get(`${URL}/admin/tickets/get-ticketsById/${id}`);
             if (response.status >= 200 && response.status < 300) {
                 setticketDetails(response?.data)
             }
         } catch (error) {
             console.log("Error in fetching ticket:" + error.message);
-        } finally {
-            setLoading(false);
         }
     }
     const handleBack = () => {
         navigate(-1)
     }
 
-
-
     const getChat = async () => {
         try {
-
             const response = await axios.get(`${URL}/complain/tickets/chat/${id}`);
-
             if (response.status >= 200 && response.status < 300) {
                 setData(response?.data || []);
             }
@@ -67,7 +56,6 @@ const TicketDetails = () => {
             message,
             image: image
         };
-
         try {
             const response = await axios.post(`${URL}/complain/tickets/chat/`, payload, {
                 headers: {
@@ -109,6 +97,25 @@ const TicketDetails = () => {
             console.log(error)
         }
     }
+
+    const handleStatus = async (status) => {
+        try {
+            const response = await axios.put(`${URL}/complain/tickets/update-ticket/${id}`, {
+                status: status
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status >= 200 && response.status < 300) {
+                fetchticketDetails();
+                alert("status changed successfully")
+            }
+        } catch (error) {
+            console.error('Send chat error:', error);
+        }
+    };
 
 
     useEffect(() => {
@@ -190,12 +197,24 @@ const TicketDetails = () => {
                                                                     <td><span className="text-445B64-img border-0 me-2"></span>{ticketDetails?.category}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td className='text-445B64-img w-60px border-0' style={{verticalAlign:'top'}}>Description</td>
+                                                                    <td className='text-445B64-img w-60px border-0' style={{ verticalAlign: 'top' }}>Description</td>
                                                                     <td><span className="text-445B64-img border-0 me-2"></span>{ticketDetails?.description}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td className='text-445B64-img w-60px border-0'>Image</td>
                                                                     <td><img src={ticketDetails?.checkImg} style={{ height: 100, width: 100 }} alt="" /></td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td className='text-445B64-img w-60px border-0'>Status</td>
+                                                                    <select onChange={(e) => handleStatus(e.target.value)}>
+                                                                        <option value={ticketDetails?.status} disabled selected hidden>{ticketDetails?.status}</option>
+                                                                        <option value="open">open</option>
+                                                                        <option value="in_progress">in_progress</option>
+                                                                        <option value="resolved">resolved</option>
+                                                                        <option value="closed">closed</option>
+                                                                    </select>
+
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -287,9 +306,7 @@ const TicketDetails = () => {
                                                 <div className='text-end mb-4'>
                                                     <button className="btn sign-btn py-2 px-5 px-4 fs-14" onClick={sendChat}>
                                                         <div className="fw-medium">Reply</div>
-                                                        {/* <div className="d-block d-md-none">
-                                                            <i class="fa-solid fa-paper-plane text-white"></i>
-                                                        </div> */}
+
                                                     </button>
                                                 </div>
                                             </div>

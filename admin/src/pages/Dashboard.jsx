@@ -5,16 +5,10 @@ import axios from 'axios';
 import Chart from 'react-apexcharts';
 
 import BorderBtm from '../assets/images/boderBtm.png'
-
-
-
 const URL = process.env.REACT_APP_URL;
 
 const Dashboard = () => {
     const [data, setData] = useState();
-
-
-
 
     const fetchDatas = async () => {
         try {
@@ -82,7 +76,7 @@ const Dashboard = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div className="col-md-6 col-lg-4 col-xl-3 mb-3">
                                             <div className="card shadow-sm border-0 rounded-4">
                                                 <div className="card-body">
