@@ -86,7 +86,7 @@ const SignUp = () => {
     }
 
     if (!passwordRules.hasUpperCase || !passwordRules.hasLowerCase || !passwordRules.hasNumber || !passwordRules.hasSpecialChar) {
-      errors.password = "Password must include uppercase, lowercase, a number, and a special character.";
+      errors.password = "";
     }
 
     if (password.trim() === '') {
@@ -229,7 +229,7 @@ const SignUp = () => {
                       name="mobile"
                       value={formData.mobile}
                       onChange={handleChange}
-                      placeholder="Phone number"
+                      placeholder="Mobile number"
                       pattern="^\(\d{3}\) \d{3}-\d{4}$"
                       title="Format must be (123) 456-7890"
                       aria-label="Phone number"
@@ -265,7 +265,7 @@ const SignUp = () => {
                     </span>
                     {formErrors.password && <small className="text-danger">{formErrors.password}</small>}
                     {activeField === "password" && (
-                      <div className="text-muted small ps-4 mb-4 mt-2">
+                      <div className="text-muted small mb-4">
                         Your password must include
                         <li className={passwordValidations.minLength ? "text-success ms-1" : "text-danger ms-1"}>at least 8 characters</li>
                         <li className={passwordValidations.hasUpperCase ? "text-success ms-1" : "text-danger ms-1"}>an uppercase letter</li>

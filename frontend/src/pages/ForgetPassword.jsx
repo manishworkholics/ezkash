@@ -137,7 +137,7 @@ const ForgetPassword = () => {
                                     />
                                     {formErrors.email && <small className="text-danger">{formErrors.email}</small>}
                                     <input
-                                        className="form-control mb-3 rounded-3"
+                                        className="form-control rounded-3"
                                         type="password"
                                         name="newPassword"
                                         id="newPassword"
@@ -148,14 +148,15 @@ const ForgetPassword = () => {
                                         required
                                     />
                                     {formErrors.newPassword && <small className="text-danger">{formErrors.newPassword}</small>}
-                                    <ul className="ttext-success small ps-4 mb-3">
+
+                                    <div className="text-muted small mb-3">
                                         Your password must include
                                         <li className={passwordValidation.minLength ? "text-success" : "text-danger"}>Minimum characters 8</li>
                                         <li className={passwordValidation.upperCase ? "text-success" : "text-danger"}>One uppercase character</li>
                                         <li className={passwordValidation.lowerCase ? "text-success" : "text-danger"}>One lowercase character</li>
                                         <li className={passwordValidation.specialChar ? "text-success" : "text-danger"}>One special character</li>
                                         <li className={passwordValidation.number ? "text-success" : "text-danger"}>One number</li>
-                                    </ul>
+                                    </div>
 
 
                                     <input
@@ -195,8 +196,7 @@ const ForgetPassword = () => {
 
                                     <h6 className="text-center text-445B64">
                                         <Link to='/' className='text-00C7BE text-decoration-none'>
-                                            <i className="fa-solid fa-chevron-left me-2"></i>
-                                            Back to Sign-in
+                                            Back to Sign In
                                         </Link>
                                     </h6>
                                 </div>
