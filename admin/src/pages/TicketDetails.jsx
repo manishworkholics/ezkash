@@ -175,10 +175,7 @@ const TicketDetails = () => {
                                                     <div className="table-responsive p-2">
                                                         <table className="table w-100 mb-0">
                                                             <tbody>
-                                                                <tr>
-                                                                    <td className='text-445B64-img w-110px border-0'>Priority</td>
-                                                                    <td><span className="text-445B64-img me-2"></span> High</td>
-                                                                </tr>
+
                                                                 <tr>
                                                                     <td className='text-445B64-img w-110px border-0'>Created</td>
                                                                     <td><span className="text-445B64-img border-0 me-2"></span>{moment(ticketDetails?.createdAt).format("MMM DD, YYYY hh:mm A")}</td>

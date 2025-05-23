@@ -135,6 +135,7 @@ const AllCheques = () => {
                                                                             <th scope="col" className="text-445B64">ID Number</th>
                                                                             <th scope="col" className="text-445B64">Check Type</th>
                                                                             <th scope="col" className="text-445B64">Amount</th>
+                                                                            <th scope="col" className="text-445B64">Customer Status</th>
                                                                             <th scope="col" className="text-445B64">Comment</th>
                                                                             <th scope="col" className="text-445B64">Vender</th>
                                                                             <th scope="col" className="text-445B64">Date & Time</th>
@@ -158,6 +159,7 @@ const AllCheques = () => {
                                                                                     <td>{cheque?.licenseNo}</td>
                                                                                     <td>{cheque?.checkType}</td>
                                                                                     <td>$ {cheque?.amount}</td>
+                                                                                    <td>$ {cheque?.customerStatus==="verified customer"?"Verified":"New"}</td>
                                                                                     <td>{cheque?.comment?.length > 10 ? cheque?.comment.substring(0, 10) + '...' : cheque?.comment}</td>
                                                                                     <td>{cheque?.venderId?.firstname} {cheque?.venderId?.lastname} </td>
                                                                                     <td>{cheque?.date} </td>

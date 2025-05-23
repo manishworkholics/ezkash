@@ -261,7 +261,7 @@ const Checks = () => {
                                                                             <td>{item?.checkType}</td>
                                                                             <td>{item?.comment?.length > 10 ? item?.comment.substring(0, 10) + '...' : item?.comment}</td>
                                                                             <td>{item?.date}</td>
-                                                                            <td>{item?.customerStatus}</td>
+                                                                            <td>{item?.customerStatus==="verified customer"?"Verified":"New"}</td>
                                                                             {/* <td>{item?.status}</td> */}
                                                                             <td className='text-center'>
                                                                                 <div className="d-flex justify-content-center">

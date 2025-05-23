@@ -67,7 +67,7 @@ const SignIn = () => {
           sessionStorage.setItem("userId", response.data.userId);
         }
 
-        toast.success("Signed in successfully.");
+        // toast.success("Signed in successfully.");
         setTimeout(() => {
           navigate("/checks");
         }, 2000);
