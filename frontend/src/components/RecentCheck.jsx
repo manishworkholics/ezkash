@@ -112,7 +112,7 @@ const RecentCheck = () => {
                 <div className="col-12">
                     <div className='d-flex justify-content-between mb-3'>
                         <div className="d-flex align-items-center">
-                            <h6 className="fw-semibold mb-0">Recent Checks</h6>
+                            <h6 className="fw-semibold mb-0">All Checks</h6>
                         </div>
                         <div className="">
                             <div className="d-flex position-relative" style={{ width: "210px" }}>
@@ -201,10 +201,10 @@ const RecentCheck = () => {
                                                     {/* <td>{item?.status}</td> */}
                                                     <td className='text-center'>
                                                         <div className="d-flex justify-content-center">
-                                                            <Link to={`/check-details/${item?._id}`} className="btn">
+                                                            <Link to={`/check-details/${item?._id}`} className="btn py-0">
                                                                 <i className="fa-solid fa-eye text-445B64"></i>
                                                             </Link>
-                                                            <button className="btn" onClick={() => handleDeleteCheck(item?._id)}>
+                                                            <button className="btn py-0" onClick={() => handleDeleteCheck(item?._id)}>
                                                                 <i className="fa-solid fa-trash-can text-danger"></i>
                                                             </button>
                                                         </div>
@@ -218,14 +218,14 @@ const RecentCheck = () => {
                                         )}
                                     </tbody>
                                 </table>
-                                {sortedData.length > 5 && (
-                                    <div className="text-center mt-3 mb-3">
-                                        <button style={{ background: '#008CFF' }} className='btn py-1 px-2 fs-14 text-white border-0 p-0 fw-medium' onClick={() => setShowAll(!showAll)}>
-                                            {showAll ? 'Show Less' : 'Show More'}
-                                        </button>
-                                    </div>
-                                )}
                             </div>
+                            {sortedData.length > 5 && (
+                                <div className="text-center mt-3 mb-3">
+                                    <button style={{ background: '#008CFF' }} className='btn py-1 px-2 fs-14 text-white border-0 p-0 fw-medium' onClick={() => setShowAll(!showAll)}>
+                                        {showAll ? 'Show Less' : 'Show More'}
+                                    </button>
+                                </div>
+                            )}
                             {/* Table Ends Here */}
                         </div>
                     </div>

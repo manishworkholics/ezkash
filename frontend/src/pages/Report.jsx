@@ -109,7 +109,7 @@ const Report = () => {
                     <div className="col-lg-3 col-xl-2 d-none d-lg-block position-relative">
                         <Sidebar />
                     </div>
-                    <div className="col-lg-9 col-xl-10 bg-F6F6F6">
+                    <div className="col-lg-9 col-xl-10 bg-F6F6F6 mobile-background">
                         <div className="main-content">
                             <div className="container-fluid p-3 px-2">
                                 <div className="row">
@@ -160,15 +160,13 @@ const Report = () => {
                                                                 </button>
                                                                 <ExportModal data={report} show={showModal} onClose={() => setShowModal(false)} />
                                                             </div>
-
-
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div className="card border-0 rounded-3">
+                                        <div className="card border-0 rounded-3 overflow-hidden">
                                             <div className="card-body p-0">
                                                 <div className="row">
                                                     <div className="col-12">

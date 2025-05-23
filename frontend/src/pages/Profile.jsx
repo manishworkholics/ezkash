@@ -58,7 +58,7 @@ const Profile = () => {
                         <div className="col-lg-3 col-xl-2 d-none d-lg-block position-relative">
                             <Sidebar />
                         </div>
-                        <div className="col-lg-9 col-xl-10 bg-F6F6F6">
+                        <div className="col-lg-9 col-xl-10 bg-F6F6F6 mobile-background">
                             <div className="main-content">
                                 <div className="container-fluid p-3 px-2">
                                     <div className="row">
@@ -81,8 +81,8 @@ const Profile = () => {
                                                         </div>
                                                         <div className="col-4 col-lg-6">
                                                             <div className="d-flex justify-content-end">
-                                                                <button className="btn btn-sm rounded-2 btn-light text-445B64" onClick={handleBack}>
-                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-445B64"></i>
+                                                                <button className="btn btn-sm rounded-2 btn-secondary text-white" onClick={handleBack}>
+                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
                                                                     Back
                                                                 </button>
                                                             </div>
