@@ -154,7 +154,7 @@ const Support = () => {
                                                                                                 <td><Link to={`/cd-admin/ticket-details/${val?._id}`} className="">  #{val?._id?.slice(-5)} </Link>
                                                                                                 </td>
                                                                                                 <td>{val?.subject?.slice(0, 20)}...</td>
-                                                                                                <td><span className={getStatusClass(val?.status)}>{val?.status}</span></td>
+                                                                                                <td><span className={getStatusClass(val?.status)}> {val.status.toUpperCase()}</span></td>
                                                                                                 <td>{moment(val?.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
                                                                                             </tr>
                                                                                         </tbody>

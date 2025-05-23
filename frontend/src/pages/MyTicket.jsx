@@ -130,7 +130,7 @@ const MyTicket = () => {
                                                                     <div className="form-check me-3 me-lg-4">
                                                                         <input className="form-check-input table-checkbox"
                                                                             type="checkbox" value="closed" id="flexCheckDefault" checked={filter.includes('closed')} onChange={(e) => handleFilterChange(e)} />
-                                                                        <label className="form-check-label ms-1 ms-lg-2" style={{ paddingTop: '2px' }} htmlFor="closed">Close</label>
+                                                                        <label className="form-check-label ms-1 ms-lg-2" style={{ paddingTop: '2px' }} htmlFor="closed">Closed</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -168,7 +168,7 @@ const MyTicket = () => {
                                                                             <td>{ticket.category.length > 40 ? ticket.category.substring(0, 40) + '...' : ticket.category}</td>
                                                                             <td>{ticket.description.length > 40 ? ticket.description.substring(0, 40) + '...' : ticket.description}</td>
                                                                             <td>{moment(ticket?.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
-                                                                            <td><span className={getStatusClass(ticket.status)}>{ticket.status}</span></td>
+                                                                            <td><span className={getStatusClass(ticket.status)}> {ticket.status.toUpperCase()}</span></td>
                                                                         </tr>
 
 

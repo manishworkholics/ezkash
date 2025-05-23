@@ -14,6 +14,11 @@ const token = localStorage.getItem('token') || sessionStorage.getItem('token')
 const AddCheck = () => {
     const navigate = useNavigate();
 
+    const [loadingFront, setLoadingFront] = useState(false);
+    const [loadingBack, setLoadingBack] = useState(false);
+    const [loadingLicenseFront, setLoadingLicenseFront] = useState(false);
+    const [loadingLicenseBack, setLoadingLicenseBack] = useState(false);
+
     const licenseFrontRef = useRef(null);
     const licenseBackRef = useRef(null);
     const checkFrontRef = useRef(null);
@@ -77,6 +82,7 @@ const AddCheck = () => {
             alert("Please upload a check image.");
             return;
         }
+        setLoadingFront(true);
         // Instant preview
         const previewUrl = URL.createObjectURL(file);
         setPreviewCheckfront(previewUrl);
@@ -109,7 +115,7 @@ const AddCheck = () => {
                     extractedText: result.extractedText || ''
                 };
                 setFormData(parsedData);
-                toast.success('Image upload successfully!');
+                // toast.success('Image upload successfully!');
             } else {
                 toast.error('Failed to upload image!');
             }
@@ -119,6 +125,8 @@ const AddCheck = () => {
                 toast.error(error?.response?.data?.error || "Something went wrong");
             }, 1000);
             console.error('Error during image upload:', error);
+        } finally {
+            setLoadingFront(false);
         }
     };
 
@@ -129,6 +137,8 @@ const AddCheck = () => {
             alert("Please upload a check image.");
             return;
         }
+        setLoadingBack(true);
+
         // Instant preview
         const previewUrl = URL.createObjectURL(file);
         setPreviewCheckback(previewUrl);
@@ -151,7 +161,7 @@ const AddCheck = () => {
                     imageUrl: result.data.imageUrl || '',
                 };
                 setFormDataback(parsedData);
-                toast.success('Image upload successfully!');
+                // toast.success('Image upload successfully!');
             } else {
                 toast.error('Failed to upload image!');
             }
@@ -161,6 +171,8 @@ const AddCheck = () => {
                 toast.error(error?.response?.data?.error || "Something went wrong");
             }, 1000);
             console.error('Error during image upload:', error);
+        } finally {
+            setLoadingBack(false);
         }
     };
 
@@ -171,6 +183,7 @@ const AddCheck = () => {
             alert("Please upload a ID image.");
             return;
         }
+        setLoadingLicenseFront(true);
         // Instant preview
         const previewUrl = URL.createObjectURL(file);
         setPreviewLicencefront(previewUrl);
@@ -202,7 +215,7 @@ const AddCheck = () => {
                     expiryDate: result?.expiryDate || '',
                 };
                 setLicenseData(parsedData);
-                toast.success('Image upload successfully!');
+                // toast.success('Image upload successfully!');
             } else {
                 toast.error('Failed to upload image!');
             }
@@ -210,6 +223,8 @@ const AddCheck = () => {
         } catch (error) {
             toast.error(error?.response?.data?.error || "Something went wrong");
             console.error('Error during image upload:', error);
+        } finally {
+            setLoadingLicenseFront(false);
         }
     };
 
@@ -220,6 +235,7 @@ const AddCheck = () => {
             alert("Please upload a ID image.");
             return;
         }
+        setLoadingLicenseBack(true);
         // Instant preview
         const previewUrl = URL.createObjectURL(file);
         setPreviewLicenceback(previewUrl);
@@ -242,7 +258,7 @@ const AddCheck = () => {
                     imageUrl: result?.data?.imageUrl || '',
                 };
                 setLicenseDataback(parsedData);
-                toast.success('Image upload successfully!');
+                // toast.success('Image upload successfully!');
             } else {
                 toast.error('Failed to upload image!');
             }
@@ -250,6 +266,8 @@ const AddCheck = () => {
         } catch (error) {
             toast.error(error?.response?.data?.error || "Something went wrong");
             console.error('Error during image upload:', error);
+        } finally {
+            setLoadingLicenseBack(false);
         }
     };
 
@@ -627,7 +645,12 @@ const AddCheck = () => {
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-4 me-auto mt-0 text-center d-flex">
-                                                        <button className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100 me-md-3 mb-3 mb-md-0" onClick={handleSave}>Save</button>
+                                                        <button
+                                                            className="btn theme-btn px-5 py-2 rounded-3 mt-3 w-100 me-md-3 mb-3 mb-md-0"
+                                                            onClick={handleSave}
+                                                            disabled={loadingFront || loadingBack || loadingLicenseFront || loadingLicenseBack}
+                                                        >
+                                                            {(loadingFront || loadingBack) ? 'Loading...' : 'Save'} </button>
                                                         <button className="btn cancel-btn px-5 py-2 rounded-3 mt-3 w-100 " onClick={handleCancel}>Cancel</button>
                                                     </div>
 

@@ -1,5 +1,5 @@
 const Check = require('../model/check.model');
-
+const moment = require("moment");
 
 // exports.addCheckDetail = async (req, res) => {
 //     try {
@@ -391,7 +391,7 @@ exports.getCheckStatus = async (req, res) => {
 };
 
 
-exports.getCheckStatusByVenderId = async (req, res) => {
+exports.getCheckStatusByVenderIds = async (req, res) => {
     try {
         const { venderId } = req.query; // Or use req.params if passed via route param
 
@@ -437,6 +437,97 @@ exports.getCheckStatusByVenderId = async (req, res) => {
             day: dayStats,
             week: weekStats,
             month: monthStats
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to fetch check statistics', error: error.message });
+    }
+};
+
+
+
+exports.getCheckStatusByVenderId = async (req, res) => {
+    try {
+        const { venderId } = req.query;
+
+        if (!venderId) {
+            return res.status(400).json({ message: 'venderId is required' });
+        }
+
+        const now = new Date();
+        const startOfToday = moment().startOf("day");
+        const endOfToday = moment().endOf("day");
+
+        // Fetch all checks for vendor
+        const checks = await Check.find({
+            venderId,
+        });
+
+        // Today's checks
+        const todayChecks = checks.filter((c) =>
+            moment(c.createdAt).isBetween(startOfToday, endOfToday, null, "[]")
+        );
+
+        // Weekly and monthly ranges
+        const weeklyChecks = checks.filter((c) =>
+            moment(c.createdAt).isAfter(moment().subtract(7, "days"))
+        );
+
+        const monthlyChecks = checks.filter((c) =>
+            moment(c.createdAt).isAfter(moment().subtract(30, "days"))
+        );
+
+        // Stats
+        const newcustomer = checks.filter((c) => c.customerStatus === "new customer").length;
+        const verifiedcustomer = checks.filter((c) => c.customerStatus === "verified customer").length;
+
+
+        const todayStatus = todayChecks.reduce((sum, c) => sum + parseFloat(c.amount || 0), 0);
+        const weeklyStatus = weeklyChecks.reduce((sum, c) => sum + parseFloat(c.amount || 0), 0);
+        const monthlyStatus = monthlyChecks.reduce((sum, c) => sum + parseFloat(c.amount || 0), 0);
+
+        const checkStatus = [
+            { label: "New Customer", value: newcustomer },
+            { label: "Verified Customer", value: verifiedcustomer },
+
+        ];
+
+        // Daily (0-23 hours)
+        const dailyData = Array(24).fill(0);
+        todayChecks.forEach((c) => {
+            const hour = moment(c.createdAt).hour();
+            dailyData[hour] += 1;
+        });
+
+        // Weekly (Mon-Sun)
+        const weeklyData = Array(7).fill(0); // [Mon, Tue, ..., Sun]
+        weeklyChecks.forEach((c) => {
+            const day = moment(c.createdAt).isoWeekday(); // 1 (Mon) to 7 (Sun)
+            weeklyData[day - 1] += 1;
+        });
+
+        // Monthly (last 30 days)
+        const monthlyData = {};
+        monthlyChecks.forEach((c) => {
+            const date = moment(c.createdAt).format("YYYY-MM-DD");
+            monthlyData[date] = (monthlyData[date] || 0) + 1;
+        });
+
+        const sortedMonthly = Object.entries(monthlyData)
+            .sort(([a], [b]) => new Date(a) - new Date(b))
+            .map(([date, count]) => ({ date, count }));
+
+        res.status(200).json({
+            todayStatus,
+            weeklyStatus,
+            monthlyStatus,
+            chart: {
+                daily: dailyData,
+                weekly: weeklyData,
+                monthly: sortedMonthly,
+                checkStatus
+            }
         });
 
     } catch (error) {

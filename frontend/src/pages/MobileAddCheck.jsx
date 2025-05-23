@@ -140,7 +140,7 @@ const MobileAddCheck = () => {
                     extractedText: result.extractedText || ''
                 };
                 setFormData(parsedData);
-                toast.success('Image upload successfully!');
+                // toast.success('Image upload successfully!');
             } else {
                 toast.error('Failed to upload image!');
             }
@@ -191,7 +191,7 @@ const MobileAddCheck = () => {
                     imageUrl: result.data.imageUrl || '',
                 };
                 setFormDataback(parsedData);
-                toast.success('Image upload successfully!');
+                // toast.success('Image upload successfully!');
             } else {
                 toast.error('Failed to upload image!');
             }
@@ -251,7 +251,7 @@ const MobileAddCheck = () => {
                     expiryDate: result?.expiryDate || '',
                 };
                 setLicenseData(parsedData);
-                toast.success('Image upload successfully!');
+                // toast.success('Image upload successfully!');
             } else {
                 toast.error('Failed to upload image!');
             }
@@ -300,7 +300,7 @@ const MobileAddCheck = () => {
                     imageUrl: result?.data?.imageUrl || '',
                 };
                 setLicenseDataback(parsedData);
-                toast.success('Image upload successfully!');
+                // toast.success('Image upload successfully!');
             }
         } catch (error) {
             toast.error(error?.response?.data?.error || "Something went wrong");
