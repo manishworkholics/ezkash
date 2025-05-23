@@ -143,162 +143,153 @@ const Home = () => {
                         </div>
                       </div>
                     </div>
-
-
-                    <div className="row mb-2">
-                      <div className="col-8 col-xl-8 mb-3">
-                        <div className="card shadow-sm border-0 rounded-4">
-                          <div className="card-body">
-                            <div className="row pb-2">
-                              <div className="col-4 mt-auto">
-                                <h6 className="mb-0 text-445B64">Report</h6>
-                              </div>
-                              <div className="col-8 d-flex justify-content-end">
-                                <div className="bg-F6F6F6 p-1 rounded-3 d-flex align-items-center">
-                                  <ul className="nav nav-pills" id="chartTabs" role="tablist">
-                                    <li className="nav-item" role="presentation">
-                                      <button
-                                        className="nav-link badge fs-14 fw-normal"
-                                        id="daily-tab"
-                                        data-bs-toggle="tab"
-                                        data-bs-target="#daily"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="daily"
-                                        aria-selected="true"
-                                      >
-                                        Daily
-                                      </button>
-                                    </li>
-                                    <li className="nav-item" role="presentation">
-                                      <button
-                                        className="nav-link badge active fs-14 fw-normal"
-                                        id="weekly-tab"
-                                        data-bs-toggle="tab"
-                                        data-bs-target="#weekly"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="weekly"
-                                        aria-selected="false"
-                                      >
-                                        Weekly
-                                      </button>
-                                    </li>
-                                    <li className="nav-item" role="presentation">
-                                      <button
-                                        className="nav-link badge fs-14 fw-normal"
-                                        id="monthly-tab"
-                                        data-bs-toggle="tab"
-                                        data-bs-target="#monthly"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="monthly"
-                                        aria-selected="false"
-                                      >
-                                        Monthly
-                                      </button>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-
+                  </div>
+                  <div className="row mb-2">
+                    <div className="col-12 col-xl-8 mb-3">
+                      <div className="card shadow-sm border-0 rounded-4">
+                        <div className="card-body">
+                          <div className="row pb-2">
+                            <div className="col-4 mt-auto">
+                              <h6 className="mb-0 text-445B64">Report</h6>
                             </div>
-                            {/* Tab Panes */}
-                            <div className="tab-content" id="chartTabsContent">
-                              {/* Daily */}
-                              <div
-                                className="tab-pane fade"
-                                id="daily"
-                                role="tabpanel"
-                                aria-labelledby="daily-tab"
-                              >
-
-                              </div>
-
-                              {/* Weekly */}
-                              <div
-                                className="tab-pane fade show active"
-                                id="weekly"
-                                role="tabpanel"
-                                aria-labelledby="weekly-tab"
-                              >
-                                <Chart
-                                  options={{
-                                    chart: { id: 'weekly-bar' },
-                                    xaxis: { categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
-                                    colors: ['#008CFF'],
-                                    plotOptions: {
-                                      bar: {
-                                        borderRadius: 10, // Set bar corner radius here
-                                        horizontal: false, // Keep bars vertical
-                                      },
-                                    },
-                                  }}
-                                  series={[{ name: 'Checks', data: data?.chart?.weekly || [] }]}
-                                  type="bar"
-                                  height={250}
-                                />
-                              </div>
-
-                              {/* Monthly */}
-                              <div
-                                className="tab-pane fade"
-                                id="monthly"
-                                role="tabpanel"
-                                aria-labelledby="monthly-tab"
-                              >
-                                <Chart
-                                  options={{
-                                    chart: { id: 'monthly-bar' },
-                                    xaxis: {
-                                      categories: data?.chart?.monthly?.map(item => item.date) || [],
-                                    },
-                                    colors: ['#E84D4D'],
-                                    plotOptions: {
-                                      bar: {
-                                        borderRadius: 10, // Set bar corner radius here
-                                        horizontal: false, // Keep bars vertical
-                                      },
-                                    },
-                                  }}
-                                  series={[{
-                                    name: 'Checks',
-                                    data: data?.chart?.monthly?.map(item => item.count) || [],
-                                  }]}
-                                  type="bar"
-                                  height={300}
-                                />
+                            <div className="col-8 d-flex justify-content-end">
+                              <div className="bg-F6F6F6 p-1 rounded-3 d-flex align-items-center">
+                                <ul className="nav nav-pills" id="chartTabs" role="tablist">
+                                  <li className="nav-item" role="presentation">
+                                    <button
+                                      className="nav-link fs-13 fw-normal py-1 px-2 me-1"
+                                      id="daily-tab"
+                                      data-bs-toggle="tab"
+                                      data-bs-target="#daily"
+                                      type="button"
+                                      role="tab"
+                                      aria-controls="daily"
+                                      aria-selected="true"
+                                    >
+                                      Daily
+                                    </button>
+                                  </li>
+                                  <li className="nav-item" role="presentation">
+                                    <button
+                                      className="nav-link fs-13 fw-normal py-1 px-2 me-1"
+                                      id="weekly-tab"
+                                      data-bs-toggle="tab"
+                                      data-bs-target="#weekly"
+                                      type="button"
+                                      role="tab"
+                                      aria-controls="weekly"
+                                      aria-selected="false"
+                                    >
+                                      Weekly
+                                    </button>
+                                  </li>
+                                  <li className="nav-item" role="presentation">
+                                    <button
+                                      className="nav-link fs-13 fw-normal active py-1 px-2"
+                                      id="monthly-tab"
+                                      data-bs-toggle="tab"
+                                      data-bs-target="#monthly"
+                                      type="button"
+                                      role="tab"
+                                      aria-controls="monthly"
+                                      aria-selected="false"
+                                    >
+                                      Monthly
+                                    </button>
+                                  </li>
+                                </ul>
                               </div>
                             </div>
 
                           </div>
-                        </div>
-                      </div>
+                          {/* Tab Panes */}
+                          <div className="tab-content" id="chartTabsContent">
+                            {/* Daily */}
+                            <div
+                              className="tab-pane fade"
+                              id="daily"
+                              role="tabpanel"
+                              aria-labelledby="daily-tab"
+                            >
 
-
-                      <div className='col-4 col-xl-4 mb-3'>
-                        <div className="card shadow-sm border-0 rounded-4">
-                          <div className="card-body">
-                            <div className="col-4 mt-auto">
-                              <h6 className="mb-0 text-445B64">Customer Status</h6>
                             </div>
-                            <Chart options={options} series={series} type="pie" width="400" className="mt-5" />
+
+                            {/* Weekly */}
+                            <div
+                              className="tab-pane fade show active"
+                              id="weekly"
+                              role="tabpanel"
+                              aria-labelledby="weekly-tab"
+                            >
+                              <Chart
+                                options={{
+                                  chart: { id: 'weekly-bar' },
+                                  xaxis: { categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
+                                  colors: ['#008CFF'],
+                                  plotOptions: {
+                                    bar: {
+                                      borderRadius: 10, // Set bar corner radius here
+                                      horizontal: false, // Keep bars vertical
+                                    },
+                                  },
+                                }}
+                                series={[{ name: 'Checks', data: data?.chart?.weekly || [] }]}
+                                type="bar"
+                                height={250}
+                              />
+                            </div>
+
+                            {/* Monthly */}
+                            <div
+                              className="tab-pane fade"
+                              id="monthly"
+                              role="tabpanel"
+                              aria-labelledby="monthly-tab"
+                            >
+                              <Chart
+                                options={{
+                                  chart: { id: 'monthly-bar' },
+                                  xaxis: {
+                                    categories: data?.chart?.monthly?.map(item => item.date) || [],
+                                  },
+                                  colors: ['#E84D4D'],
+                                  plotOptions: {
+                                    bar: {
+                                      borderRadius: 10, // Set bar corner radius here
+                                      horizontal: false, // Keep bars vertical
+                                    },
+                                  },
+                                }}
+                                series={[{
+                                  name: 'Checks',
+                                  data: data?.chart?.monthly?.map(item => item.count) || [],
+                                }]}
+                                type="bar"
+                                height={300}
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-
-
-
+                    <div className='col-12 col-xl-4 mb-3'>
+                      <div className="card shadow-sm border-0 rounded-4">
+                        <div className="card-body">
+                          <div className="col-12 mt-auto">
+                            <h6 className="mb-0 text-445B64">Customer Status</h6>
+                          </div>
+                          <Chart options={options} series={series} type="pie" width="400" className="mt-5" />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  {/* New Check Form */}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div >
-      {/* image-preview-Modal */}
+
     </>
   )
 }
