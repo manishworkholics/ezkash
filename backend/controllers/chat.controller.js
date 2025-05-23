@@ -2,9 +2,9 @@ const Chat = require('../model/chat.model');
 
 exports.addChatMessage = async (req, res) => {
   try {
-    const { ticketId, senderId, message,image } = req.body;
+    const { ticketId, senderId, message, image } = req.body;
 
-    const chat = new Chat({ ticketId, senderId, message,image });
+    const chat = new Chat({ ticketId, senderId, message, image });
     await chat.save();
 
     res.status(201).json({ message: 'Message sent', chat });
@@ -15,12 +15,11 @@ exports.addChatMessage = async (req, res) => {
 
 
 exports.getChatByTicket = async (req, res) => {
-    try {
-      const { ticketId } = req.params;
-      const chats = await Chat.find({ ticketId }).sort({ createdAt: 1 }).populate('senderId', 'name role');
-      res.status(200).json(chats);
-    } catch (error) {
-      res.status(500).json({ message: 'Failed to get chat messages', error: error.message });
-    }
-  };
-  
+  try {
+    const { ticketId } = req.params;
+    const chats = await Chat.find({ ticketId }).sort({ createdAt: 1 }).populate('senderId', 'role firstname middlename lastname');
+    res.status(200).json(chats);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to get chat messages', error: error.message });
+  }
+};

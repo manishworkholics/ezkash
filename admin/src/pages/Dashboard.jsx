@@ -9,6 +9,7 @@ const URL = process.env.REACT_APP_URL;
 
 const Dashboard = () => {
     const [data, setData] = useState();
+    const [checkStatus, setcheckStatus] = useState([]);
 
     const fetchDatas = async () => {
         try {
@@ -16,11 +17,35 @@ const Dashboard = () => {
             if (response.status >= 200 && response.status < 300) {
                 const fetchedData = response?.data;
                 setData(fetchedData);
+                setcheckStatus(fetchedData?.chart?.checkStatus);
             }
         } catch (error) {
             console.error("Error in fetching data", error);
         }
     };
+
+
+    const options = {
+        chart: {
+            type: "pie"
+        },
+        labels: checkStatus.map(item => item.label),
+        responsive: [
+            {
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 300
+                    },
+                    legend: {
+                        position: "bottom"
+                    }
+                }
+            }
+        ]
+    };
+
+    const series = checkStatus.map(item => item.value);
 
 
     useEffect(() => {
@@ -45,40 +70,40 @@ const Dashboard = () => {
                                         <div className="col-md-6 col-lg-4 col-xl-3 mb-3">
                                             <div className="card shadow-sm border-0 rounded-4">
                                                 <Link to="/cd-admin/user-list" className='text-decoration-none'>
-                                                <div className="card-body">
-                                                    <div className="d-flex align-items-center">
-                                                        <div className="bg-F2F2F7 rounded-3 p-3 me-3 d-flex align-items-center justify-content-center">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                                <path d="M14.6667 18.6667H5.33333V16H14.6667M18.6667 13.3333H5.33333V10.6667H18.6667M18.6667 8H5.33333V5.33333H18.6667M21.3333 0H2.66667C1.18667 0 0 1.18667 0 2.66667V21.3333C0 22.0406 0.280951 22.7189 0.781048 23.219C1.28115 23.719 1.95942 24 2.66667 24H21.3333C22.0406 24 22.7189 23.719 23.219 23.219C23.719 22.7189 24 22.0406 24 21.3333V2.66667C24 1.95942 23.719 1.28115 23.219 0.781048C22.7189 0.280951 22.0406 0 21.3333 0Z" fill="#000000" />
-                                                            </svg>
-                                                        </div>
+                                                    <div className="card-body">
+                                                        <div className="d-flex align-items-center">
+                                                            <div className="bg-F2F2F7 rounded-3 p-3 me-3 d-flex align-items-center justify-content-center">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                    <path d="M14.6667 18.6667H5.33333V16H14.6667M18.6667 13.3333H5.33333V10.6667H18.6667M18.6667 8H5.33333V5.33333H18.6667M21.3333 0H2.66667C1.18667 0 0 1.18667 0 2.66667V21.3333C0 22.0406 0.280951 22.7189 0.781048 23.219C1.28115 23.719 1.95942 24 2.66667 24H21.3333C22.0406 24 22.7189 23.719 23.219 23.219C23.719 22.7189 24 22.0406 24 21.3333V2.66667C24 1.95942 23.719 1.28115 23.219 0.781048C22.7189 0.280951 22.0406 0 21.3333 0Z" fill="#000000" />
+                                                                </svg>
+                                                            </div>
 
-                                                        <div>
-                                                            <h6 className="mb-1 fw-medium text-445B64">Total User</h6>
-                                                            <h4 className="mb-0 text-00C7BE fw-bold">{data?.totalVendor}</h4>
-                                                        </div>
+                                                            <div>
+                                                                <h6 className="mb-1 fw-medium text-445B64">Total User</h6>
+                                                                <h4 className="mb-0 text-00C7BE fw-bold">{data?.totalVendor}</h4>
+                                                            </div>
 
+                                                        </div>
                                                     </div>
-                                                </div>
                                                 </Link>
                                             </div>
                                         </div>
                                         <div className="col-md-6 col-lg-4 col-xl-3 mb-3">
                                             <div className="card shadow-sm border-0 rounded-4">
-                                                 <Link to="/cd-admin/all-cheques" className='text-decoration-none'>
-                                                <div className="card-body">
-                                                    <div className="d-flex align-items-center">
-                                                        <div className="bg-F2F2F7 rounded-3 p-3 me-3 d-flex align-items-center justify-content-center">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                                <path d="M14.6667 18.6667H5.33333V16H14.6667M18.6667 13.3333H5.33333V10.6667H18.6667M18.6667 8H5.33333V5.33333H18.6667M21.3333 0H2.66667C1.18667 0 0 1.18667 0 2.66667V21.3333C0 22.0406 0.280951 22.7189 0.781048 23.219C1.28115 23.719 1.95942 24 2.66667 24H21.3333C22.0406 24 22.7189 23.719 23.219 23.219C23.719 22.7189 24 22.0406 24 21.3333V2.66667C24 1.95942 23.719 1.28115 23.219 0.781048C22.7189 0.280951 22.0406 0 21.3333 0Z" fill="#000000" />
-                                                            </svg>
-                                                        </div>
-                                                        <div>
-                                                            <h6 className="mb-1 fw-medium text-445B64">New Checks</h6>
-                                                            <h4 className="mb-0 text-00C7BE fw-bold">{data?.newCheck}</h4>
+                                                <Link to="/cd-admin/all-cheques" className='text-decoration-none'>
+                                                    <div className="card-body">
+                                                        <div className="d-flex align-items-center">
+                                                            <div className="bg-F2F2F7 rounded-3 p-3 me-3 d-flex align-items-center justify-content-center">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                    <path d="M14.6667 18.6667H5.33333V16H14.6667M18.6667 13.3333H5.33333V10.6667H18.6667M18.6667 8H5.33333V5.33333H18.6667M21.3333 0H2.66667C1.18667 0 0 1.18667 0 2.66667V21.3333C0 22.0406 0.280951 22.7189 0.781048 23.219C1.28115 23.719 1.95942 24 2.66667 24H21.3333C22.0406 24 22.7189 23.719 23.219 23.219C23.719 22.7189 24 22.0406 24 21.3333V2.66667C24 1.95942 23.719 1.28115 23.219 0.781048C22.7189 0.280951 22.0406 0 21.3333 0Z" fill="#000000" />
+                                                                </svg>
+                                                            </div>
+                                                            <div>
+                                                                <h6 className="mb-1 fw-medium text-445B64">New Checks</h6>
+                                                                <h4 className="mb-0 text-00C7BE fw-bold">{data?.newCheck}</h4>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
                                                 </Link>
                                             </div>
                                         </div>
@@ -262,7 +287,11 @@ const Dashboard = () => {
                                                             />
                                                         </div>
                                                     </div>
-
+                                                    <div className="card shadow-sm border-0 rounded-4">
+                                                        <div className="card-body">
+                                                            <Chart options={options} series={series} type="pie" width="400" className="mt-5" />
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

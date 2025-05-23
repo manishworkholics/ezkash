@@ -149,7 +149,7 @@ const Chat = () => {
                                                                         </svg>
 
                                                                     </div>
-                                                                    <span className="text-445B64 fw-medium">Ticket ID: {id?.slice(-5)}</span>
+                                                                    <span className="text-445B64 fw-medium"> ID #{id?.slice(-5)}</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -240,7 +240,7 @@ const Chat = () => {
                                                                             <div className="d-flex justify-content-between mb-3">
                                                                                 <h6 className='text-dark fw-bolder'>
                                                                                     <img src={profileImg} alt="" className="shadow-sm border border-light rounded-circle me-2" style={{ width: '40px' }} />
-                                                                                    {val?.senderId?.role}</h6>
+                                                                                    {val?.senderId?.firstname} {val?.senderId?.middlename} {val?.senderId?.lastname}</h6>
                                                                                 <h6 className='text-secondary fs-14'> {moment(val?.createdAt).format("MMM DD, YYYY hh:mm A")}</h6>
                                                                             </div>
                                                                             <div className="card rounded-4 border-0 bg-F0F5F6">
@@ -304,7 +304,11 @@ const Chat = () => {
 
                                                     <div>
                                                         <h6 className="text-dark mb-1">Description</h6>
-                                                        <h6 className="text-secondary fw-medium fs-14">{ticketdetail?.description}</h6>
+                                                        <h6
+                                                            className="text-secondary fw-medium fs-14"
+                                                            dangerouslySetInnerHTML={{ __html: ticketdetail?.description }}
+                                                        ></h6>
+
                                                     </div>
 
                                                     <h6 className=''>
