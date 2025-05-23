@@ -146,8 +146,7 @@ const Support = () => {
                                                         <div className="col-6 col-lg-6">
                                                             <div className="d-flex justify-content-between mb-lg-0">
                                                                 <div className="d-flex align-items-center">
-                                                                    <div className="table-circular-icon bg-F0F5F6 me-3"
-                                                                        style={{ cursor: "pointer" }}>
+                                                                    <div className="table-circular-icon bg-F0F5F6 me-3">
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="none">
                                                                             <path d="M6 0.5C2.68941 0.5 0 2.786 0 5.6C0 8.414 2.68941 10.7 6 10.7H6.35294V12.5C9.78353 11.096 12 8.3 12 5.6C12 2.786 9.31059 0.5 6 0.5ZM6.70588 9.2H5.29412V8H6.70588V9.2ZM6.70588 7.1H5.29412C5.29412 5.15 7.41177 5.3 7.41177 4.1C7.41177 3.44 6.77647 2.9 6 2.9C5.22353 2.9 4.58824 3.44 4.58824 4.1H3.17647C3.17647 2.774 4.44 1.7 6 1.7C7.56 1.7 8.82353 2.774 8.82353 4.1C8.82353 5.6 6.70588 5.75 6.70588 7.1Z" fill="#000000" />
                                                                         </svg>
