@@ -406,13 +406,6 @@ const AddCheck = () => {
                         <div className="col-lg-9 col-xl-10 bg-F6F6F6 mobile-background">
                             <div className="main-content">
                                 <div className="container-fluid p-3 px-2">
-
-
-
-                                    {/* Status Cards */}
-
-
-
                                     {/* New Check Form */}
                                     <div className="card rounded-4 overflow-hidden border-0 shadow-sm">
                                         <div className="card-header bg-white d-flex align-items-center py-3">
