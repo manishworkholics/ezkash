@@ -40,7 +40,7 @@ const User = () => {
                         <div className="col-lg-3 col-xl-2 d-none d-lg-block position-relative">
                             <Sidebar />
                         </div>
-                        <div className="col-lg-9 col-xl-10 bg-F6F6F6">
+                        <div className="col-lg-9 col-xl-10 bg-F6F6F6 mobile-background">
                             <div className="main-content">
                                 <div className="container-fluid p-3 px-2">
                                     <div className="row">
@@ -63,8 +63,8 @@ const User = () => {
                                                         </div>
                                                         <div className="col-6 col-lg-6">
                                                             <div className="d-flex justify-content-end">
-                                                                <button onClick={handleBack} className="btn btn-sm rounded-2 btn-light text-445B64">
-                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-445B64"></i>
+                                                                <button onClick={handleBack} className="btn btn-sm rounded-2 btn-secondary text-white">
+                                                                    <i className="fa-solid fa-arrow-left-long me-2 text-white"></i>
                                                                     Back
                                                                 </button>
                                                             </div>

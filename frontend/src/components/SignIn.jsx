@@ -192,7 +192,7 @@ const SignIn = () => {
                       <div className="mb-3 position-relative">
                         <div className="input-group">
                           <input
-                            className="form-control mb-1 rounded-3"
+                            className="form-control rounded-3"
                             type={showPassword ? "text" : "password"}
                             name="password"
                             id="password"
@@ -200,7 +200,6 @@ const SignIn = () => {
                             onChange={handleChange}
                             placeholder="Your password"
                           />
-
                           <span
                             className="position-absolute top-0 end-0"
                             style={{

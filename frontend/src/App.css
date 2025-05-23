@@ -456,6 +456,10 @@ input::placeholder:after {
       color: #000000 !important;
       font-weight: normal;
       padding: 10px;
+
+      span {
+        font-size: 10px;
+      }
     }
 
     td {
@@ -551,6 +555,15 @@ input::placeholder:after {
 
 
 /* Mobile View - CSS - Start */
+@media only screen and (max-width: 767px) {
+  .mobile-background {
+    background-image: url('../src/assets/images/mobileBg.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: repeat-y;
+  }
+}
+
 .mobile-bg {
   background-image: url('../src/assets/images/mobileBg.png');
   background-position: center;
@@ -606,6 +619,10 @@ input::placeholder:after {
       font-size: 13px;
       color: #445B64;
       font-weight: 500 !important;
+
+      span {
+        font-size: 10px;
+      }
     }
 
     td {
