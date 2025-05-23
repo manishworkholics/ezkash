@@ -418,6 +418,7 @@ const MobileAddCheck = () => {
 
         setFormDataback({ imageUrl: '' });
         setLicenseDataback({ imageUrl: '' });
+        setStep(1)
     }
 
     return (
