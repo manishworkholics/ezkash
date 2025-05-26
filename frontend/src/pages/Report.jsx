@@ -194,7 +194,7 @@ const Report = () => {
                                                         </div>
                                                     </div>
                                                     <div className="col-12 col-lg-12 col-xl-6 col-xxl-5">
-                                                        <div className="d-flex flex-wrap gap-2 align-items-end">
+                                                        <div className="d-flex flex-wrap gap-2 align-items-center">
                                                             {/* Filter Type Buttons */}
                                                             <div className="dropdown">
                                                                 <button
@@ -251,28 +251,31 @@ const Report = () => {
                                                                 )}
                                                             </div>
                                                             {/* Export Buttons */}
-                                                            <div className="dropdown ms-auto">
-                                                                <button
-                                                                    className="btn btn-sm btn-primary dropdown-toggle"
-                                                                    type="button"
-                                                                    id="exportDropdown"
-                                                                    data-bs-toggle="dropdown"
-                                                                    aria-expanded="false"
-                                                                >
-                                                                    Export
-                                                                </button>
-                                                                <ul className="dropdown-menu" aria-labelledby="exportDropdown">
-                                                                    <li>
-                                                                        <button className="dropdown-item" onClick={() => exportReport("csv")}>
-                                                                            Export as CSV
-                                                                        </button>
-                                                                    </li>
-                                                                    <li>
-                                                                        <button className="dropdown-item" onClick={() => exportReport("xlsx")}>
-                                                                            Export as Excel
-                                                                        </button>
-                                                                    </li>
-                                                                </ul>
+                                                            <div className="d-flex align-items-center ms-auto">
+                                                                <button className='btn text-01A99A fw-semibold border-0 bg-transparent text-decoration-underline'>View</button>
+                                                                <div className="dropdown">
+                                                                    <button
+                                                                        className="btn btn-sm btn-primary dropdown-toggle"
+                                                                        type="button"
+                                                                        id="exportDropdown"
+                                                                        data-bs-toggle="dropdown"
+                                                                        aria-expanded="false"
+                                                                    >
+                                                                        Export
+                                                                    </button>
+                                                                    <ul className="dropdown-menu" aria-labelledby="exportDropdown">
+                                                                        <li>
+                                                                            <button className="dropdown-item" onClick={() => exportReport("csv")}>
+                                                                                Export as CSV
+                                                                            </button>
+                                                                        </li>
+                                                                        <li>
+                                                                            <button className="dropdown-item" onClick={() => exportReport("xlsx")}>
+                                                                                Export as Excel
+                                                                            </button>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
