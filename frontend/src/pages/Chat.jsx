@@ -295,7 +295,7 @@ const Chat = () => {
 
                                                         {ticketdetail?.checkImg ? <>
                                                             <h6 className="text-dark mb-1">Image</h6>
-                                                            <img src={ticketdetail?.checkImg} className='img-fluid' alt="chat" />
+                                                            <img src={ticketdetail?.checkImg} className='img-fluid w-100' alt="chat" />
                                                         </> : ''}
 
                                                     </div>
