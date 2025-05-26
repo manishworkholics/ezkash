@@ -13,7 +13,7 @@ function ExportModal({ show, onClose, data }) {
     const [endDate, setEndDate] = useState("");
 
     const handleApply = () => {
-        let filteredData = [...data];
+        let filteredData = [...data]; 
 
         if (filterType === "Custom" && startDate && endDate) {
             const start = new Date(startDate);

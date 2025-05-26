@@ -4,8 +4,6 @@ import Sidebar from '../components/Sidebar';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ExportModal from '../components/ExportModal';
-import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
 
 const token = localStorage.getItem('token');
 const URL = process.env.REACT_APP_URL;
@@ -17,9 +15,6 @@ const Report = () => {
     const [sortField, setSortField] = useState('');
     const [sortOrder, setSortOrder] = useState('asc');
     const [searchTerm, setSearchTerm] = useState("");
-    const [filterType, setFilterType] = useState("Custom");
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
 
     const fetchReport = async () => {
         try {
@@ -104,51 +99,6 @@ const Report = () => {
     };
 
 
-    const exportReport = (type) => {
-        let filteredData = [...report];
-
-        if (filterType === "Custom" && startDate && endDate) {
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-
-            filteredData = filteredData.filter((item) => {
-                const itemDate = new Date(item.date);
-                return itemDate >= start && itemDate <= end;
-            });
-        }
-
-        const exportData = filteredData.map((val, index) => ({
-            SNo: index + 1,
-            Customer_Name: val?.customerFirstName || "",
-            Amount: val?.amount || "",
-            ID_Number: val?.licenseNo || "",
-            Company: val?.company || "",
-            Type: val?.checkType || "",
-            Comment: val?.comment || "",
-            Date_and_Time: val?.date || "",
-            Status: val?.status || ""
-        }));
-
-        const worksheet = XLSX.utils.json_to_sheet(exportData);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Report");
-
-        const fileExtension = type === "csv" ? ".csv" : ".xlsx";
-        const fileType = type === "csv"
-            ? "text/csv;charset=utf-8"
-            : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-
-        const excelBuffer = XLSX.write(workbook, {
-            bookType: type,
-            type: "array",
-        });
-
-        const blob = new Blob([excelBuffer], { type: fileType });
-        saveAs(blob, `Report_${filterType}_${new Date().toISOString()}${fileExtension}`);
-    };
-
-
-
 
 
     return (
@@ -167,8 +117,8 @@ const Report = () => {
                                         <div className="card border-0 rounded-3 mb-2">
                                             <div className="card-body p-2">
                                                 <div className="row">
-                                                    <div className="col-5 col-lg-6 col-xl-2 col-xxl-3">
-                                                        <div className="d-flex justify-content-between mb-2 mb-xl-0">
+                                                    <div className="col-6 col-md-3 col-lg-3">
+                                                        <div className="d-flex justify-content-between mb-2 mb-md-0">
                                                             <div className="d-flex align-items-center">
                                                                 <div className="table-circular-icon bg-F0F5F6 me-3">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="15" viewBox="0 0 14 15" fill="none">
@@ -179,112 +129,37 @@ const Report = () => {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div className="col-7 col-lg-6 col-xl-4 col-xxl-4">
-                                                        <div className="d-flex position-relative" style={{ width: "100%" }}>
-                                                            <input
-                                                                className="form-control form-control-sm rounded-3 shadow-none bg-F0F5F6"
-                                                                value={searchTerm}
-                                                                onChange={(e) => setSearchTerm(e.target.value)}
-                                                                type="search"
-                                                                placeholder="Search"
-                                                                aria-label="Search"
-                                                                style={{ paddingLeft: "35px" }}
-                                                            />
-                                                            <i className="fa fa-search text-445B64 position-absolute top-0 start-0" style={{ margin: "8px" }}></i>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-12 col-lg-12 col-xl-6 col-xxl-5">
-                                                        <div className="d-flex flex-wrap gap-2 align-items-end">
-                                                            {/* Filter Type Buttons */}
-                                                            <div className="dropdown">
-                                                                <button
-                                                                    className="btn btn-sm btn-primary dropdown-toggle"
-                                                                    type="button"
-                                                                    id="dateFilterDropdown"
-                                                                    data-bs-toggle="dropdown"
-                                                                    aria-expanded="false"
-                                                                >
-                                                                    {filterType} <i class="fa-solid fa-caret-down ms-1"></i>
-                                                                </button>
-                                                                <ul className="dropdown-menu" aria-labelledby="dateFilterDropdown">
-                                                                    {["Daily", "Weekly", "Monthly", "Custom"].map((type) => (
-                                                                        <li key={type}>
-                                                                            <button
-                                                                                className={`dropdown-item ${filterType === type ? "active" : ""}`}
-                                                                                onClick={() => setFilterType(type)}
-                                                                            >
-                                                                                {type}
-                                                                            </button>
-                                                                        </li>
-                                                                    ))}
-                                                                </ul>
-                                                            </div>
 
-
-                                                            {/* Date Inputs for Custom Filter */}
-                                                            <div className="d-flex gap-2 align-items-center">
-                                                                {filterType === "Custom" && (
-                                                                    <>
-                                                                        <div className="position-relative" style={{ width: '120px' }}>
-                                                                            <input
-                                                                                type="date"
-                                                                                className="form-control form-control-sm"
-                                                                                id="startDate"
-                                                                                value={startDate}
-                                                                                onChange={(e) => setStartDate(e.target.value)}
-                                                                            />
-                                                                            {/* Conditionally hide the label when a date is selected */}
-                                                                            {!startDate && <label htmlFor="startDate" style={{ margin: '5px' }} className='position-absolute top-0 bg-white fs-14 w-75'>Start Date</label>}
-                                                                        </div>
-                                                                        <div className="position-relative" style={{ width: '120px' }}>
-                                                                            <input
-                                                                                type="date"
-                                                                                className="form-control form-control-sm"
-                                                                                id="endDate"
-                                                                                value={endDate}
-                                                                                onChange={(e) => setEndDate(e.target.value)}
-                                                                            />
-                                                                            {!endDate && <label htmlFor="endDate" style={{ margin: '5px' }} className='position-absolute top-0 bg-white fs-14 w-75'>End Date</label>}
-                                                                        </div>
-
-                                                                    </>
-                                                                )}
-                                                            </div>
-                                                            {/* Export Buttons */}
-                                                            <div className="dropdown ms-auto">
-                                                                <button
-                                                                    className="btn btn-sm btn-primary dropdown-toggle"
-                                                                    type="button"
-                                                                    id="exportDropdown"
-                                                                    data-bs-toggle="dropdown"
-                                                                    aria-expanded="false"
-                                                                >
-                                                                    Export
-                                                                </button>
-                                                                <ul className="dropdown-menu" aria-labelledby="exportDropdown">
-                                                                    <li>
-                                                                        <button className="dropdown-item" onClick={() => exportReport("csv")}>
-                                                                            Export as CSV
-                                                                        </button>
-                                                                    </li>
-                                                                    <li>
-                                                                        <button className="dropdown-item" onClick={() => exportReport("xlsx")}>
-                                                                            Export as Excel
-                                                                        </button>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
+                                                    <div className="col-6 d-flex justify-content-end align-items-center mb-2 d-md-none">
+                                                        <button onClick={() => setShowModal(true)} style={{ background: '#008CFF' }} className='btn border-0 rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0'>
+                                                            Export Report
+                                                        </button>
+                                                        <ExportModal data={report} show={showModal} onClose={() => setShowModal(false)} />
                                                     </div>
 
                                                     <div className="col-12 col-md-9 col-lg-9">
                                                         <div className="row justify-content-end">
-                                                            {/* <div className="col-md-3 mt-3 mt-md-0 d-none d-md-flex justify-content-end align-items-center">
+                                                            <div className="col-md-9">
+                                                                <div className="d-flex position-relative" style={{ width: "100%" }}>
+                                                                    <input
+                                                                        className="form-control form-control-sm rounded-3 me-lg-2 shadow-none bg-F0F5F6"
+                                                                        value={searchTerm}
+                                                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                                                        type="search"
+                                                                        placeholder="Search"
+                                                                        aria-label="Search"
+                                                                        style={{ paddingLeft: "35px" }}
+                                                                    />
+                                                                    <i className="fa fa-search text-445B64 position-absolute top-0 start-0" style={{ margin: "8px" }}></i>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="col-md-3 mt-3 mt-md-0 d-none d-md-flex justify-content-end align-items-center">
                                                                 <button onClick={() => setShowModal(true)} style={{ background: '#008CFF' }} className='btn border-0 rounded-2 text-white fw-medium py-1 px-2 fs-14 text-445B64 p-0'>
                                                                     Export Report
                                                                 </button>
                                                                 <ExportModal data={report} show={showModal} onClose={() => setShowModal(false)} />
-                                                            </div> */}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
