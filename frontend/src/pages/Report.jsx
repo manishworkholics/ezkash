@@ -3,7 +3,6 @@ import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-// import ExportModal from '../components/ExportModal';
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
@@ -13,7 +12,8 @@ const URL = process.env.REACT_APP_URL;
 const Report = () => {
 
     const [report, setReport] = useState([]);
-    // const [showModal, setShowModal] = useState(false);
+    const [previewData, setPreviewData] = useState([]);
+    const [showPreview, setShowPreview] = useState(false);
     const [sortField, setSortField] = useState('');
     const [sortOrder, setSortOrder] = useState('asc');
     const [searchTerm, setSearchTerm] = useState("");
@@ -106,7 +106,7 @@ const Report = () => {
     };
 
 
-    const exportReport = (type) => {
+    const exportReport = (type, isPreview = false) => {
         let filteredData = [...report];
 
         if (filterType === "Custom" && startDate && endDate) {
@@ -131,6 +131,12 @@ const Report = () => {
             Status: val?.status || ""
         }));
 
+        if (isPreview) {
+            setPreviewData(exportData);
+            setShowPreview(true);
+            return;
+        }
+
         const worksheet = XLSX.utils.json_to_sheet(exportData);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Report");
@@ -148,7 +154,6 @@ const Report = () => {
         const blob = new Blob([excelBuffer], { type: fileType });
         saveAs(blob, `Report_${filterType}_${new Date().toISOString()}${fileExtension}`);
     };
-
 
 
 
@@ -254,7 +259,7 @@ const Report = () => {
                                                             </div>
                                                             {/* Export Buttons */}
                                                             <div className="d-flex align-items-center ms-auto">
-                                                                {/* <button className='btn text-01A99A fw-semibold border-0 bg-transparent text-decoration-underline'>View</button> */}
+                                                                <button className='btn text-01A99A fw-semibold border-0 bg-transparent text-decoration-underline' onClick={() => exportReport(null, true)}>View</button>
                                                                 <div className="dropdown">
                                                                     <button
                                                                         className="btn btn-sm btn-primary dropdown-toggle"
@@ -396,6 +401,45 @@ const Report = () => {
                         </div>
                     </div>
                 </div>
+
+
+                {showPreview && (
+                    <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{ background: '#00000096' }}>
+                        <div className="modal-dialog modal-lg" role="document">
+                            <div className="modal-content">
+
+                                <div className="modal-body">
+                                    <div className="preview-modal">
+                                        <h2>Preview Report</h2>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    {previewData.length > 0 &&
+                                                        Object.keys(previewData[0]).map((key) => (
+                                                            <th key={key}>{key}</th>
+                                                        ))}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {previewData.map((row, idx) => (
+                                                    <tr key={idx}>
+                                                        {Object.values(row).map((val, i) => (
+                                                            <td key={i}>{val}</td>
+                                                        ))}
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+
+                                        <button onClick={() => exportReport("xlsx")}>Export to Excel</button>
+                                        <button onClick={() => exportReport("csv")}>Export to CSV</button>
+                                        <button onClick={() => setShowPreview(false)}>Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -8,7 +8,7 @@ import Home from "./pages/Home";
 import Checks from "./pages/Checks";
 import CheckDetails from "./pages/CheckDetails";
 import Report from "./pages/Report";
-import ReportExport from "./pages/ReportExport";
+
 import Support from "./pages/Support";
 import Otp from "./pages/Otp";
 import VerifyEmail from "./pages/VerifyEmail";
@@ -38,7 +38,6 @@ function App() {
           <Route path="/checks" element={<ProtectedRoute element={<Checks />} />} />
           <Route path="/check-details/:id" element={<ProtectedRoute element={<CheckDetails />} />} />
           <Route path="/report" element={<ProtectedRoute element={<Report />} />} />
-          <Route path="/export-report" element={<ProtectedRoute element={<ReportExport />} />} />
           <Route path="/support" element={<ProtectedRoute element={<Support />} />} />
           <Route path="/verify-otp" element={<Otp />} />
           <Route path="/verify-email" element={<VerifyEmail />} />

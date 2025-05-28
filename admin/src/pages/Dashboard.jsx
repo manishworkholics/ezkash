@@ -10,6 +10,7 @@ const URL = process.env.REACT_APP_URL;
 const Dashboard = () => {
     const [data, setData] = useState();
     const [checkStatus, setcheckStatus] = useState([]);
+    const [renderKey, setRenderKey] = useState(0);
 
     const fetchDatas = async () => {
         try {
@@ -49,8 +50,17 @@ const Dashboard = () => {
 
 
     useEffect(() => {
-        fetchDatas();
+        setTimeout(() => {
+            fetchDatas();
+        }, 0);// eslint-disable-next-line
+
     }, [])
+
+    useEffect(() => {
+        if (checkStatus.length > 0) {
+            setRenderKey(prev => prev + 1); // trigger rerender when data is fetched
+        }
+    }, [checkStatus]);
 
 
     return (
@@ -301,7 +311,15 @@ const Dashboard = () => {
                                                             <img src={BorderBtm} alt="" className="w-100" />
                                                         </div>
                                                     </div>
-                                                    <Chart options={options} series={series} type="pie" width="400" className="mt-5" />
+                                                    {checkStatus.length > 0 && (
+                                                        <Chart
+                                                            key={renderKey}
+                                                            options={options}
+                                                            series={series}
+                                                            type="pie"
+                                                            width="100%"
+                                                        />)}
+
                                                 </div>
                                             </div>
                                         </div>
