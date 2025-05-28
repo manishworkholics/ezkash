@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -30,23 +30,23 @@ const RecentCheck = () => {
         }
     };
 
-    const handleDeleteCheck = async (id) => {
-        if (!window.confirm("Are you sure you want to delete this check?")) return;
-        try {
-            const response = await axios.delete(`${URL}/check/delete-check/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            if (response.status >= 200 && response.status < 300) {
-                toast.success("Check deleted successfully!");
-                fetchChecks();
-            }
-        } catch (error) {
-            toast.error("Error in deleting check: " + error.message);
-            console.error("Error in deleting check", error);
-        }
-    };
+    // const handleDeleteCheck = async (id) => {
+    //     if (!window.confirm("Are you sure you want to delete this check?")) return;
+    //     try {
+    //         const response = await axios.delete(`${URL}/check/delete-check/${id}`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         });
+    //         if (response.status >= 200 && response.status < 300) {
+    //             toast.success("Check deleted successfully!");
+    //             fetchChecks();
+    //         }
+    //     } catch (error) {
+    //         toast.error("Error in deleting check: " + error.message);
+    //         console.error("Error in deleting check", error);
+    //     }
+    // };
 
 
     const handleSort = (key) => {
@@ -153,7 +153,12 @@ const RecentCheck = () => {
                                                     Amount {getSortIcon('amount')}
                                                 </div>
                                             </th>
-                                            <th onClick={() => handleSort('licenseNo')} style={{ cursor: 'pointer' }}>
+                                            <th onClick={() => handleSort('date')} style={{ cursor: 'pointer' }}>
+                                                <div className="d-flex align-items-center">
+                                                    Date & Time {getSortIcon('date')}
+                                                </div>
+                                            </th>
+                                            {/* <th onClick={() => handleSort('licenseNo')} style={{ cursor: 'pointer' }}>
                                                 <div className="d-flex align-items-center">
                                                     ID Number {getSortIcon('licenseNo')}
                                                 </div>
@@ -173,34 +178,31 @@ const RecentCheck = () => {
                                                     Comment {getSortIcon('comment')}
                                                 </div>
                                             </th>
-                                            <th onClick={() => handleSort('date')} style={{ cursor: 'pointer' }}>
-                                                <div className="d-flex align-items-center">
-                                                    Date & Time {getSortIcon('date')}
-                                                </div>
-                                            </th>
+                                           
                                             <th >
                                                 <div className="d-flex align-items-center">
                                                     Customer Status
                                                 </div>
                                             </th>
-                                            <th className='text-center'>Actions</th>
+                                            <th className='text-center'>Actions</th> */}
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {sortedData.length > 0 ? (
                                             showAll ? sortedData : sortedData.slice(0, 5)).map((item, index) => (
                                                 <tr key={item?._id}>
-                                                    <td>{index + 1}</td>
-                                                    <td className='text-uppercase'>{item?.customerFirstName} {item?.customerMiddleName} {item?.customerLastName}</td>
-                                                    <td>$ {item?.amount}</td>
-                                                    <td>{item?.licenseNo}</td>
+                                                    <td> <Link to={`/check-details/${item?._id}`} className='text-decoration-none text-black'>{index + 1}</Link></td>
+                                                    <td className='text-uppercase'><Link to={`/check-details/${item?._id}`} className='text-decoration-none text-black'>{item?.customerFirstName} {item?.customerMiddleName} {item?.customerLastName}</Link></td>
+                                                    <td><Link to={`/check-details/${item?._id}`} className='text-decoration-none text-black'>$ {item?.amount}</Link></td>
+                                                    <td><Link to={`/check-details/${item?._id}`} className='text-decoration-none text-black'>{item?.date}</Link></td>
+                                                    {/* <td>{item?.licenseNo}</td>
                                                     <td>{item?.company?.length > 30 ? item?.company.substring(0, 30) + '...' : item?.company}</td>
                                                     <td>{item?.checkType}</td>
                                                     <td>{item?.comment?.length > 10 ? item?.comment.substring(0, 10) + '...' : item?.comment}</td>
-                                                    <td>{item?.date}</td>
+
                                                     <td>{item?.customerStatus === "verified customer" ? "Verified" : "New"}</td>
                                                     {/* <td>{item?.status}</td> */}
-                                                    <td className='text-center'>
+                                                    {/* <td className='text-center'>
                                                         <div className="d-flex justify-content-center">
                                                             <Link to={`/check-details/${item?._id}`} className="btn py-0">
                                                                 <i className="fa-solid fa-eye text-445B64"></i>
@@ -209,7 +211,7 @@ const RecentCheck = () => {
                                                                 <i className="fa-solid fa-trash-can text-danger"></i>
                                                             </button>
                                                         </div>
-                                                    </td>
+                                                    </td> */}
                                                 </tr>
                                             )
                                             ) : (
