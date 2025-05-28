@@ -75,15 +75,26 @@ const SignUp = () => {
     //   }
     // }
 
+
     if (mobile.trim() === '') {
       errors.mobile = 'Mobile number is required.';
     } else {
-      const usPhonePattern = /^\(\d{3}\) \d{3}-\d{4}$/;
+      // Remove spaces, dashes, parentheses
+      const sanitizedMobile = mobile.replace(/\D/g, '');
 
-      if (!usPhonePattern.test(mobile)) {
-        errors.mobile = 'Invalid phone number. Use the format: (area code) XXX-XXXX';
+      // Check if it's a 10-digit number
+      if (sanitizedMobile.length === 10) {
+        // Convert to (XXX) XXX-XXXX format
+        const formattedMobile = `(${sanitizedMobile.slice(0, 3)}) ${sanitizedMobile.slice(3, 6)}-${sanitizedMobile.slice(6)}`;
+
+        // You can save or display this formatted number as needed
+        console.log("Formatted:", formattedMobile); // or setFormattedMobile(formattedMobile)
+      } else {
+        errors.mobile = 'Please enter a valid 10-digit mobile number.';
       }
     }
+
+
 
     if (!passwordRules.hasUpperCase || !passwordRules.hasLowerCase || !passwordRules.hasNumber || !passwordRules.hasSpecialChar) {
       errors.password = "";
@@ -117,6 +128,25 @@ const SignUp = () => {
         hasNumber: /[0-9]/.test(pwd),
         hasSpecialChar: /[^A-Za-z0-9]/.test(pwd),
       });
+    }
+
+    if (name === 'mobile') {
+      // Remove all non-digit characters
+      const cleaned = value.replace(/\D/g, '');
+
+      // Format as (XXX) XXX-XXXX
+      let formatted = cleaned;
+      if (cleaned.length <= 3) {
+        formatted = cleaned;
+      } else if (cleaned.length <= 6) {
+        formatted = `(${cleaned.slice(0, 3)}) ${cleaned.slice(3)}`;
+      } else {
+        formatted = `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
+      }
+
+      setFormData({ ...formData, [name]: formatted });
+    } else {
+      setFormData({ ...formData, [name]: value });
     }
   };
 
@@ -219,26 +249,27 @@ const SignUp = () => {
                     {formErrors.email && <small className="text-danger">{formErrors.email}</small>}
                   </div>
                   {/* mobile */}
-                  <div className="mb-3">
-                    {/* <input className="form-control rounded-3" type="number" id='mobile' name='mobile' value={formData.mobile} onChange={handleChange} placeholder="Your phone number" aria-label="example" required /> */}
+                  {/* <div className="mb-3">
+                    <input className="form-control rounded-3" type="number" id='mobile' name='mobile' value={formData.mobile} onChange={handleChange} placeholder="Your phone number" aria-label="example" required />
+                    {formErrors.mobile && <small className="text-danger">{formErrors.mobile}</small>}
+                  </div> */}
 
+
+                  <div className="mb-3">
                     <input
                       className="form-control rounded-3"
-                      type="tel"
+                      type="text"
                       id="mobile"
                       name="mobile"
                       value={formData.mobile}
                       onChange={handleChange}
-                      placeholder="Mobile number"
-                      pattern="^\(\d{3}\) \d{3}-\d{4}$"
-                      title="Format must be (123) 456-7890"
-                      aria-label="Phone number"
+                      placeholder="Your phone number"
+                      aria-label="example"
                       required
                     />
-
-
                     {formErrors.mobile && <small className="text-danger">{formErrors.mobile}</small>}
                   </div>
+
 
                   {/* Password */}
                   <div className="mb-3 position-relative">
