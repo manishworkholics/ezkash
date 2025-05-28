@@ -21,6 +21,18 @@ const Report = () => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
+    const columnHeaders = {
+        SNo: "#",
+        Customer_Name: "Customer Name",
+        Amount: "Amount",
+        ID_Number: "ID Number",
+        Company: "Company Name",
+        Type: "Type",
+        Comment: "Comment",
+        Date_and_Time: "Date & Time",
+        Status: "Status"
+    };
+
     const fetchReport = async () => {
         try {
             const vendorId = localStorage.getItem('userId');
@@ -207,11 +219,12 @@ const Report = () => {
                                                                 <button
                                                                     className="btn btn-sm btn-primary dropdown-toggle"
                                                                     type="button"
-                                                                    id="dateFilterDropdown"
-                                                                    data-bs-toggle="dropdown"
-                                                                    aria-expanded="false"
+                                                                    // id="dateFilterDropdown"
+                                                                    // data-bs-toggle="dropdown"
+                                                                    // aria-expanded="false"
                                                                 >
-                                                                    {filterType} <i class="fa-solid fa-caret-down ms-1"></i>
+                                                                    {filterType} 
+                                                                    {/* <i class="fa-solid fa-caret-down ms-1"></i> */}
                                                                 </button>
                                                                 <ul className="dropdown-menu" aria-labelledby="dateFilterDropdown">
                                                                     {["Daily", "Weekly", "Monthly", "Custom"].map((type) => (
@@ -404,41 +417,65 @@ const Report = () => {
 
 
                 {showPreview && (
-                    <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{ background: '#00000096' }}>
-                        <div className="modal-dialog modal-lg" role="document">
-                            <div className="modal-content">
+                    <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
+                        <div className="modal-dialog modal-xl modal-dialog-centered" role="document">
+                            <div className="modal-content border-0 shadow-lg rounded-4">
 
-                                <div className="modal-body">
-                                    <div className="preview-modal">
-                                        <h2>Preview Report</h2>
-                                        <table>
-                                            <thead>
+                                <div className="modal-header border-0 px-4 pt-4">
+                                    <h5 className="modal-title fw-bold mb-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" viewBox="0 0 14 15" fill="none">
+                                            <path d="M7.875 5.4H12.6875L7.875 1.55V5.4ZM1.75 0.5H8.75L14 4.7V13.1C14 13.4713 13.8156 13.8274 13.4874 14.0899C13.1592 14.3525 12.7141 14.5 12.25 14.5H1.75C1.28587 14.5 0.840752 14.3525 0.512563 14.0899C0.184374 13.8274 0 13.4713 0 13.1V1.9C0 1.123 0.77875 0.5 1.75 0.5ZM2.625 13.1H4.375V8.9H2.625V13.1ZM6.125 13.1H7.875V7.5H6.125V13.1ZM9.625 13.1H11.375V10.3H9.625V13.1Z" fill="#000000" />
+                                        </svg>
+                                        <span className="text-445B64 fw-medium ms-2">Preview Report</span>
+                                    </h5>
+                                    <button
+                                        type="button"
+                                        className="btn-close shadow-none border-0"
+                                        aria-label="Close"
+                                        onClick={() => setShowPreview(false)}
+                                    ></button>
+                                </div>
+
+                                <div className="modal-body px-4 pb-4">
+                                    <div className="table-responsive rounded-3 border">
+                                        <table className="table table-striped table-hover mb-0 align-middle">
+                                            <thead className="table-dark text-uppercase small">
                                                 <tr>
                                                     {previewData.length > 0 &&
                                                         Object.keys(previewData[0]).map((key) => (
-                                                            <th key={key}>{key}</th>
+                                                            <th className='fw-normal' key={key}>{columnHeaders[key] || key}</th>
                                                         ))}
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {previewData.map((row, idx) => (
                                                     <tr key={idx}>
-                                                        {Object.values(row).map((val, i) => (
-                                                            <td key={i}>{val}</td>
+                                                        {Object.keys(row).map((key, i) => (
+                                                            <td key={i}>{row[key]}</td>
                                                         ))}
                                                     </tr>
                                                 ))}
                                             </tbody>
                                         </table>
+                                    </div>
 
-                                        <button onClick={() => exportReport("xlsx")}>Export to Excel</button>
-                                        <button onClick={() => exportReport("csv")}>Export to CSV</button>
-                                        <button onClick={() => setShowPreview(false)}>Close</button>
+                                    <div className="d-flex justify-content-center flex-wrap gap-2 mt-4">
+                                        <button className="btn btn-success px-4" onClick={() => exportReport("xlsx")}>
+                                            Export to Excel
+                                        </button>
+                                        <button className="btn btn-info text-white px-4" onClick={() => exportReport("csv")}>
+                                            Export to CSV
+                                        </button>
+                                        <button className="btn btn-secondary px-4" onClick={() => setShowPreview(false)}>
+                                            Close
+                                        </button>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
+
                 )}
             </div>
         </div>
