@@ -258,7 +258,7 @@ const Checks = () => {
                                                                             <td className='text-uppercase'>{item?.customerFirstName} {item?.customerMiddleName} {item?.customerLastName}</td>
                                                                             <td>$ {item?.amount}</td>
                                                                             <td>{item?.licenseNo}</td>
-                                                                            <td>{item?.company}</td>
+                                                                            <td>{item?.company?.length > 30 ? item?.company.substring(0, 30) + '...' : item?.company}</td>
                                                                             <td>{item?.checkType}</td>
                                                                             <td>{item?.comment?.length > 10 ? item?.comment.substring(0, 10) + '...' : item?.comment}</td>
                                                                             <td>{item?.date}</td>

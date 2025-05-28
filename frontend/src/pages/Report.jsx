@@ -3,7 +3,7 @@ import Header from '../components/header';
 import Sidebar from '../components/Sidebar';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import ExportModal from '../components/ExportModal';
+// import ExportModal from '../components/ExportModal';
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
@@ -13,7 +13,7 @@ const URL = process.env.REACT_APP_URL;
 const Report = () => {
 
     const [report, setReport] = useState([]);
-    const [showModal, setShowModal] = useState(false);
+    // const [showModal, setShowModal] = useState(false);
     const [sortField, setSortField] = useState('');
     const [sortOrder, setSortOrder] = useState('asc');
     const [searchTerm, setSearchTerm] = useState("");
@@ -254,7 +254,7 @@ const Report = () => {
                                                             </div>
                                                             {/* Export Buttons */}
                                                             <div className="d-flex align-items-center ms-auto">
-                                                                <button className='btn text-01A99A fw-semibold border-0 bg-transparent text-decoration-underline'>View</button>
+                                                                {/* <button className='btn text-01A99A fw-semibold border-0 bg-transparent text-decoration-underline'>View</button> */}
                                                                 <div className="dropdown">
                                                                     <button
                                                                         className="btn btn-sm btn-primary dropdown-toggle"
@@ -368,7 +368,7 @@ const Report = () => {
                                                                             <td className='text-uppercase'>{val.customerFirstName} {val?.customerMiddleName} {val?.customerLastName}</td>
                                                                             <td>$ {val.amount}</td>
                                                                             <td>{val.licenseNo}</td>
-                                                                            <td>{val.company}</td>
+                                                                            <td>{val.company?.length > 30 ? val?.company.substring(0, 30) + '...' : val?.company}</td>
                                                                             <td>{val.checkType}</td>
                                                                             <td>{val.comment?.length > 10 ? val.comment.substring(0, 10) + '...' : val.comment}</td>
                                                                             <td>{val.date}</td>

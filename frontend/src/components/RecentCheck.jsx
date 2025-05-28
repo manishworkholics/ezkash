@@ -70,19 +70,20 @@ const RecentCheck = () => {
     };
 
     const filteredCheck = checks.filter((item, index) => {
-        const search = searchTerm.toLowerCase();
+        const search = searchTerm.toLowerCase().trim();
+
         return (
             (index + 1).toString().includes(search) ||
-            item.customerFirstName?.toLowerCase().includes(search) ||
-            item.customerMiddleName?.toLowerCase().includes(search) ||
-            item.customerLastName?.toLowerCase().includes(search) ||
-            item.company?.toLowerCase().includes(search) ||
-            item.licenseNo?.toString().toLowerCase().includes(search) ||
-            item.checkType?.toLowerCase().includes(search) ||
-            item.amount?.toString().toLowerCase().includes(search) ||
-            item.comment?.toLowerCase().includes(search) ||
-            item.date?.toLowerCase().includes(search) ||
-            item.status?.toLowerCase().includes(search)
+            (item.customerFirstName || "").toLowerCase().includes(search) ||
+            (item.customerMiddleName || "").toLowerCase().includes(search) ||
+            (item.customerLastName || "").toLowerCase().includes(search) ||
+            (item.company || "").toLowerCase().includes(search) ||
+            (item.licenseNo || "").toLowerCase().includes(search) ||
+            (item.checkType || "").toLowerCase().includes(search) ||
+            (item.amount?.toString() || "").includes(search) ||
+            (item.comment || "").toLowerCase().includes(search) ||
+            (item.date || "").toLowerCase().includes(search) ||
+            (item.status || "").toLowerCase().includes(search)
         );
     });
 
@@ -190,14 +191,14 @@ const RecentCheck = () => {
                                             showAll ? sortedData : sortedData.slice(0, 5)).map((item, index) => (
                                                 <tr key={item?._id}>
                                                     <td>{index + 1}</td>
-                                                    <td>{item?.customerFirstName} {item?.customerMiddleName} {item?.customerLastName}</td>
+                                                    <td className='text-uppercase'>{item?.customerFirstName} {item?.customerMiddleName} {item?.customerLastName}</td>
                                                     <td>$ {item?.amount}</td>
                                                     <td>{item?.licenseNo}</td>
-                                                    <td>{item?.company}</td>
+                                                    <td>{item?.company?.length > 30 ? item?.company.substring(0, 30) + '...' : item?.company}</td>
                                                     <td>{item?.checkType}</td>
                                                     <td>{item?.comment?.length > 10 ? item?.comment.substring(0, 10) + '...' : item?.comment}</td>
                                                     <td>{item?.date}</td>
-                                                    <td>{item?.customerStatus==="verified customer"?"Verified":"New"}</td>
+                                                    <td>{item?.customerStatus === "verified customer" ? "Verified" : "New"}</td>
                                                     {/* <td>{item?.status}</td> */}
                                                     <td className='text-center'>
                                                         <div className="d-flex justify-content-center">
