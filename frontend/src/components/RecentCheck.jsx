@@ -137,12 +137,12 @@ const RecentCheck = () => {
                                 <table className="table table-hover table-striped">
                                     <thead>
                                         <tr>
-                                            <th onClick={() => handleSort('serial')} style={{ cursor: 'pointer' }}>
+                                            {/* <th onClick={() => handleSort('serial')} style={{ cursor: 'pointer' }}>
                                                 <div className="d-flex align-items-center">
                                                     #
                                                     {getSortIcon('serial')}
                                                 </div>
-                                            </th>
+                                            </th> */}
                                             <th onClick={() => handleSort('customerFirstName')} style={{ cursor: 'pointer' }}>
                                                 <div className="d-flex align-items-center">
                                                     Customer Name {getSortIcon('customerFirstName')}
@@ -153,65 +153,26 @@ const RecentCheck = () => {
                                                     Amount {getSortIcon('amount')}
                                                 </div>
                                             </th>
-                                            <th onClick={() => handleSort('date')} style={{ cursor: 'pointer' }}>
-                                                <div className="d-flex align-items-center">
-                                                    Date & Time {getSortIcon('date')}
-                                                </div>
-                                            </th>
-                                            {/* <th onClick={() => handleSort('licenseNo')} style={{ cursor: 'pointer' }}>
-                                                <div className="d-flex align-items-center">
-                                                    ID Number {getSortIcon('licenseNo')}
-                                                </div>
-                                            </th>
-                                            <th onClick={() => handleSort('company')} style={{ cursor: 'pointer' }}>
-                                                <div className="d-flex align-items-center">
-                                                    Company {getSortIcon('company')}
-                                                </div>
-                                            </th>
-                                            <th onClick={() => handleSort('checkType')} style={{ cursor: 'pointer' }}>
-                                                <div className="d-flex align-items-center">
-                                                    Type {getSortIcon('checkType')}
-                                                </div>
-                                            </th>
+
                                             <th onClick={() => handleSort('comment')} style={{ cursor: 'pointer' }}>
                                                 <div className="d-flex align-items-center">
                                                     Comment {getSortIcon('comment')}
                                                 </div>
                                             </th>
-                                           
-                                            <th >
-                                                <div className="d-flex align-items-center">
-                                                    Customer Status
-                                                </div>
-                                            </th>
-                                            <th className='text-center'>Actions</th> */}
+
+
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {sortedData.length > 0 ? (
                                             showAll ? sortedData : sortedData.slice(0, 5)).map((item, index) => (
                                                 <tr key={item?._id}>
-                                                    <td> <Link to={`/check-details/${item?._id}`} className='text-decoration-none text-black'>{index + 1}</Link></td>
-                                                    <td className='text-uppercase'><Link to={`/check-details/${item?._id}`} className='text-decoration-none text-black'>{item?.customerFirstName} {item?.customerMiddleName} {item?.customerLastName}</Link></td>
+                                                    {/* <td> <Link to={`/check-details/${item?._id}`} className='text-decoration-none text-black'>{index + 1}</Link></td> */}
+                                                    {/* <td className='text-uppercase'><Link to={`/check-details/${item?._id}`} className='text-decoration-none text-black'>{item?.customerFirstName} {item?.customerMiddleName} {item?.customerLastName}</Link></td> */}
+                                                    <td className='text-uppercase'><Link to={`/check-details/${item?._id}`} className='text-decoration-none text-black'>{item?.customerFirstName} </Link></td>
                                                     <td><Link to={`/check-details/${item?._id}`} className='text-decoration-none text-black'>$ {item?.amount}</Link></td>
-                                                    <td><Link to={`/check-details/${item?._id}`} className='text-decoration-none text-black'>{item?.date}</Link></td>
-                                                    {/* <td>{item?.licenseNo}</td>
-                                                    <td>{item?.company?.length > 30 ? item?.company.substring(0, 30) + '...' : item?.company}</td>
-                                                    <td>{item?.checkType}</td>
-                                                    <td>{item?.comment?.length > 10 ? item?.comment.substring(0, 10) + '...' : item?.comment}</td>
+                                                    <td><Link to={`/check-details/${item?._id}`} className='text-decoration-none text-black'>{item?.comment?.length > 10 ? item?.comment.substring(0, 10) + '...' : item?.comment}</Link></td>
 
-                                                    <td>{item?.customerStatus === "verified customer" ? "Verified" : "New"}</td>
-                                                    {/* <td>{item?.status}</td> */}
-                                                    {/* <td className='text-center'>
-                                                        <div className="d-flex justify-content-center">
-                                                            <Link to={`/check-details/${item?._id}`} className="btn py-0">
-                                                                <i className="fa-solid fa-eye text-445B64"></i>
-                                                            </Link>
-                                                            <button className="btn py-0" onClick={() => handleDeleteCheck(item?._id)}>
-                                                                <i className="fa-solid fa-trash-can text-danger"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td> */}
                                                 </tr>
                                             )
                                             ) : (
