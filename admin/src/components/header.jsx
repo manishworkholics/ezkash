@@ -47,7 +47,7 @@ const Header = () => {
                                 <i className="fa-solid fa-circle-user fs-5"></i>
                             </Link>
                             <ul className="dropdown-menu dropdown-menu-end mt-3">
-                                {/* <li><Link className="dropdown-item" to=''>Profile</Link></li> */}
+                                <li><Link className="dropdown-item" to='/cd-admin/profile'>Profile</Link></li>
                                 <li><button className="dropdown-item" onClick={handleLogout}>Logout</button></li>
                             </ul>
                         </li>

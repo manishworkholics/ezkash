@@ -223,11 +223,10 @@ const UserList = () => {
                                                 <div className="card-body p-2">
                                                     <div className="row">
 
-                                                        <div className="col-6 col-md-3 col-lg-3">
+                                                        <div className="col-6 col-md-3 col-lg-3 d-flex align-items-center">
                                                             <div className="d-flex justify-content-between mb-2 mb-md-0">
                                                                 <div className="d-flex align-items-center">
-
-                                                                    <span className="text-445B64 fw-semibold">All Users</span>
+                                                                    <span className="text-445B64 fw-semibold ms-2">All Users</span>
                                                                 </div>
                                                             </div>
                                                         </div>

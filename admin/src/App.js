@@ -16,6 +16,7 @@ import Support from "./pages/Support";
 import TicketDetails from "./pages/TicketDetails";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/cd-admin/ticket-details/:id" element={<ProtectedRoute element={<TicketDetails />} />} />
           <Route path="/cd-admin/terms&conditions" element={<ProtectedRoute element={<TermsAndConditions />} />} />
           <Route path="/cd-admin/privacy-policy" element={<ProtectedRoute element={<PrivacyPolicy />} />} />
+          <Route path="/cd-admin/profile" element={<ProtectedRoute element={<Profile />} />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer

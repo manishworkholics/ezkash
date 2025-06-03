@@ -209,7 +209,7 @@ const TicketDetails = () => {
                                                                     <td className='text-445B64-img w-60px border-0' style={{ verticalAlign: 'top' }}>Description</td>
                                                                     <td>
                                                                         <span className="text-445B64-img border-0 "></span>
-                                                                        <span dangerouslySetInnerHTML={{ __html: ticketDetails?.description }} />
+                                                                        <span className='mb-0' dangerouslySetInnerHTML={{ __html: ticketDetails?.description }} />
                                                                     </td>
 
 
@@ -222,7 +222,7 @@ const TicketDetails = () => {
 
                                                                 <tr>
                                                                     <td className='text-445B64-img w-60px border-0'>Status</td>
-                                                                    <select onChange={(e) => handleStatus(e.target.value)}>
+                                                                    <select className='form-select my-1' onChange={(e) => handleStatus(e.target.value)}>
                                                                         <option value={ticketDetails?.status} disabled selected hidden>{ticketDetails?.status}</option>
                                                                         <option value="open">Open</option>
                                                                         <option value="in_progress">In Progress</option>
@@ -312,15 +312,15 @@ const TicketDetails = () => {
 
                                                             <div className='row mb-3'>
                                                                 {loading ? (<>
-                                                                    <div className="col-md-6 col-lg-4">
-                                                                        <span className="spinner-border text-primary" role="status" />
+                                                                    <div className="col-md-12 d-flex justify-content-center align-items-center">
+                                                                        <span className="spinner-border text-primary mx-auto" role="status" />
                                                                     </div>
                                                                 </>) : (<>
                                                                     {image && (
-                                                                        <div className="col-md-6 col-lg-4">
+                                                                        <div className="col-md-6 col-lg-4 position-relative">
                                                                             <button
                                                                                 type="button"
-                                                                                className="btn btn-sm btn-dark position-absolute  rounded-circle p-1"
+                                                                                className="btn btn-sm btn-dark position-absolute end-0 top-0 me-3 mt-1 rounded-circle p-1"
                                                                                 onClick={handleCancel}
                                                                                 style={{ zIndex: 1 }}
                                                                             >
