@@ -36,15 +36,22 @@ const Support = () => {
     }, [])
 
     const filteredTickets = ticket.filter((item, index) => {
-        const search = searchTerm.toLowerCase();
-        return (
-            (index + 1).toString().includes(search) ||
-            item.subject?.toLowerCase().includes(search) ||
-            item.status?.toLowerCase().includes(search) ||
-            item.createdAt?.toLowerCase().includes(search) ||
-            item._id?.toString().toLowerCase().includes(search)
-        )
+        const search = searchTerm.toLowerCase().trim();
+
+        const combinedString = [
+            (index + 1).toString(),
+            item.subject,
+            item.status,
+            item.createdAt,
+            item._id?.toString()
+        ]
+            .filter(Boolean)        // remove null/undefined
+            .join(' ')              // join all searchable fields
+            .toLowerCase();         // normalize for case-insensitive matching
+
+        return combinedString.includes(search);
     });
+
 
     const indexOfLastRow = currentPage * itemsPerPage;
     const indexOfFirstRow = indexOfLastRow - itemsPerPage;
@@ -129,7 +136,7 @@ const Support = () => {
                                                                             <th scope="col" className="text-445B64">Ticket ID</th>
                                                                             <th scope="col" className="text-445B64">Subject</th>
                                                                             <th scope="col" className="text-445B64">Status</th>
-                                                                            <th scope="col" className="text-445B64">Created</th>
+                                                                            <th scope="col" className="text-445B64">Created At</th>
 
                                                                         </tr>
                                                                     </thead>

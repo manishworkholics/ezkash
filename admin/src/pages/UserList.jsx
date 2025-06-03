@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 import { toast } from "react-toastify";
+import moment from 'moment';
 
 const URL = process.env.REACT_APP_URL;
 
@@ -38,20 +39,28 @@ const UserList = () => {
     }, [])
 
     const filteredUsers = users.filter((item, index) => {
-        const search = searchTerm.toLowerCase();
-        return (
-            (index + 1).toString().includes(search) ||
-            item.firstname?.toLowerCase().includes(search) ||
-            item.middlename?.toLowerCase().includes(search) ||
-            item.lastname?.toLowerCase().includes(search) ||
-            item.mobile?.toString().toLowerCase().includes(search) ||
-            item.email?.toLowerCase().includes(search) ||
-            item.bussiness?.toLowerCase().includes(search) ||
-            item.role?.toLowerCase().includes(search) ||
-            item.status?.toLowerCase().includes(search)
+        const search = searchTerm.toLowerCase().trim();
 
-        )
-    })
+        // Combine all relevant fields into a single string
+        const combinedString = [
+            (index + 1).toString(),
+            item.firstname,
+            item.middlename,
+            item.lastname,
+            item.mobile,
+            item.email,
+            item.bussiness,
+            item.role,
+            item.createdAt,
+            item.status
+        ]
+            .filter(Boolean) // remove undefined/null
+            .join(' ') // join with space
+            .toLowerCase();
+
+        return combinedString.includes(search);
+    });
+
 
     const indexOfLastRow = currentPage * itemsPerPage;
     const indexOfFirstRow = indexOfLastRow - itemsPerPage;
@@ -198,7 +207,7 @@ const UserList = () => {
     return (
         <>
             <div className="container-fluid">
-              
+
                 <Header />
                 <div className="">
                     <div className="row mh-100vh">
@@ -217,13 +226,8 @@ const UserList = () => {
                                                         <div className="col-6 col-md-3 col-lg-3">
                                                             <div className="d-flex justify-content-between mb-2 mb-md-0">
                                                                 <div className="d-flex align-items-center">
-                                                                    <div className="table-circular-icon bg-F0F5F6 me-3"
-                                                                        style={{ cursor: "pointer" }}>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 16" fill="none">
-                                                                            <path d="M9.16667 12.1667H3.33333V10.5H9.16667M11.6667 8.83333H3.33333V7.16667H11.6667M11.6667 5.5H3.33333V3.83333H11.6667M13.3333 0.5H1.66667C0.741667 0.5 0 1.24167 0 2.16667V13.8333C0 14.2754 0.175595 14.6993 0.488155 15.0118C0.800716 15.3244 1.22464 15.5 1.66667 15.5H13.3333C13.7754 15.5 14.1993 15.3244 14.5118 15.0118C14.8244 14.6993 15 14.2754 15 13.8333V2.16667C15 1.72464 14.8244 1.30072 14.5118 0.988155C14.1993 0.675595 13.7754 0.5 13.3333 0.5Z" fill="#000000" />
-                                                                        </svg>
-                                                                    </div>
-                                                                    <span className="text-445B64 fw-semibold">All User</span>
+
+                                                                    <span className="text-445B64 fw-semibold">All Users</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -266,9 +270,10 @@ const UserList = () => {
                                                                             <th scope="col" className="text-445B64">Name</th>
                                                                             <th scope="col" className="text-445B64">Phone Number</th>
                                                                             <th scope="col" className="text-445B64">Email Address</th>
-                                                                            <th scope="col" className="text-445B64">Company Name</th>
+                                                                            <th scope="col" className="text-445B64">Bussiness/Company</th>
                                                                             <th scope="col" className="text-445B64">Status</th>
                                                                             <th scope="col" className="text-445B64">Role</th>
+                                                                            <th scope="col" className="text-445B64">Created At</th>
                                                                             <th scope="col" className="text-445B64 text-center">Actions</th>
                                                                         </tr>
                                                                     </thead>
@@ -285,12 +290,13 @@ const UserList = () => {
                                                                             currentUsers.map((user, index) => (
                                                                                 <tr key={user._id}>
                                                                                     <td>{indexOfFirstRow + index + 1}</td>
-                                                                                    <td>{user?.firstname} {user?.lastname}</td>
+                                                                                    <td> <Link to={`/cd-admin/user-information/${user._id}`} className="text-primary text-decoration-none border-0">{user?.firstname} {user?.lastname}</Link></td>
                                                                                     <td>{user?.mobile}</td>
                                                                                     <td>{user?.email}</td>
                                                                                     <td>{user?.bussiness}</td>
-                                                                                    <td>{user?.isActive ? "active" : "not active"}</td>
-                                                                                    <td>{user?.role}</td>
+                                                                                    <td className='text-uppercase'>{user?.isActive ? "active" : "not active"}</td>
+                                                                                    <td className='text-uppercase'>{user?.role}</td>
+                                                                                    <td>{moment(user?.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
                                                                                     <td>
                                                                                         <div className="d-flex justify-content-center">
                                                                                             <Link to={`/cd-admin/user-information/${user._id}`} className="btn border-0">
@@ -310,7 +316,7 @@ const UserList = () => {
                                                                             ))
                                                                         ) : (
                                                                             <tr>
-                                                                                <td colSpan="11" className='text-center'>No cheques found</td>
+                                                                                <td colSpan="11" className='text-center'>No User Found</td>
                                                                             </tr>
                                                                         )}
                                                                     </tbody>
@@ -406,7 +412,7 @@ const UserList = () => {
                                             </div>
 
                                             <div className="col-md-6">
-                                                <label className="form-label">Business</label>
+                                                <label className="form-label">Business/Company</label>
                                                 <input type="text" className="form-control" name='bussiness' value={formData.bussiness} onChange={handleChange} placeholder="Business name (optional)" />
                                             </div>
 

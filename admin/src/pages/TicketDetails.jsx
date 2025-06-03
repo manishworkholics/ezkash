@@ -7,12 +7,12 @@ import moment from 'moment';
 import profileImg from '../assets/images/userImg.png'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
+import imageCompression from 'browser-image-compression';
 const URL = process.env.REACT_APP_URL;
 
 const TicketDetails = () => {
     const adminId = localStorage.getItem("adminId");
-
+    const [loading, setLoading] = useState(false);
     const [ticketDetails, setticketDetails] = useState('');
     const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ const TicketDetails = () => {
     const [message, setMessage] = useState('');
     const [image, setImage] = useState('');
     const [previewImage, setPreviewImage] = useState('');
-
+    const handleCancel = () => { setImage(null); };
 
     const fetchticketDetails = async () => {
         try {
@@ -82,8 +82,15 @@ const TicketDetails = () => {
             alert("Please upload a image.");
             return;
         }
+        setLoading(true);
+        const options = {
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
+            useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', compressedFile);
         try {
             const response = await axios.post(`${URL}/upload-image`, formData, {
                 headers: {
@@ -95,7 +102,11 @@ const TicketDetails = () => {
                 setImage(result?.data?.imageUrl);
             }
         } catch (error) {
+            alert("Something is wrong please try again")
+            setImage(null);
             console.log(error)
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -203,20 +214,20 @@ const TicketDetails = () => {
 
 
                                                                 </tr>
-                                                                {ticketDetails?.checkImg? <tr>
+                                                                {ticketDetails?.checkImg ? <tr>
                                                                     <td className='text-445B64-img w-60px border-0'>Image</td>
                                                                     <td><img src={ticketDetails?.checkImg} style={{ height: 100, width: 100 }} alt="" /></td>
-                                                                </tr>:""}
-                                                               
+                                                                </tr> : ""}
+
 
                                                                 <tr>
                                                                     <td className='text-445B64-img w-60px border-0'>Status</td>
                                                                     <select onChange={(e) => handleStatus(e.target.value)}>
                                                                         <option value={ticketDetails?.status} disabled selected hidden>{ticketDetails?.status}</option>
-                                                                        <option value="open">open</option>
-                                                                        <option value="in_progress">in_progress</option>
-                                                                        <option value="resolved">resolved</option>
-                                                                        <option value="closed">closed</option>
+                                                                        <option value="open">Open</option>
+                                                                        <option value="in_progress">In Progress</option>
+                                                                        <option value="resolved">Resolved</option>
+                                                                        <option value="closed">Closed</option>
                                                                     </select>
 
                                                                 </tr>
@@ -294,16 +305,33 @@ const TicketDetails = () => {
                                                                         className="d-none"
                                                                         onChange={handleUpload}
                                                                     />
+
                                                                 </div>
                                                             </div>
 
-                                                            {image && (
-                                                                <div className='row mb-3'>
+
+                                                            <div className='row mb-3'>
+                                                                {loading ? (<>
                                                                     <div className="col-md-6 col-lg-4">
-                                                                        <img src={image} alt="Attachment Preview" loading="lazy" className='w-100 border rounded-4' />
+                                                                        <span className="spinner-border text-primary" role="status" />
                                                                     </div>
-                                                                </div>
-                                                            )}
+                                                                </>) : (<>
+                                                                    {image && (
+                                                                        <div className="col-md-6 col-lg-4">
+                                                                            <button
+                                                                                type="button"
+                                                                                className="btn btn-sm btn-dark position-absolute  rounded-circle p-1"
+                                                                                onClick={handleCancel}
+                                                                                style={{ zIndex: 1 }}
+                                                                            >
+                                                                                &times;
+                                                                            </button>
+                                                                            <img src={image} alt="Attachment Preview" loading="lazy" className='w-100 border rounded-4' />
+                                                                        </div>
+                                                                    )}
+                                                                </>)}
+                                                            </div>
+
                                                         </div>
                                                     </div>
                                                 </div>

@@ -145,8 +145,11 @@ exports.dashboardDetail = async (req, res) => {
         // 1. Daily (today's checks per hour, 0 to 23)
         const dailyData = Array(24).fill(0);
         todayChecks.forEach((c) => {
-            const hour = moment(c.createdAt).hour(); // 0 to 23
-            dailyData[hour] += 1;
+            const createdAt = moment(c.createdAt);
+            if (createdAt.isSame(moment(), 'day')) {
+                const hour = createdAt.hour(); // 0 to 23
+                dailyData[hour] += 1;
+            }
         });
 
         // 2. Weekly (Mon to Sun)
@@ -156,18 +159,22 @@ exports.dashboardDetail = async (req, res) => {
             weeklyData[day - 1] += 1;
         });
 
-        // 3. Monthly (last 30 days by date)
-        const monthlyData = {};
+        // 3. Monthly (current year, aggregated per month)
+        const monthlyData = Array(12).fill(0); // Jan (0) to Dec (11)
         monthlyChecks.forEach((c) => {
-            const date = moment(c.createdAt).format("YYYY-MM-DD");
-            monthlyData[date] = (monthlyData[date] || 0) + 1;
+            const createdAt = moment(c.createdAt);
+            if (createdAt.isSame(moment(), 'year')) {
+                const month = createdAt.month(); // 0 (Jan) to 11 (Dec)
+                monthlyData[month] += 1;
+            }
         });
 
-        // Convert monthlyData to array of objects sorted by date
-        const sortedMonthly = Object.entries(monthlyData)
-            .sort(([a], [b]) => new Date(a) - new Date(b))
-            .map(([date, count]) => ({ date, count }));
-
+        // Optional: create monthly labels with counts
+        const monthlyLabels = moment.months(); // ["January", "February", ..., "December"]
+        const formattedMonthly = monthlyLabels.map((label, index) => ({
+            month: label,
+            count: monthlyData[index],
+        }));
 
 
         res.status(200).json({
@@ -181,7 +188,7 @@ exports.dashboardDetail = async (req, res) => {
             chart: {
                 daily: dailyData,        // [0, 1, 2, ..., 23]
                 weekly: weeklyData,      // [56, 64, 76, 78, 78, 37, 20]
-                monthly: sortedMonthly,  // [{ date: '2024-09-20', count: 5 }, ...]
+                monthly: monthlyData,  // [{ date: '2024-09-20', count: 5 }, ...]
                 checkStatus: checkStatus // pie chart
             }
         });

@@ -46,23 +46,30 @@ const AllCheques = () => {
     };
 
     const filteredCheques = cheques.filter((item, index) => {
-        const search = searchTerm.toLowerCase();
-        return (
-            (index + 1).toString().includes(search) ||
-            item.customerFirstName?.toLowerCase().includes(search) ||
-            item.customerMiddleName?.toLowerCase().includes(search) ||
-            item.customerLastName?.toLowerCase().includes(search) ||
-            item.company?.toLowerCase().includes(search) ||
-            item.licenseNo?.toString().toLowerCase().includes(search) ||
-            item.checkType?.toLowerCase().includes(search) ||
-            item.amount?.toString().toLowerCase().includes(search) ||
-            item.comment?.toLowerCase().includes(search) ||
-            item.venderId?.firstname?.toLowerCase().includes(search) ||
-            item.venderId?.lastname?.toLowerCase().includes(search) ||
-            item.date?.toLowerCase().includes(search) ||
-            item.status?.toLowerCase().includes(search)
-        )
+        const search = searchTerm.toLowerCase().trim();
+
+        const combinedString = [
+            (index + 1).toString(),
+            item.customerFirstName,
+            item.customerMiddleName,
+            item.customerLastName,
+            item.company,
+            item.licenseNo,
+            item.checkType,
+            item.amount,
+            item.comment,
+            item.venderId?.firstname,
+            item.venderId?.lastname,
+            item.date,
+            item.status
+        ]
+            .filter(Boolean) // Removes null or undefined
+            .join(' ')       // Joins fields with a space
+            .toLowerCase();  // Makes all text lowercase for consistent comparison
+
+        return combinedString.includes(search);
     });
+
 
     useEffect(() => {
         fetchCheques();
@@ -77,7 +84,7 @@ const AllCheques = () => {
     return (
         <>
             <div className="container-fluid">
-                
+
                 <Header />
                 <div className="">
                     <div className="row mh-100vh">
@@ -154,12 +161,12 @@ const AllCheques = () => {
                                                                             currentCheques.map((cheque, index) => (
                                                                                 <tr key={cheque._id}>
                                                                                     <td>{indexOfFirstRow + index + 1}</td>
-                                                                                    <td>{cheque?.customerFirstName} {cheque?.customerMiddleName} {cheque?.customerLastName}</td>
+                                                                                    <td> <Link to={`/cd-admin/cheque-details/${cheque?._id}`} className="text-primary text-decoration-none">{cheque?.customerFirstName} {cheque?.customerMiddleName} {cheque?.customerLastName}</Link></td>
                                                                                     <td>{cheque?.company}</td>
                                                                                     <td>{cheque?.licenseNo}</td>
                                                                                     <td>{cheque?.checkType}</td>
                                                                                     <td>$ {cheque?.amount}</td>
-                                                                                    <td>$ {cheque?.customerStatus==="verified customer"?"Verified":"New"}</td>
+                                                                                    <td>$ {cheque?.customerStatus === "verified customer" ? "Verified" : "New"}</td>
                                                                                     <td>{cheque?.comment?.length > 10 ? cheque?.comment.substring(0, 10) + '...' : cheque?.comment}</td>
                                                                                     <td>{cheque?.venderId?.firstname} {cheque?.venderId?.lastname} </td>
                                                                                     <td>{cheque?.date} </td>
@@ -178,7 +185,7 @@ const AllCheques = () => {
                                                                             ))
                                                                         ) : (
                                                                             <tr>
-                                                                                <td colSpan="11" className="text-center">No cheques found.</td>
+                                                                                <td colSpan="11" className="text-center">No Check Found.</td>
                                                                             </tr>
                                                                         )}
                                                                     </tbody>

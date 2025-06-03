@@ -39,21 +39,29 @@ const Report = () => {
 
 
     const filteredCheck = report.filter((item, index) => {
-        const search = searchTerm.toLowerCase();
-        return (
-            (index + 1).toString().includes(search) ||
-            item.customerFirstName?.toLowerCase().includes(search) ||
-            item.customerMiddleName?.toLowerCase().includes(search) ||
-            item.customerLastName?.toLowerCase().includes(search) ||
-            item.company?.toLowerCase().includes(search) ||
-            item.licenseNo?.toLowerCase().includes(search) ||
-            item.checkType?.toLowerCase().includes(search) ||
-            item.amount?.toString().includes(search) ||
-            item.comment?.toLowerCase().includes(search) ||
-            item.date?.toLowerCase().includes(search) ||
-            item.status?.toLowerCase().includes(search)
-        );
+        const search = searchTerm.toLowerCase().trim();
+
+        const combinedString = [
+            (index + 1).toString(),
+            item.customerFirstName,
+            item.customerMiddleName,
+            item.customerLastName,
+            item.company,
+            item.licenseNo,
+            item.checkType,
+            item.amount?.toString(),
+            item.comment,
+            item.date,
+            item.createdAt,
+            item.status
+        ]
+            .filter(Boolean) // removes undefined/null/empty
+            .join(' ')        // join into a single string
+            .toLowerCase();   // normalize for search
+
+        return combinedString.includes(search);
     });
+
 
     const handleSort = (field) => {
         const order = (sortField === field && sortOrder === 'asc') ? 'desc' : 'asc';

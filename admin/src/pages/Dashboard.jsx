@@ -89,7 +89,7 @@ const Dashboard = () => {
                                                             </div>
 
                                                             <div>
-                                                                <h6 className="mb-1 fw-medium text-445B64">Total User</h6>
+                                                                <h6 className="mb-1 fw-medium text-445B64">Total Users</h6>
                                                                 <h4 className="mb-0 text-00C7BE fw-bold">{data?.totalVendor}</h4>
                                                             </div>
 
@@ -176,7 +176,7 @@ const Dashboard = () => {
                                                 <div className="card-body">
                                                     <div className="row pb-2">
                                                         <div className="col-4 mt-auto">
-                                                            <h6 className="mb-0 text-445B64">Report</h6>
+                                                            <h6 className="mb-0 text-445B64">Statically view</h6>
                                                         </div>
                                                         <div className="col-8 d-flex justify-content-end">
                                                             <div className="bg-F6F6F6 p-1 rounded-3 d-flex align-items-center">
@@ -239,7 +239,25 @@ const Dashboard = () => {
                                                             role="tabpanel"
                                                             aria-labelledby="daily-tab"
                                                         >
+                                                            <Chart
+                                                                options={{
+                                                                    chart: { id: 'weekly-bar' },
+                                                                    xaxis: {
+                                                                        categories: Array.from({ length: 31 }, (_, i) => (i + 1).toString())
+                                                                    },
 
+                                                                    colors: ['#008CFF'],
+                                                                    plotOptions: {
+                                                                        bar: {
+                                                                            borderRadius: 10, // Set bar corner radius here
+                                                                            horizontal: false, // Keep bars vertical
+                                                                        },
+                                                                    },
+                                                                }}
+                                                                series={[{ name: 'Checks', data: data?.chart?.daily || [] }]}
+                                                                type="bar"
+                                                                height={250}
+                                                            />
                                                         </div>
 
                                                         {/* Weekly */}
@@ -278,7 +296,7 @@ const Dashboard = () => {
                                                                 options={{
                                                                     chart: { id: 'monthly-bar' },
                                                                     xaxis: {
-                                                                        categories: data?.chart?.monthly?.map(item => item.date) || [],
+                                                                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                                                                     },
                                                                     colors: ['#E84D4D'],
                                                                     plotOptions: {
@@ -288,12 +306,9 @@ const Dashboard = () => {
                                                                         },
                                                                     },
                                                                 }}
-                                                                series={[{
-                                                                    name: 'Checks',
-                                                                    data: data?.chart?.monthly?.map(item => item.count) || [],
-                                                                }]}
+                                                                series={[{ name: 'Checks', data: data?.chart?.monthly || [] }]}
                                                                 type="bar"
-                                                                height={300}
+                                                                height={250}
                                                             />
                                                         </div>
                                                     </div>
@@ -305,7 +320,7 @@ const Dashboard = () => {
                                                 <div className="card-body">
                                                     <div className="row pb-2">
                                                         <div className="col-4 mt-auto">
-                                                            <h6 className="mb-0 text-445B64">Report</h6>
+                                                            <h6 className="mb-0 text-445B64">Visual Data Split</h6>
                                                         </div>
                                                         <div className="col-12">
                                                             <img src={BorderBtm} alt="" className="w-100" />

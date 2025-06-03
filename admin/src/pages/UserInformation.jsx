@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios'
 import { toast } from "react-toastify";
-
+import imageCompression from 'browser-image-compression';
 const url = process.env.REACT_APP_URL;
 const token = localStorage.getItem('token')
 
@@ -24,7 +24,7 @@ const UserInformation = () => {
     // Pagination logic
     const indexOfLastRow = currentPage * rowsPerPage;
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-    
+
     const totalPages = Math.ceil(cheques.length / rowsPerPage);
 
     const fetchUsers = async () => {
@@ -77,7 +77,10 @@ const UserInformation = () => {
     const checkFrontRef = useRef(null);
     const checkBackRef = useRef(null);
 
-
+    const [loadingFront, setLoadingFront] = useState(false);
+    const [loadingBack, setLoadingBack] = useState(false);
+    const [loadingLicenseFront, setLoadingLicenseFront] = useState(false);
+    const [loadingLicenseBack, setLoadingLicenseBack] = useState(false);
 
     const [previewCheckfront, setPreviewCheckfront] = useState(null);
     const [previewCheckback, setPreviewCheckback] = useState(null);
@@ -136,15 +139,22 @@ const UserInformation = () => {
             alert("Please upload a check image.");
             return;
         }
+        setLoadingFront(true);
         // Instant preview
         const previewUrl = URL.createObjectURL(file);
         setPreviewCheckfront(previewUrl);
+        const options = {
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
+            useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', compressedFile);
         try {
 
             const response = await axios.post(`${url}/scan-check`, formData)
-            toast.success('Check front image upload successfully!');
+
             const result = response.data;
             if (result && result.customerName) {
                 const parsedData = {
@@ -162,12 +172,18 @@ const UserInformation = () => {
                     extractedText: result.extractedText || ''
                 };
                 setFormData(parsedData);
+                // toast.success('Image upload successfully!');
+            } else {
+                toast.error('Failed to upload image!');
             }
+
         } catch (error) {
             setTimeout(() => {
-                toast.error("Error in image uploading", error);
+                toast.error(error?.response?.data?.error || "Something went wrong");
             }, 1000);
             console.error('Error during image upload:', error);
+        } finally {
+            setLoadingFront(false);
         }
     };
 
@@ -178,15 +194,23 @@ const UserInformation = () => {
             alert("Please upload a check image.");
             return;
         }
+        setLoadingBack(true);
+
         // Instant preview
         const previewUrl = URL.createObjectURL(file);
         setPreviewCheckback(previewUrl);
+        const options = {
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
+            useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', compressedFile);
         try {
 
             const response = await axios.post(`${url}/upload-image`, formData)
-            toast.success('Check Back image upload successfully!');
+
 
             const result = response.data;
             if (result) {
@@ -194,12 +218,18 @@ const UserInformation = () => {
                     imageUrl: result.data.imageUrl || '',
                 };
                 setFormDataback(parsedData);
+                // toast.success('Image upload successfully!');
+            } else {
+                toast.error('Failed to upload image!');
             }
+
         } catch (error) {
             setTimeout(() => {
-                toast.error("Error in image uploading", error);
+                toast.error(error?.response?.data?.error || "Something went wrong");
             }, 1000);
             console.error('Error during image upload:', error);
+        } finally {
+            setLoadingBack(false);
         }
     };
 
@@ -210,15 +240,22 @@ const UserInformation = () => {
             alert("Please upload a ID image.");
             return;
         }
+        setLoadingLicenseFront(true);
         // Instant preview
         const previewUrl = URL.createObjectURL(file);
         setPreviewLicencefront(previewUrl);
+        const options = {
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
+            useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', compressedFile);
         try {
 
             const response = await axios.post(`${url}/scan-license`, formData)
-            toast.success('ID Front image upload successfully!');
+
 
             const result = response.data;
             if (result) {
@@ -235,10 +272,16 @@ const UserInformation = () => {
                     expiryDate: result?.expiryDate || '',
                 };
                 setLicenseData(parsedData);
+                // toast.success('Image upload successfully!');
+            } else {
+                toast.error('Failed to upload image!');
             }
+
         } catch (error) {
-            toast.error("Error in image uploading", error);
+            toast.error(error?.response?.data?.error || "Something went wrong");
             console.error('Error during image upload:', error);
+        } finally {
+            setLoadingLicenseFront(false);
         }
     };
 
@@ -249,15 +292,22 @@ const UserInformation = () => {
             alert("Please upload a ID image.");
             return;
         }
+        setLoadingLicenseBack(true);
         // Instant preview
         const previewUrl = URL.createObjectURL(file);
         setPreviewLicenceback(previewUrl);
+        const options = {
+            maxSizeMB: 1,                // Compress to 1MB max
+            maxWidthOrHeight: 1024,     // Resize large dimensions
+            useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', compressedFile);
         try {
 
             const response = await axios.post(`${url}/upload-image`, formData)
-            toast.success('ID Back image upload successfully!');
+
 
             const result = response.data;
             if (result) {
@@ -265,10 +315,16 @@ const UserInformation = () => {
                     imageUrl: result?.data?.imageUrl || '',
                 };
                 setLicenseDataback(parsedData);
+                // toast.success('Image upload successfully!');
+            } else {
+                toast.error('Failed to upload image!');
             }
+
         } catch (error) {
-            toast.error("Error in image uploading", error);
+            toast.error(error?.response?.data?.error || "Something went wrong");
             console.error('Error during image upload:', error);
+        } finally {
+            setLoadingLicenseBack(false);
         }
     };
 
@@ -351,6 +407,11 @@ const UserInformation = () => {
 
                 setFormDataback({ imageUrl: '' });
                 setLicenseDataback({ imageUrl: '' });
+
+                setShowModal(false)
+
+                fetchUsers();// eslint-disable-next-line react-hooks/exhaustive-deps
+                fetchCheques();// eslint-disable-next-line react-hooks/exhaustive-deps
             }
 
 
@@ -382,7 +443,7 @@ const UserInformation = () => {
     return (
         <>
             <div className="container-fluid">
-              
+
                 <Header />
                 <div className="">
                     <div className="row mh-100vh">
@@ -456,9 +517,9 @@ const UserInformation = () => {
                                                             </div>
                                                             <div>
 
-                                                                <button className={`btn btn-sm rounded-2 lh-1 text-white ${users?.isActive ? 'bg-008f06' : 'bg-f44336'}`}>
+                                                                {/* <button className={`btn btn-sm rounded-2 lh-1 text-white ${users?.isActive ? 'bg-008f06' : 'bg-f44336'}`}>
                                                                     {users?.isActive ? 'Active' : 'Inactive'}
-                                                                </button>
+                                                                </button> */}
                                                             </div>
                                                         </div>
                                                     )}
@@ -796,7 +857,7 @@ const UserInformation = () => {
 
                                                     <div className="modal-footer">
                                                         <button type="button" className="btn btn-light bg-F0F5F6 border rounded-3" onClick={() => setShowModal(false)}>Cancel</button>
-                                                        <button type="button" className="btn bg-00C7BE btn-primary rounded-3" onClick={handleSave}>Save Check</button>
+                                                        <button type="button" className="btn bg-00C7BE btn-primary rounded-3" disabled={loadingFront || loadingBack || loadingLicenseFront || loadingLicenseBack} onClick={handleSave}> {(loadingFront || loadingBack) ? 'Loading...' : 'Save'}</button>
                                                     </div>
                                                 </div>
                                             </div>
