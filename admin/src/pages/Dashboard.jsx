@@ -242,9 +242,7 @@ const Dashboard = () => {
                                                             <Chart
                                                                 options={{
                                                                     chart: { id: 'weekly-bar' },
-                                                                    xaxis: {
-                                                                        categories: Array.from({ length: 31 }, (_, i) => (i + 1).toString())
-                                                                    },
+                                                                    xaxis: { categories: ['Today'] },
 
                                                                     colors: ['#008CFF'],
                                                                     plotOptions: {

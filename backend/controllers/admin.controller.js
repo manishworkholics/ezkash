@@ -27,7 +27,6 @@ exports.adminRegister = async (req, res) => {
     }
 }
 
-
 exports.adminLogin = async (req, res) => {
     const { email, password } = req.body;
     const admin = await Admin.findOne({ email });
@@ -39,9 +38,6 @@ exports.adminLogin = async (req, res) => {
     const token = jwt.sign({ id: admin._id, role: admin.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
     res.json({ token, role: admin.role, adminId: admin._id, message: 'Login successful' });
 };
-
-
-
 
 exports.dashboardDetailss = async (req, res) => {
     try {
@@ -97,108 +93,6 @@ exports.dashboardDetailss = async (req, res) => {
     }
 };
 
-
-
-exports.dashboardDetail = async (req, res) => {
-    try {
-        const checks = await Check.find();
-        const vendors = await Vender.find();
-
-        const totalVendor = vendors.length;
-
-        // Today's range
-        const startOfToday = moment().startOf("day");
-        const endOfToday = moment().endOf("day");
-
-        // New checks (today)
-        const newCheck = checks.filter((c) =>
-            moment(c.createdAt).isBetween(startOfToday, endOfToday, null, "[]")
-        ).length;
-
-        // Stats
-        const newcustomer = checks.filter((c) => c.customerStatus === "new customer").length;
-        const verifiedcustomer = checks.filter((c) => c.customerStatus === "verified customer").length;
-
-        // Amounts
-        const todayChecks = checks.filter((c) =>
-            moment(c.createdAt).isBetween(startOfToday, endOfToday, null, "[]")
-        );
-        const todayStatus = todayChecks.reduce((sum, c) => sum + parseFloat(c.amount || 0), 0);
-
-        const weeklyChecks = checks.filter((c) =>
-            moment(c.createdAt).isAfter(moment().subtract(7, "days"))
-        );
-        const weeklyStatus = weeklyChecks.reduce((sum, c) => sum + parseFloat(c.amount || 0), 0);
-
-        const monthlyChecks = checks.filter((c) =>
-            moment(c.createdAt).isAfter(moment().subtract(30, "days"))
-        );
-        const monthlyStatus = monthlyChecks.reduce((sum, c) => sum + parseFloat(c.amount || 0), 0);
-
-        // Pie chart for check status
-        const checkStatus = [
-            { label: "New Customer", value: newcustomer },
-            { label: "Verified Customer", value: verifiedcustomer },
-
-        ];
-
-        // 1. Daily (today's checks per hour, 0 to 23)
-        const dailyData = Array(24).fill(0);
-        todayChecks.forEach((c) => {
-            const createdAt = moment(c.createdAt);
-            if (createdAt.isSame(moment(), 'day')) {
-                const hour = createdAt.hour(); // 0 to 23
-                dailyData[hour] += 1;
-            }
-        });
-
-        // 2. Weekly (Mon to Sun)
-        const weeklyData = Array(7).fill(0); // [Mon, Tue, ..., Sun]
-        weeklyChecks.forEach((c) => {
-            const day = moment(c.createdAt).isoWeekday(); // 1 (Mon) to 7 (Sun)
-            weeklyData[day - 1] += 1;
-        });
-
-        // 3. Monthly (current year, aggregated per month)
-        const monthlyData = Array(12).fill(0); // Jan (0) to Dec (11)
-        monthlyChecks.forEach((c) => {
-            const createdAt = moment(c.createdAt);
-            if (createdAt.isSame(moment(), 'year')) {
-                const month = createdAt.month(); // 0 (Jan) to 11 (Dec)
-                monthlyData[month] += 1;
-            }
-        });
-
-        // Optional: create monthly labels with counts
-        const monthlyLabels = moment.months(); // ["January", "February", ..., "December"]
-        const formattedMonthly = monthlyLabels.map((label, index) => ({
-            month: label,
-            count: monthlyData[index],
-        }));
-
-
-        res.status(200).json({
-            totalVendor,
-            newCheck,
-            newcustomer,
-            verifiedcustomer,
-            todayStatus,
-            weeklyStatus,
-            monthlyStatus,
-            chart: {
-                daily: dailyData,        // [0, 1, 2, ..., 23]
-                weekly: weeklyData,      // [56, 64, 76, 78, 78, 37, 20]
-                monthly: monthlyData,  // [{ date: '2024-09-20', count: 5 }, ...]
-                checkStatus: checkStatus // pie chart
-            }
-        });
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Server error" });
-    }
-};
-
 exports.addUser = async (req, res) => {
     const { firstname, middlename, lastname, role, mobile, bussiness, email, password } = req.body;
     const userExist = await Vender.findOne({ email });
@@ -240,7 +134,6 @@ exports.getAllUsersById = async (req, res) => {
     }
 };
 
-
 exports.updateUser = async (req, res) => {
     try {
         const { id } = req.params;
@@ -263,7 +156,6 @@ exports.updateUser = async (req, res) => {
     }
 };
 
-
 exports.deleteUser = async (req, res) => {
     try {
         const { id } = req.params;
@@ -283,7 +175,6 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
-
 exports.getAllChecks = async (req, res) => {
     try {
         const Checks = await Check.find().populate('venderId'); // Populates the vendor details
@@ -293,7 +184,6 @@ exports.getAllChecks = async (req, res) => {
         return res.status(500).json({ message: 'Failed to fetch Checks', error: error.message });
     }
 };
-
 
 exports.getAllChecksById = async (req, res) => {
     try {
@@ -352,7 +242,6 @@ exports.deleteCheck = async (req, res) => {
     }
 };
 
-
 exports.getAllTickets = async (req, res) => {
     try {
         const tickets = await Ticket.find().sort({ createdAt: -1 });
@@ -361,9 +250,6 @@ exports.getAllTickets = async (req, res) => {
         res.status(500).json({ message: 'Error fetching tickets', error: error.message });
     }
 };
-
-
-
 
 exports.getTicketById = async (req, res) => {
     try {
@@ -378,5 +264,107 @@ exports.getTicketById = async (req, res) => {
         res.status(200).json(ticket);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching ticket', error: error.message });
+    }
+};
+
+
+
+exports.dashboardDetail = async (req, res) => {
+    try {
+        const checks = await Check.find();
+        const vendors = await Vender.find();
+
+        const totalVendor = vendors.length;
+
+        // Today's range
+        const startOfToday = moment().startOf("day");
+        const endOfToday = moment().endOf("day");
+
+        // New checks (today)
+        const newCheck = checks.filter((c) =>
+            moment(c.createdAt).isBetween(startOfToday, endOfToday, null, "[]")
+        ).length;
+
+        // Stats
+        const newcustomer = checks.filter((c) => c.customerStatus === "new customer").length;
+        const verifiedcustomer = checks.filter((c) => c.customerStatus === "verified customer").length;
+
+        // Amounts
+        const todayChecks = checks.filter((c) =>
+            moment(c.createdAt).isBetween(startOfToday, endOfToday, null, "[]")
+        );
+        const todayStatus = todayChecks.reduce((sum, c) => sum + parseFloat(c.amount || 0), 0);
+
+        const weeklyChecks = checks.filter((c) =>
+            moment(c.createdAt).isAfter(moment().subtract(7, "days"))
+        );
+        const weeklyStatus = weeklyChecks.reduce((sum, c) => sum + parseFloat(c.amount || 0), 0);
+
+        const monthlyChecks = checks.filter((c) =>
+            moment(c.createdAt).isAfter(moment().subtract(30, "days"))
+        );
+        const monthlyStatus = monthlyChecks.reduce((sum, c) => sum + parseFloat(c.amount || 0), 0);
+
+        // Pie chart for check status
+        const checkStatus = [
+            { label: "New Customer", value: newcustomer },
+            { label: "Verified Customer", value: verifiedcustomer },
+
+        ];
+
+        // 1. Daily – Total number of checks for today, returned as an array like [3]
+        const today = moment().startOf('day');
+        const dailyTotal = todayChecks.reduce((count, c) => {
+            const createdAt = moment(c.createdAt);
+            return createdAt.isSame(today, 'day') ? count + 1 : count;
+        }, 0);
+        const dailyData = [dailyTotal]; // <-- Wrap in array
+
+        // 2. Weekly – Counts for current week (Monday to Sunday)
+        const startOfWeek = moment().startOf('isoWeek'); // Monday
+        const endOfWeek = moment().endOf('isoWeek');     // Sunday
+        const weeklyData = Array(7).fill(0); // [Mon, Tue, ..., Sun]
+
+        weeklyChecks.forEach((c) => {
+            const createdAt = moment(c.createdAt);
+            if (createdAt.isBetween(startOfWeek, endOfWeek, null, '[]')) {
+                const day = createdAt.isoWeekday(); // 1 (Mon) to 7 (Sun)
+                weeklyData[day - 1] += 1;
+            }
+        });
+
+        // 3. Monthly – Aggregates per month of the current year
+        const monthlyData = Array(12).fill(0); // Jan (0) to Dec (11)
+        monthlyChecks.forEach((c) => {
+            const createdAt = moment(c.createdAt);
+            if (createdAt.isSame(moment(), 'year')) {
+                const month = createdAt.month(); // 0 (Jan) to 11 (Dec)
+                monthlyData[month] += 1;
+            }
+        });
+
+
+
+
+
+        res.status(200).json({
+            totalVendor,
+            newCheck,
+            newcustomer,
+            verifiedcustomer,
+            todayStatus,
+            weeklyStatus,
+            monthlyStatus,
+            chart: {
+                daily: dailyData,        // [0, 1, 2, ..., 23]
+                weekly: weeklyData,      // [56, 64, 76, 78, 78, 37, 20]
+                monthly: monthlyData,  // [{ date: '2024-09-20', count: 5 }, ...]
+                checkStatus: checkStatus // pie chart
+            }
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
     }
 };
